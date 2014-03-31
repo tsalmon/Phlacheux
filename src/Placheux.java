@@ -39,7 +39,7 @@ public class Placheux extends JPanel{
         }
  
         public boolean isCellEditable(int row, int col) {
-            return !(col < 2);
+            return !(col < 1);
         }
  
         public void setValueAt(Object value, int row, int col) {
@@ -70,9 +70,11 @@ public class Placheux extends JPanel{
 		JPanel panel_view_menu = new JPanel(new GridLayout(1,4));
 
 		JPanel panel_view = new JPanel();
-		
+				
 		panel_modif.setPreferredSize(new Dimension(1, 200));
 		
+		panel_view.add(new JLabel("LA VUE"));
+		panel_view.setBackground(Color.BLUE);
 		String[] seq_colonnes = {"Liste des séquences"};
 		Object[][] seq_data = {{"la sequence sans nom1"},
 								{"la sequence sans nom2"},
@@ -109,6 +111,8 @@ public class Placheux extends JPanel{
 		JScrollPane list_seq = new JScrollPane(seq); 
 		JScrollPane list_tab = new JScrollPane(tab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
 
+		panel_view_menu.setSize(panel_elem_menu.getSize());
+		
         seq.setPreferredScrollableViewportSize(new Dimension(500, 70));
         seq.setFillsViewportHeight(true);
  
@@ -142,9 +146,15 @@ public class Placheux extends JPanel{
 
 	public static void main(String[] args) {
 		JFrame window = new JFrame();
+		//window.setResizable(false);
 		window.setContentPane(new Placheux());
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.pack();		
+
+		window.setMinimumSize(new Dimension(1152, 486));
+		window.setSize(new Dimension(1152, 486));
+		window.setMaximumSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+		
 		window.setVisible(true);
 	}
 }
