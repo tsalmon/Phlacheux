@@ -6,10 +6,16 @@ import javax.swing.event.MouseInputAdapter;
 
 public class Controller extends MouseInputAdapter implements ActionListener {
     Ecran ecran;
-    Controller(Ecran ecran) {
-    	this.ecran = ecran;
+    Controller() {
     }
+    
+    void setEcran(Ecran e){
+    	ecran = e;
+    }
+    
+    
     public void actionPerformed(ActionEvent e) {
+    	System.out.println(e.getSource());
     }
     public void mousePressed(MouseEvent e) {
     }
