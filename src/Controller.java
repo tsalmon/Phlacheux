@@ -60,9 +60,11 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 		System.out.print("mouseReleased: ");
 		if(e.getSource() == ecran.tab){
 			System.out.println("tab");			
+			System.out.println(ecran.tab.getSelectedColumn() + "  " + ecran.tab.getSelectedRow());
 		}
 		if(e.getSource() == ecran.seq){
-			System.out.println("seq");			
+			System.out.println("seq");
+			System.out.println(ecran.seq.getSelectedColumn() + "  " + ecran.seq.getSelectedRow());
 		}
 		if(e.getSource() == ecran.panel_modif){
 			System.out.println("modif");			
