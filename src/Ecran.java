@@ -11,7 +11,8 @@ import java.util.*;
 
 public class Ecran extends JPanel{
     private boolean DEBUG = false;
-
+    Controller controller;
+    
 	class TableModel extends AbstractTableModel {
 		private String[] columnNames;       
 		private Object[][] data; 
@@ -61,15 +62,22 @@ public class Ecran extends JPanel{
 
 	JButton rendu = new JButton("rendu");
 	
-	Ecran(){
-		JPanel panel_modif = new JPanel(new GridLayout(1, 6)); //animation, translate, rot, color, mp3, growth/shrink
+	JTable seq;
+	JTable tab;
+	
+	JPanel panel_view;
+	JPanel panel_modif;
+	
+	Ecran(Controller c){
+		controller = c;
+		panel_modif = new JPanel(new GridLayout(1, 6)); //animation, translate, rot, color, mp3, growth/shrink
 		JPanel panel_board = new JPanel(new GridLayout(1, 2));
 		JPanel panel_elem_part = new JPanel(new BorderLayout());
 		JPanel panel_view_part = new JPanel(new BorderLayout());
 		JPanel panel_elem_menu = new JPanel(new GridLayout(1,3));
 		JPanel panel_view_menu = new JPanel(new GridLayout(1,4));
 
-		JPanel panel_view = new JPanel();
+		panel_view = new JPanel();
 				
 		panel_modif.setPreferredSize(new Dimension(1, 200));
 		
@@ -102,9 +110,9 @@ public class Ecran extends JPanel{
 			tab_colonnes[i+1] =  min + "m" + sec % 60 + " s"; 
 		}
 
-		JTable tab = new JTable(new TableModel(tab_colonnes, tab_data));
+		tab = new JTable(new TableModel(tab_colonnes, tab_data));
 		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		JTable seq = new JTable(new TableModel(seq_colonnes, seq_data));
+		seq = new JTable(new TableModel(seq_colonnes, seq_data));
 
 		JPanel panel_menu_boutons = new JPanel(new GridLayout(1,3));
 
@@ -142,6 +150,22 @@ public class Ecran extends JPanel{
 		
 		this.add("Center", panel_board);
 		this.add("South", panel_modif);
+		
+		
+		//ctrl		
+		
+		lecture_pause.addActionListener(controller);	
+		stop.addActionListener(controller);
+		 avance_10.addActionListener(controller);
+		 recule_10.addActionListener(controller);
+		 add_seq.addActionListener(controller);
+		 add_elem.addActionListener(controller);
+		 add_elem_seq.addActionListener(controller);
+		 rendu.addActionListener(controller);		
+		tab.addMouseListener(controller);
+		seq.addMouseListener(controller);
+		panel_view.addMouseListener(controller);
+		panel_modif.addMouseListener(controller);
 	}
 }
 

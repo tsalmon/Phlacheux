@@ -6,12 +6,13 @@ import javax.swing.JFrame;
 public class Placheux {
 	public static void main(String[] args) {
 		JFrame window = new JFrame();
-		//window.setResizable(false);
-		Ecran screen = new Ecran();
-		Controller controller = new Controller(screen);
+		Controller controller = new Controller();
+		Ecran screen = new Ecran(controller);
+		controller.setEcran(screen);
+		
 		screen.addMouseListener(controller);
 		screen.addMouseMotionListener(controller);
-		window.setContentPane(new Ecran());
+		window.setContentPane(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.pack();		
 
