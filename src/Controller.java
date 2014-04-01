@@ -73,15 +73,6 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 	}
 	public void mouseDragged (MouseEvent e) {
 		System.out.print("mouseDragged: ");
-		if(e.getSource() == ecran.tab){
-			System.out.println("tab");			
-		}
-		if(e.getSource() == ecran.seq){
-			System.out.println("seq");			
-		}
-		if(e.getSource() == ecran.panel_modif){
-			System.out.println("modif");			
-		}
 		if(e.getSource() == ecran.panel_view){
 			System.out.println("view");
 		}		

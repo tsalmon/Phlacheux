@@ -166,6 +166,8 @@ public class Ecran extends JPanel{
 		seq.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_modif.addMouseListener(controller);
+		panel_view.addMouseMotionListener(controller);
+
 	}
 }
 
