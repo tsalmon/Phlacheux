@@ -56,9 +56,9 @@ public class Ecran extends JPanel{
 	JButton recule_10 = new JButton("-10"); //avancer ou reculer de 10 sec sur le rendu
 
 	//elem menu
-	JButton add_seq = new JButton("addSeq");
-	JButton add_elem = new JButton("addElem");
-	JButton add_elem_seq = new JButton("addElemSeq");
+	JButton add_seq = new JButton("Seq");
+	JButton add_elem = new JButton("Elem");
+	JButton add_elem_seq = new JButton("ElemSeq");
 
 	JButton rendu = new JButton("rendu");
 	

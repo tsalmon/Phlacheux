@@ -4,11 +4,16 @@ import javax.swing.JFrame;
 
 
 public class Placheux {
-	public static void main(String[] args) {
+	Ecran screen;
+	NewElem elem;
+	
+	Placheux(){		
 		JFrame window = new JFrame();
 		Controller controller = new Controller();
-		Ecran screen = new Ecran(controller);
+		screen = new Ecran(controller);
+		
 		controller.setEcran(screen);
+		controller.setElem(elem);
 		
 		screen.addMouseListener(controller);
 		screen.addMouseMotionListener(controller);
@@ -21,5 +26,9 @@ public class Placheux {
 		window.setMaximumSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 		
 		window.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new Placheux();
 	}
 }

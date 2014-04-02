@@ -6,6 +6,8 @@ import javax.swing.event.MouseInputAdapter;
 
 public class Controller extends MouseInputAdapter implements ActionListener {
 	Ecran ecran;
+	NewElem elem;
+	
 	Controller() {
 	}
 
@@ -13,6 +15,9 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 		ecran = e;
 	}
 
+	void setElem(NewElem e){
+		elem = e;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.print ("ActionPerformed: ");
@@ -20,7 +25,7 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 			System.out.println("lecture/pause");
 		} 
 		if(ecran.stop == e.getSource()){
-			System.out.println("stop");
+			System.out.println("stop"); 
 		}
 		if(ecran.avance_10 == e.getSource()){
 			System.out.println("+10");			
@@ -33,6 +38,7 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 		}
 		if(ecran.add_elem == e.getSource()){
 			System.out.println("add elem");			
+			elem = new NewElem();
 		}
 		if(ecran.add_elem_seq == e.getSource()){
 			System.out.println("add elem seq");		
