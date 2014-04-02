@@ -40,9 +40,6 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 			System.out.println("add elem");			
 			elem = new NewElem();
 		}
-		if(ecran.add_elem_seq == e.getSource()){
-			System.out.println("add elem seq");		
-		}
 		if(ecran.rendu == e.getSource()){
 			System.out.println("rendu");			
 		}

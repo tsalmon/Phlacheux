@@ -58,7 +58,6 @@ public class Ecran extends JPanel{
 	//elem menu
 	JButton add_seq = new JButton("Seq");
 	JButton add_elem = new JButton("Elem");
-	JButton add_elem_seq = new JButton("ElemSeq");
 
 	JButton rendu = new JButton("rendu");
 	
@@ -126,7 +125,6 @@ public class Ecran extends JPanel{
  
 		panel_menu_boutons.add(add_seq);
 		panel_menu_boutons.add(add_elem);
-		panel_menu_boutons.add(add_elem_seq);
 
 		panel_elem_menu.add(panel_menu_boutons);
 		panel_elem_menu.add(list_seq);
@@ -160,7 +158,6 @@ public class Ecran extends JPanel{
 		 recule_10.addActionListener(controller);
 		 add_seq.addActionListener(controller);
 		 add_elem.addActionListener(controller);
-		 add_elem_seq.addActionListener(controller);
 		 rendu.addActionListener(controller);		
 		tab.addMouseListener(controller);
 		seq.addMouseListener(controller);
