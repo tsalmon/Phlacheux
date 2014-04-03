@@ -72,7 +72,7 @@ public class NewElem extends JDialog implements ActionListener {
 		id_fig = 0;
 		btn_fil = new JButton("Couleur forme");
 		border_color = new JButton("couleur bordure");
-		String[] choix_label = {"line", "circle", "sqrt", "cross", "iso", "equi", "cross", "star"};
+		String[] choix_label = {"line", "circle", "rect", "cross", "iso", "equi", "arrow", "star"};
 		Color colors[] = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.GRAY, Color.YELLOW, Color.ORANGE};
 		JPanel panneau ; //part page of fenetre
 		JPanel fenetre = new JPanel(); //content page
@@ -149,16 +149,14 @@ public class NewElem extends JDialog implements ActionListener {
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
 
-
 		int a, b;
-		int xArrow[];
-		int yArrow[];
+		int sizePol = 1;
+		int xPol[] = new int[1];
+		int yPol[] = new int[1];
 		private Polygon poly;
 
 		PanElem() { 
-			xArrow = new int[7];
-			yArrow = new int[7];
-			poly = new Polygon(xArrow, yArrow, 7);
+			poly = new Polygon(xPol, yPol, sizePol);
 			setPreferredSize(new Dimension(600, 400));
 		}
 
@@ -167,7 +165,15 @@ public class NewElem extends JDialog implements ActionListener {
 			super.paintComponent(g2); 
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawPolygon(poly);
+			if(id_fig == 0){
+				g2.drawLine(a, b, xPol[0], yPol[0]);
+			} else if(id_fig == 1){
+				g2.drawOval(a, b, xPol[0], yPol[0]);
+			} else if(id_fig == 2){ 
+				g2.drawRect(a, b, xPol[0], yPol[0]);
+			} else {
+				g2.drawPolygon(poly);
+			}
 		}
 
 		public void init_a_b(int a, int b){
@@ -176,7 +182,114 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 
 		public void dessiner(int x, int y){
+			if(id_fig == 0 || id_fig == 1 || id_fig == 2){ //line, rect, circle
+				sizePol = 1;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				xPol[0] = x;
+				yPol[0] = y;
+		        poly = new Polygon(xPol, yPol, sizePol);		
+		        return ;
+			} else if(id_fig == 3){
+				sizePol = 12;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				draw_cross(x, y);
+				poly = new Polygon(xPol, yPol, sizePol);
+			} else if(id_fig == 4){
+				sizePol = 3;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				draw_iso(x, y);
+				poly = new Polygon(xPol, yPol, sizePol);				
+			} else if(id_fig == 5){
+				sizePol = 3;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				draw_equi(x, y);
+				poly = new Polygon(xPol, yPol, sizePol);
+			} else if(id_fig == 6){
+				sizePol = 7;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				draw_arrow(x, y);
+				poly = new Polygon(xPol, yPol, sizePol);
+			} else if(id_fig == 7){
+				
+			}
+		}
+
+		//TODO:rename
+		public void draw_cross(int x, int y){
+			xPol[0] = (3*x + a)/4;
+			xPol[1] = (3*a + x)/4; 
+			xPol[2] = (3*a + x)/4;
+			xPol[3] = a;
+			xPol[4] = a;
+			xPol[5] = (3*a + x)/4;
+			xPol[6] = (3*a + x)/4;
+			xPol[7] = (3*x + a)/4;
+			xPol[8] = (3*x + a)/4;
+			xPol[9] = x;
+			xPol[10] = x;
+			xPol[11] = (3*x + a)/4;
 			
+			yPol[0] = b;
+			yPol[1] = b; 
+			yPol[2] = (3*b + y)/4; 
+			yPol[3] = (3*b + y)/4;
+			yPol[4] = (3*y + b)/4;
+			yPol[5] = (3*y + b)/4;
+			yPol[6] = y;
+			yPol[7] = y;
+			yPol[8] = (3*y + b)/4;
+			yPol[9] = (3*y + b)/4;	
+			yPol[10] = (3*b + y)/4;
+			yPol[11] = (3*b + y)/4;
+		}
+		
+		
+		public void draw_iso(int x, int y){
+			xPol[0] = (x + a)/2;
+			xPol[1] = a;
+			xPol[2] = x;
+
+			yPol[0] = b;
+			yPol[1] = y;
+			yPol[2] = y;
+
+		}
+		
+		public void draw_equi(int x, int y){
+			double angle = Math.toRadians(60);
+
+			xPol[0] = a;
+			xPol[1] = x;
+			xPol[2] = (int)((Math.cos(angle) * ((a-x)) - Math.sin(angle) * ((b-y))) + x);
+
+			yPol[0] = b;
+			yPol[1] = y;
+			yPol[2] = (int)((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y);
+				
+	        poly = new Polygon(xPol, yPol, 3);
+		}
+		
+		public void draw_arrow(int x, int y){			
+			xPol[0] = (a+x)/2;
+			xPol[1] = a; 
+			xPol[2] = (a+x)/2;
+			xPol[3] = (a+x)/2;
+			xPol[4] = x;
+			xPol[5] = x;
+			xPol[6] =(a+x)/2;
+	
+			yPol[0] = b;
+			yPol[1] = (b+y)/2; 
+			yPol[2] = y;
+			yPol[3] = (b + 3*y)/4;
+			yPol[4] = (b + 3*y)/4;
+			yPol[5] = (y + 3*b)/4;
+			yPol[6] = (y + 3*b)/4;	
 		}
 	}
 
@@ -194,6 +307,7 @@ public class NewElem extends JDialog implements ActionListener {
 			for(int i = 0; i < btn_fig.length; i++){
 				if(e.getSource() == btn_fig[i]){
 					System.out.println(btn_fig[i].getLabel());
+					id_fig = i;
 				}
 			}
 			if(e.getSource() == btn_fil){
