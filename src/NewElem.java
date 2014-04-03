@@ -1,4 +1,5 @@
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -55,7 +56,7 @@ public class NewElem extends JDialog implements ActionListener {
 	Color border_color;
 	Color fil_color;
 	private Figure poly;
-	private JComboBox<String> border_size = new JComboBox();
+	private JComboBox<Integer> border_size = new JComboBox();
 
 	private JButton btn_border_color;
 	private JButton[] btn_fig = new JButton[8];
@@ -83,11 +84,12 @@ public class NewElem extends JDialog implements ActionListener {
 		JPanel fenetre = new JPanel(); //content page
 		fenetre.setLayout(new BorderLayout());
 
-		border_size.addItem("Taille bordure");
+		//border_size.addItem("Taille bordure");
 		for(int i = 0; i < 16; i++){
-			border_size.addItem(i+"");
+			border_size.addItem(i);
 		}
-
+		border_size.setSelectedIndex(1);
+		
 		board.setLayout(new BorderLayout());
 		menu_forms.setLayout(new GridLayout(2, 4));
 
@@ -131,7 +133,9 @@ public class NewElem extends JDialog implements ActionListener {
 		btn_border_color.addActionListener(controller);
 		draw.addMouseListener(controller);
 		draw.addMouseMotionListener(controller);
-
+		//border_size.addMouseListener(controller);
+		border_size.addActionListener(controller);
+		
 		pack();
 		setVisible(true);
 	}
@@ -173,8 +177,10 @@ public class NewElem extends JDialog implements ActionListener {
 			super.paintComponent(g2); 
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
-			
 			for(int i = 0; i < list_elem.size(); i++){
+				g2.setColor(list_elem.get(i).border_color);
+				g2.setBackground(list_elem.get(i).fil_color);
+				g2.setStroke(new BasicStroke(list_elem.get(i).border_width));
 				if(list_elem.get(i).id_fig == 0){
 					g2.drawLine(list_elem.get(i).xPol[0], list_elem.get(i).yPol[0], list_elem.get(i).xPol[1], list_elem.get(i).yPol[1]);
 				} else if(list_elem.get(i).id_fig == 1){
@@ -183,6 +189,9 @@ public class NewElem extends JDialog implements ActionListener {
 					g2.drawPolygon(list_elem.get(i));
 				}				
 			}
+			g2.setColor(border_color);
+			g2.setBackground(fil_color);
+			g2.setStroke(new BasicStroke(border_size.getSelectedIndex()));
 			
 			//figure inc
 			if(id_fig == 0){
@@ -345,14 +354,17 @@ public class NewElem extends JDialog implements ActionListener {
 				}
 			}
 			if(e.getSource() == btn_fil){
-				Color choix_couleur = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
-				System.out.println(choix_couleur);
-				btn_fil.setBackground(choix_couleur); //TODO: not working				
+				fil_color = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
+				System.out.println(fil_color);
+				btn_fil.setForeground(fil_color);	
 			}
-			if(e.getSource() == border_color){
-				Color choix_couleur = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
-				System.out.println(choix_couleur);
-				btn_border_color.setForeground(choix_couleur); //TODO : not working
+			if(e.getSource() == btn_border_color){
+				border_color = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
+				System.out.println(border_color);
+				btn_border_color.setForeground(border_color);
+			}
+			if(e.getSource() == border_size){
+				System.out.println(border_size.getSelectedIndex());
 			}
 		}
 		public void mousePressed(MouseEvent e) {
@@ -361,9 +373,13 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 		public void mouseReleased(MouseEvent e) {
 			System.out.println("Released");
-
-			list_elem.add(new Figure(id_fig, poly.xpoints, poly.ypoints, poly.npoints));
-			System.out.println(list_elem);
+			if(e.getSource() == draw){
+				list_elem.add(new Figure(id_fig, poly.xpoints, poly.ypoints, poly.npoints));
+				list_elem.getLast().border_width = border_size.getSelectedIndex();
+				list_elem.getLast().border_color = border_color;
+				list_elem.getLast().fil_color = fil_color;
+				System.out.println(list_elem);
+			}
 		}
 		public void mouseDragged (MouseEvent e) {		
 			System.out.println("Dragged");			
