@@ -52,10 +52,12 @@ public class NewElem extends JDialog implements ActionListener {
 	JButton valider = new JButton("Valider");
 	JButton annuler = new JButton("Annuler");
 	PanElem draw = new PanElem();
+	Color border_color;
+	Color fil_color;
 	private Figure poly;
 	private JComboBox<String> border_size = new JComboBox();
 
-	private JButton border_color;
+	private JButton btn_border_color;
 	private JButton[] btn_fig = new JButton[8];
 	private JButton btn_fil;
 
@@ -74,7 +76,7 @@ public class NewElem extends JDialog implements ActionListener {
 		this.ecran = ecran;
 		id_fig = 0;
 		btn_fil = new JButton("Couleur forme");
-		border_color = new JButton("couleur bordure");
+		btn_border_color = new JButton("couleur bordure");
 		String[] choix_label = {"line", "circle", "rect", "cross", "iso", "equi", "arrow", "star"};
 		Color colors[] = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.GRAY, Color.YELLOW, Color.ORANGE};
 		JPanel panneau ; //part page of fenetre
@@ -92,12 +94,12 @@ public class NewElem extends JDialog implements ActionListener {
 		//Menu
 		panneau = new JPanel();
 		panneau.add(menu_forms);
-		border_box.add(border_size);
-		border_box.add(border_color);
+		//border_box.add(border_size);
+		//border_box.add(btn_border_color);
 		panneau.add(border_box);
 		panneau.add(btn_fil);
 		border_box.add(border_size);
-		border_box.add(border_color);
+		border_box.add(btn_border_color);
 
 		board.setLayout(new BorderLayout());
 		menu_forms.setLayout(new GridLayout(2, 4));
@@ -126,7 +128,7 @@ public class NewElem extends JDialog implements ActionListener {
 		valider.addActionListener(this);
 		annuler.addActionListener(this);
 		btn_fil.addActionListener(controller);
-		border_color.addActionListener(controller);
+		btn_border_color.addActionListener(controller);
 		draw.addMouseListener(controller);
 		draw.addMouseMotionListener(controller);
 
@@ -164,6 +166,9 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 
 		public void paintComponent(Graphics g) {
+			if(poly == null){
+				return ;
+			}
 			Graphics2D g2 = (Graphics2D) g;
 			super.paintComponent(g2); 
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -347,7 +352,7 @@ public class NewElem extends JDialog implements ActionListener {
 			if(e.getSource() == border_color){
 				Color choix_couleur = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
 				System.out.println(choix_couleur);
-				border_color.setBackground(choix_couleur); //TODO : not working
+				btn_border_color.setForeground(choix_couleur); //TODO : not working
 			}
 		}
 		public void mousePressed(MouseEvent e) {
