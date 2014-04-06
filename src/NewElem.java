@@ -44,6 +44,7 @@ import javax.swing.Box;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.geom.GeneralPath;
 import java.util.LinkedList;
 
 public class NewElem extends JDialog implements ActionListener {
@@ -114,7 +115,7 @@ public class NewElem extends JDialog implements ActionListener {
 		menu_forms.setLayout(new GridLayout(2, 4));
 		fenetre.add("North", panneau);
 
-		//Dessin
+		//Dessin	
 		panneau = new JPanel();
 		panneau.add(draw);
 		fenetre.add("Center", panneau);
@@ -140,15 +141,11 @@ public class NewElem extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent evt) {
-		Object source = evt.getSource();
-		if (source == valider) {
-			//jeu.nom = champNom.getText();
-			//jeu.aide = choixAide.isSelected();
-			
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == valider) {
 			dispose();
 		}
-		else if (source == annuler) { 
+		else if (e.getSource() == annuler) { 
 			dispose();
 		}
 	}
@@ -179,7 +176,7 @@ public class NewElem extends JDialog implements ActionListener {
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			for(int i = 0; i < list_elem.size(); i++){
 				g2.setColor(list_elem.get(i).border_color);
-				g2.setBackground(list_elem.get(i).fil_color);
+				g2.setPaint(list_elem.get(i).fil_color);
 				g2.setStroke(new BasicStroke(list_elem.get(i).border_width));
 				if(list_elem.get(i).id_fig == 0){
 					g2.drawLine(list_elem.get(i).xPol[0], list_elem.get(i).yPol[0], list_elem.get(i).xPol[1], list_elem.get(i).yPol[1]);
@@ -190,7 +187,7 @@ public class NewElem extends JDialog implements ActionListener {
 				}				
 			}
 			g2.setColor(border_color);
-			g2.setBackground(fil_color);
+			g2.setPaint(fil_color);
 			g2.setStroke(new BasicStroke(border_size.getSelectedIndex()));
 			
 			//figure inc
@@ -217,41 +214,38 @@ public class NewElem extends JDialog implements ActionListener {
 				yPol[0] = b;
 				xPol[1] = x;
 				yPol[1] = y;
-		        poly = new Figure(id_fig, xPol, yPol, sizePol);		
-		        return ;
 			} else if(id_fig == 2){
 				sizePol = 4;
 				xPol = new int[sizePol];
 				yPol = new int[sizePol];
 				draw_rect(x, y);
-				poly = new Figure(id_fig, xPol, yPol, sizePol);				
 			} else if(id_fig == 3){
 				sizePol = 12;
 				xPol = new int[sizePol];
 				yPol = new int[sizePol];
 				draw_cross(x, y);
-				poly = new Figure(id_fig, xPol, yPol, sizePol);
 			} else if(id_fig == 4){
 				sizePol = 3;
 				xPol = new int[sizePol];
 				yPol = new int[sizePol];
 				draw_iso(x, y);
-				poly = new Figure(id_fig, xPol, yPol, sizePol);				
 			} else if(id_fig == 5){
 				sizePol = 3;
 				xPol = new int[sizePol];
 				yPol = new int[sizePol];
 				draw_equi(x, y);
-				poly = new Figure(id_fig, xPol, yPol, sizePol);
 			} else if(id_fig == 6){
 				sizePol = 7;
 				xPol = new int[sizePol];
 				yPol = new int[sizePol];
 				draw_arrow(x, y);
-				poly = new Figure(id_fig, xPol, yPol, sizePol);
 			} else if(id_fig == 7){
-				
+				sizePol = 10;
+				xPol = new int[sizePol];
+				yPol = new int[sizePol];
+				draw_star(x, y);
 			}
+	        poly = new Figure(id_fig, xPol, yPol, sizePol);		
 		}
 
 		public void draw_cross(int x, int y){
@@ -303,6 +297,17 @@ public class NewElem extends JDialog implements ActionListener {
 			yPol[1] = y;
 			yPol[2] = y;
 
+		}
+		
+		public void draw_star(int x, int y){
+			double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
+	        double angle = Math.PI * 2 / 10;
+
+	        for (int i = 0; i < 10; i++) {
+	            double an = angle * i;
+	            xPol[i] = a+ (int)((Math.cos(an) * (radius + radius * (1 * (i%2)))) + radius);
+	            yPol[i] = b +(int)((Math.sin(an) * (radius + radius * (1 * (i%2)))) + radius);
+	        }	       
 		}
 		
 		public void draw_equi(int x, int y){
