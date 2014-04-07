@@ -5,13 +5,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 
 public class Controller extends MouseInputAdapter implements ActionListener {
-	Ecran ecran;
+	Placheux ecran;
 	NewElem elem;
 	
 	Controller() {
 	}
 
-	void setEcran(Ecran e){
+	void setEcran(Placheux e){
 		ecran = e;
 	}
 
@@ -39,6 +39,7 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 		if(ecran.add_elem == e.getSource()){
 			System.out.println("add elem");			
 			elem = new NewElem(ecran);
+			System.out.println(elem);
 		}
 		if(ecran.rendu == e.getSource()){
 			System.out.println("rendu");			
@@ -59,6 +60,7 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 			System.out.println("view");
 		}
 	}
+	
 	public void mouseReleased(MouseEvent e) {
 		System.out.print("mouseReleased: ");
 		if(e.getSource() == ecran.tab){

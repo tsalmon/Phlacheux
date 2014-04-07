@@ -1,22 +1,47 @@
 import java.awt.Color;
-import java.awt.Polygon;
 import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Figure extends Polygon{
-	int id_fig;
-	int xPol[];
-	int yPol[];
-	int nPol;
+
+public class Figure{
+	private GeneralPath path;
+	private Color border_color;
+	private Color fill_color;
 	
-	Color border_color;
-	int   border_width;
-	Color fil_color;
+	Figure(GeneralPath shape, Color border, Color fill){
+		this.path = shape;
+		this.setBorder_color(border);
+		this.setFill_color(fill);
+	}
 	
-	Figure(int id, int[] xP, int[] yP, int size){
-		super(xP, yP, size);
-		id_fig = id;
-		xPol = xP;
-		yPol = yP;
-		nPol = size;
+	public List<double[]> getPoints(){
+		List<double[]> l = new ArrayList<double[]>();
+		double[] coords = new double[2];
+		
+		for(PathIterator i = path.getPathIterator(null); !i.isDone(); i.next()){
+			i.currentSegment(coords);
+			l.add(coords);
+		}
+		
+		return l;
+	}
+
+	public Color getBorder_color() {
+		return border_color;
+	}
+
+	public void setBorder_color(Color border_color) {
+		this.border_color = border_color;
+	}
+
+	public Color getFill_color() {
+		return fill_color;
+	}
+
+	public void setFill_color(Color fill_color) {
+		this.fill_color = fill_color;
 	}
 }

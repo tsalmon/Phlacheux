@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 public class NewElem extends JDialog implements ActionListener {
-	Ecran ecran;
+	Placheux ecran;
 	int id_fig;
 	JButton valider = new JButton("Valider");
 	JButton annuler = new JButton("Annuler");
@@ -36,7 +36,7 @@ public class NewElem extends JDialog implements ActionListener {
 	private JButton[] btn_fig = new JButton[8];
 	private JButton btn_fil;
 
-	public NewElem(Ecran ecran) {
+	public NewElem(Placheux ecran) {
 		//define
 		setModal(true);
 		setLocation(400, 200);
