@@ -130,7 +130,6 @@ public class NewElem extends JDialog implements ActionListener {
 			setPreferredSize(new Dimension(600, 400));
 			form = new GeneralPath();
 		}
-
 		
 		/*It's might be usefull for drawing stars
 		private double points[][] = { 
@@ -172,12 +171,13 @@ public class NewElem extends JDialog implements ActionListener {
 			} else if(id_fig == 7){
 				p = this.draw_star();
 			} else {
-				return;
+				return ;
 			}
 			g2d.fill(p);  
 
 			g2d.setColor(border_color);
-			g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
+			g2d.draw(p);
+			//g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
 
 	        g2d.dispose();
 		}
