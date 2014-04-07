@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Polygon;
+import java.awt.Shape;
 
 public class Figure extends Polygon{
 	int id_fig;
