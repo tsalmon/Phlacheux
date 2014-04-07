@@ -10,9 +10,13 @@ import javax.swing.table.AbstractTableModel;
 import java.util.*;
 
 public class Placheux extends JPanel{
-    Controller controller;
+	private static final long serialVersionUID = 1L;
+	static LinkedList<Sequence> liste_seq; //content figures for sequences
+    static LinkedList<Figure> liste_fig; //content all of figures
+	Controller controller;
     
 	class TableModel extends AbstractTableModel {
+		private static final long serialVersionUID = 2L;
 		private String[] columnNames;       
 		private Object[][] data; 
 		
@@ -69,6 +73,7 @@ public class Placheux extends JPanel{
 	Placheux(Controller c){
 		controller = c;
 		panel_modif = new JPanel(new GridLayout(1, 6)); //animation, translate, rot, color, mp3, growth/shrink
+		liste_seq = new LinkedList<Sequence>();
 		JPanel panel_board = new JPanel(new GridLayout(1, 2));
 		JPanel panel_elem_part = new JPanel(new BorderLayout());
 		JPanel panel_view_part = new JPanel(new BorderLayout());
@@ -76,18 +81,13 @@ public class Placheux extends JPanel{
 		JPanel panel_view_menu = new JPanel(new GridLayout(1,4));
 
 		panel_view = new JPanel();
-				
+		
 		panel_modif.setPreferredSize(new Dimension(1, 200));
 		
 		panel_view.add(new JLabel("LA VUE"));
 		panel_view.setBackground(Color.BLUE);
 		String[] seq_colonnes = {"Liste des séquences"};
-		Object[][] seq_data = {{"la sequence sans nom1"},
-								{"la sequence sans nom2"},
-								{"la sequence sans nom3"},
-								{"la sequence sans nom4"},
-								{"la sequence sans nom5"},
-								{"la sequence sans nom6"}};
+		Object[][] seq_data = {{"la sequence sans nom1"}};
 
 		String[] tab_colonnes = new String[3601];
 		Object[][] tab_data = new Object[100][3601];

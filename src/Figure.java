@@ -1,8 +1,8 @@
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -10,11 +10,16 @@ public class Figure{
 	private GeneralPath path;
 	private Color border_color;
 	private Color fill_color;
+	int a; //firts points;
+	int b; //first points;
+	LinkedList<Animation>liste_animations;
+	
 	
 	Figure(GeneralPath shape, Color border, Color fill){
 		this.path = shape;
 		this.setBorder_color(border);
 		this.setFill_color(fill);
+		this.liste_animations = new LinkedList<Animation>();
 	}
 	
 	public List<double[]> getPoints(){
