@@ -1,7 +1,8 @@
 package tests;
-import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -9,65 +10,53 @@ public class Fenetre extends JFrame implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-		new Fenetre();
+		Fenetre f = new Fenetre();
 	}
 
-	private Panneau pan = new Panneau();
+	private Panneau pan = new Panneau(1);
 
 	public Fenetre() {
 		this.setTitle("Animation");
-		this.setSize(700, 700);
+		this.setSize(440, 440);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setContentPane(pan);
 		//pan.addMouseListener(this);
 		this.setVisible(true);
-		go(200, 200);
+		go_boule();
 	}
 
-	private void go(int u, int v) {
+        private void go_boule(){
+            int i = 0;
+            while(true){
+                pan.repaint();
+                pan.setDelta(i+=10);
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+	private void go() {
 
-		int j = 1;
-		int a = 0;
-		for(int k = 0; k < 200; k++) {
-			pan.setTheta(1);
-			pan.repaint();
+            int j = 1;
+            int a = 0;
 
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			pan.setPosX(a);
-			pan.setPosY(a++);
-		}
-		for(int k = 0; k < 200; k++){
-			pan.setDelta(j+=10);
-			pan.repaint();
-
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}			
-		}
-		for(int k = 0; k < 100; k++) {
-			pan.setTheta(1);
-			pan.repaint();
-
-			try {
-				Thread.sleep(2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			pan.setPosX(a);
-			pan.setPosY(a++);
-		}
+            for(int k = 0; k < 175; k++) {
+                pan.repaint();
+                pan.setTheta(1);
+                pan.setPosX(a);
+                pan.setPosY(a++);
+			
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }		
 	}
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
