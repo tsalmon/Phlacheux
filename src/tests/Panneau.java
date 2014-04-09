@@ -13,15 +13,15 @@ import java.awt.geom.GeneralPath;
 import javax.swing.JPanel;
 
 class Boule{
-    Point p;
-    int r;
-    Color c;
-    
-    Boule(int x, int y, int r, Color c){
-        this.p = new Point(x, y);
-        this.r = r;
-        this.c = c;
-    }    
+	Point p;
+	int r;
+	Color c;
+
+	Boule(int x, int y, int r, Color c){
+		this.p = new Point(x, y);
+		this.r = r;
+		this.c = c;
+	}    
 }
 
 
@@ -31,21 +31,20 @@ public class Panneau extends JPanel {
 	private int posY;
 	private int theta;
 	private int delta;
-        private Boule b[];
-        private GeneralPath dessin;
+	private Boule b[];
+	private GeneralPath dessin;
+	boolean pos = true;
 
-         int id_dessin;
-        
-        void init_titre(){            
+	int id_dessin;
+
+	void init_titre(){            
 		Font f = new Font("Serif", Font.BOLD, 100);
 		FontRenderContext frc = new FontRenderContext(null, false, false);
 
-		int nb = 1;
-		
 		dessin = new GeneralPath();
 
-                TextLayout tl = new TextLayout("LOL",f,frc);
-                Shape s = tl.getOutline(null);
+		TextLayout tl = new TextLayout("LOL",f,frc);
+		Shape s = tl.getOutline(null);
 		dessin.append(s.getPathIterator(null),false);
 		int l = tl.getPixelBounds(frc,0,0).width;
 		int h = tl.getPixelBounds(frc,0,0).height;
@@ -55,54 +54,78 @@ public class Panneau extends JPanel {
 		dessin.lineTo(0,30);
 		dessin.lineTo(0,20);
 		dessin.closePath();
-        }
-        
-        void init_boule(){
-            b = new Boule[4];
-            b[0] = new Boule(100, 100, 40, Color.BLUE);
-            b[1] = new Boule(100, 300, 40, Color.RED);
-            b[2] = new Boule(300, 100, 40, Color.RED);
-            b[3] = new Boule(300, 300, 40, Color.BLUE);
-        }
-        
-	Panneau(int i){
-            this.id_dessin = i;
-            switch(i){
-                case 0: this.init_titre(); break;
-                case 1: this.init_boule(); break;
-            }
-        }
+	}
 
-        public void dessin_titre(Graphics g){
-            Graphics2D g2 = (Graphics2D)g;
-            AffineTransform at = AffineTransform.getTranslateInstance(posX, posY);
-            g2.setTransform(at);
-            g2.rotate(delta);
-            g2.translate(2, 2);
-            g2.draw(dessin);            
-        }
-        
-        public void dessin_boule(Graphics g){
-            System.out.println("in");
-            Graphics2D g2 = (Graphics2D)g;
-            for(Boule bi : b) {
-                
-                AffineTransform at = new AffineTransform();
-                at.rotate(0.1, 200, 200);
-                at.transform(bi.p, bi.p);
-            	
-                g2.setColor(bi.c);
-                g2.drawOval(bi.p.x, bi.p.y, bi.r, bi.r);
-            }
-            System.out.println("out");
-        }
-        
+	void init_boule(){
+		b = new Boule[9];
+		b[0] = new Boule(100, 100, 40, Color.BLUE);
+		b[1] = new Boule(100, 300, 40, Color.RED);
+		b[2] = new Boule(300, 100, 40, Color.RED);
+		b[3] = new Boule(300, 300, 40, Color.BLUE);
+
+		b[4] = new Boule(b[0].p.x+0, b[0].p.y+0, 20, Color.RED);
+		b[5] = new Boule(b[1].p.x+0, b[1].p.y+0, 20, Color.BLUE);
+		b[6] = new Boule(b[2].p.x+0, b[2].p.y+0, 20, Color.BLUE);
+		b[7] = new Boule(b[3].p.x+0, b[3].p.y+0, 20, Color.RED);
+		b[8] = new Boule(200, 200, 10, Color.BLACK);
+	}
+
+	Panneau(int i){
+		this.id_dessin = i;
+		switch(i){
+		case 0: this.init_titre(); break;
+		case 1: this.init_boule(); break;
+		}
+	}
+
+	public void dessin_titre(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform at = AffineTransform.getTranslateInstance(posX, posY);
+		g2.setTransform(at);
+		g2.rotate(delta);
+		g2.translate(2, 2);
+		g2.draw(dessin);            
+	}
+
+	public void dessin_boule(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		for(int i = 0; i < 4; i++) {
+
+			AffineTransform at = new AffineTransform();
+			at.rotate(0.1, 200, 200);
+			at.transform(b[i].p, b[i].p);
+
+			g2.setColor(b[i].c);
+			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+		}
+
+		for(int i = 4; i < 8; i++) {
+
+			AffineTransform at = new AffineTransform();
+			at.rotate(-0.1, 200, 200);
+			at.transform(b[i].p, b[i].p);
+
+			g2.setColor(b[i].c);
+			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+		}
+
+		g2.setColor(b[8].c);
+		g2.fillOval(b[8].p.x - b[8].r/2, b[8].p.y- b[8].r/2, b[8].r, b[8].r);
+
+		
+		if(b[8].r < 0 || b[8].r > 100)
+			pos =!pos;
+		int val = (pos ) ? 1 : -1;
+		
+		b[8].r+=val;
+	}
+
 	public void paintComponent(Graphics g) {
-            switch(this.id_dessin){
-                case 0: this.dessin_titre(g); break;
-                case 1: this.dessin_boule(g); break;
-            }
-        }
+		switch(this.id_dessin){
+		case 0: this.dessin_titre(g); break;
+		case 1: this.dessin_boule(g); break;
+		}
+	}
 
 	public int getPosX() {
 		return posX;
