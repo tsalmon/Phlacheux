@@ -29,8 +29,30 @@ class Boule{
 	}    
 }
 
+class BouleAffineTransform extends Thread{
+    Boule boule;
+    Graphics2D g2;
+    double v, v1, v2;
 
-public class Panneau extends Canvas {
+    BouleAffineTransform(Boule b, Graphics2D g2, double v, double v1, double v2){
+        this.boule = b;
+        this.g2 = g2;
+        this.v = v;
+        this.v1 = v1;
+        this.v2 = v2;
+    }
+
+    public void run(){
+        AffineTransform at = new AffineTransform();
+        at.rotate(v, v1, v2);
+        at.transform(boule.p, boule.p);
+
+        g2.setColor(boule.c);
+        g2.fillOval(boule.p.x, boule.p.y, boule.r, boule.r);
+    }
+}
+
+public class Panneau extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int choix_fig;
 	int np = 0; double centerX, centerY;
@@ -117,23 +139,25 @@ public class Panneau extends Canvas {
 	public void dessin_boule(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
 		for(int i = 0; i < 4; i++) {
-
-			AffineTransform at = new AffineTransform();
-			at.rotate(0.1, 200, 200);
-			at.transform(b[i].p, b[i].p);
-
-			g2.setColor(b[i].c);
-			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+            BouleAffineTransform bt = new BouleAffineTransform(b[i], g2, 0.1,200,200);
+            bt.start();
+//			AffineTransform at = new AffineTransform();
+//			at.rotate(0.1, 200, 200);
+//			at.transform(b[i].p, b[i].p);
+//
+//			g2.setColor(b[i].c);
+//			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
 		}
 
 		for(int i = 4; i < 8; i++) {
-
-			AffineTransform at = new AffineTransform();
-			at.rotate(-0.1, 200, 200);
-			at.transform(b[i].p, b[i].p);
-
-			g2.setColor(b[i].c);
-			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+            BouleAffineTransform bt = new BouleAffineTransform(b[i], g2, -0.1,200,200);
+            bt.start();
+//            AffineTransform at = new AffineTransform();
+//			at.rotate(-0.1, 200, 200);
+//			at.transform(b[i].p, b[i].p);
+//
+//			g2.setColor(b[i].c);
+//			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
 		}
 
 		g2.setColor(b[8].c);
