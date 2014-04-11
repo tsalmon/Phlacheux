@@ -1,4 +1,5 @@
 
+
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,6 +12,7 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 
 import javax.swing.Box;
@@ -22,6 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
+
 public class NewElem extends JDialog implements ActionListener {
 	Placheux ecran;
 	int id_fig;
@@ -29,7 +32,7 @@ public class NewElem extends JDialog implements ActionListener {
 	JButton annuler = new JButton("Annuler");
 	PanElem draw = new PanElem();
 	Color border_color;
-	Color fil_color;
+	Color fill_color;
 	private JComboBox<Integer> border_size = new JComboBox();
 
 	private JButton btn_border_color;
@@ -148,36 +151,36 @@ public class NewElem extends JDialog implements ActionListener {
 			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY);
 
-			g2d.setColor(fil_color);
+			g2d.setColor(fill_color);
 	        
-			GeneralPath p;
 			if(id_fig == 0){
-				p = new GeneralPath();
-				p.moveTo(a, b);
-				p.lineTo(x, y);
-				p.closePath();
+				GeneralPath gp = new GeneralPath();
+				gp.moveTo(a, b);
+				gp.lineTo(x, y);
+				gp.closePath();
+				form = gp;
 			} else if (id_fig == 1){//circle
-				p = draw_circle();
+				form = draw_circle();
 			} else if(id_fig == 2){
-				p = draw_rect();
+				form = draw_rect();
 			}  else if(id_fig == 3){				
-				p = draw_cross();
+				form = draw_cross();
 			} else if(id_fig == 4){	
-				p = draw_iso();
+				form = draw_iso();
 			} else if(id_fig == 5){
-				p = draw_equi();
+				form = draw_equi();
 			} else if(id_fig == 6){
-				p = draw_arrow();
+				form = draw_arrow();
 			} else if(id_fig == 7){
-				p = this.draw_star();
+				form = this.draw_star();
 			} else {
 				return ;
 			}
-			g2d.fill(p);  
+			g2d.fill(form);  
 
 			g2d.setColor(border_color);
-			g2d.draw(p);
-			//g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
+			g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
+			g2d.draw(form);
 
 	        g2d.dispose();
 		}
@@ -195,8 +198,9 @@ public class NewElem extends JDialog implements ActionListener {
 			this.b = b;
 		}
 
-		public GeneralPath draw_circle(){
-			double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
+		public Shape draw_circle(){
+			Ellipse2D p = new Ellipse2D.Double(a,b,x,y);
+			/*double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
 			int points = 100;	
 			double angle = Math.PI * 2 / points;
 			
@@ -212,7 +216,7 @@ public class NewElem extends JDialog implements ActionListener {
 	            } else {	
 	                p.lineTo(x, y);
 	            }
-	        }
+	        }*/
 	        return p;
 		}
 		
@@ -315,9 +319,9 @@ public class NewElem extends JDialog implements ActionListener {
 				}
 			}
 			if(e.getSource() == btn_fil){
-				fil_color = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
-				System.out.println(fil_color);
-				btn_fil.setForeground(fil_color);	
+				fill_color = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
+				System.out.println(fill_color);
+				btn_fil.setForeground(fill_color);	
 			}
 			if(e.getSource() == btn_border_color){
 				border_color = JColorChooser.showDialog(null, "couleur de bordure",Color.WHITE);
