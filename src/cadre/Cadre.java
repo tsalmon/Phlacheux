@@ -12,12 +12,12 @@ public class Cadre extends JFrame{
 	Cadre(){  
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(500, 300);
-		this.add("Center", new CvBezier());
+		this.add("Center", new Canv());
 		this.setVisible(true);
 	}
 }
 
-class Cadre extends Canvas{
+class Canv extends Canvas{
 	int centerX, centerY;
 	float rWidth = 16.0F, rHeight = 9F, pixelSize;
 
