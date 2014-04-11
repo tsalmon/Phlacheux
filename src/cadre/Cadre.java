@@ -1,11 +1,5 @@
 package cadre;
 
-//Bezier.java: Bezier curve segments.
-//Uses: Point2D (Section 1.5).
-
-//Copied from Section 4.1 of
-// Ammeraal, L. (1998) Computer Graphics for Java Programmers,
-//    Chichester: John Wiley.
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,7 +17,7 @@ public class Cadre extends JFrame{
 	}
 }
 
-class CvBezier extends Canvas{
+class Cadre extends Canvas{
 	int centerX, centerY;
 	float rWidth = 16.0F, rHeight = 9F, pixelSize;
 
