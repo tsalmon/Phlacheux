@@ -14,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,7 +30,7 @@ import javax.swing.event.MouseInputAdapter;
 
 public class NewElem extends JDialog implements ActionListener {
 	Placheux ecran;
-	int id_fig;
+	int id_fig = -1;
 	JButton valider = new JButton("Valider");
 	JButton annuler = new JButton("Annuler");
 	PanElem draw = new PanElem();
@@ -36,7 +39,7 @@ public class NewElem extends JDialog implements ActionListener {
 	private JComboBox<Integer> border_size = new JComboBox();
 
 	private JButton btn_border_color;
-	private JButton[] btn_fig = new JButton[8];
+	private JButton[] btn_fig = new JButton[10];
 	private JButton btn_fil;
 
 	public NewElem(Placheux ecran) {
@@ -54,7 +57,7 @@ public class NewElem extends JDialog implements ActionListener {
 		id_fig = 0;
 		btn_fil = new JButton("Couleur forme");
 		btn_border_color = new JButton("couleur bordure");
-		String[] choix_label = {"line", "circle", "rect", "cross", "iso", "equi", "arrow", "star"};
+		String[] choix_label = {"line", "circle", "rect", "cross", "iso", "equi", "arrow", "star", "DIY", "Image"};
 		Color colors[] = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.GRAY, Color.YELLOW, Color.ORANGE};
 		JPanel panneau ; //part page of fenetre
 		JPanel fenetre = new JPanel(); //content page
@@ -66,7 +69,7 @@ public class NewElem extends JDialog implements ActionListener {
 		border_size.setSelectedIndex(1);
 
 		board.setLayout(new BorderLayout());
-		menu_forms.setLayout(new GridLayout(2, 4));
+		menu_forms.setLayout(new GridLayout(2, 5));
 
 		//Menu
 		panneau = new JPanel();
@@ -125,15 +128,15 @@ public class NewElem extends JDialog implements ActionListener {
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
-		Shape form;
+		Shape form = null;
+		LinkedList<Integer> diy = new LinkedList<Integer>();
 		int a, b;
 		int x, y;
 
 		PanElem() { 
 			setPreferredSize(new Dimension(600, 400));
-			form = new GeneralPath();
 		}
-		
+
 		/*It's might be usefull for drawing stars
 		private double points[][] = { 
 				{ 0, 85 }, { 75, 75 }, { 100, 10 }, { 125, 75 }, 
@@ -143,16 +146,7 @@ public class NewElem extends JDialog implements ActionListener {
 
 		private void doDrawing(Graphics g) {
 
-			Graphics2D g2d = (Graphics2D)g;
 
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-
-			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY);
-
-			g2d.setColor(fill_color);
-	        
 			if(id_fig == 0){
 				GeneralPath gp = new GeneralPath();
 				gp.moveTo(a, b);
@@ -173,23 +167,47 @@ public class NewElem extends JDialog implements ActionListener {
 				form = draw_arrow();
 			} else if(id_fig == 7){
 				form = this.draw_star();
+			} else if(id_fig == 8){
+				GeneralPath aux = new GeneralPath();
+				aux.moveTo(diy.get(0), diy.get(1));
+				for(int i = 0; i < diy.size(); i+=2){
+					aux.lineTo(diy.get(i), diy.get(i+1));
+				}
+				aux.closePath();
+				form = aux;
 			} else {
+				System.out.println("start: quit");
 				return ;
 			}
-			g2d.fill(form);  
-
-			g2d.setColor(border_color);
-			g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
-			g2d.draw(form);
-
-	        g2d.dispose();
 		}
 
 		public void paintComponent(Graphics g) {
-	        super.paintComponent(g);
-	        if(form != null){
-	        	doDrawing(g);
-	        }
+			super.paintComponent(g);
+			if(form == null){
+				doDrawing(g);
+			} else {
+				
+				Graphics2D g2d = (Graphics2D)g;
+
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+
+				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+						RenderingHints.VALUE_RENDER_QUALITY);
+
+				g2d.setColor(fill_color);
+
+				doDrawing(g);
+
+				g2d.fill(form);  
+
+				g2d.setColor(border_color);
+				g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
+				g2d.draw(form);
+
+				g2d.dispose();
+				
+			}
 
 		}
 
@@ -199,28 +217,16 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 
 		public Shape draw_circle(){
-			Ellipse2D p = new Ellipse2D.Double(a,b,x,y);
-			/*double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
-			int points = 100;	
-			double angle = Math.PI * 2 / points;
+			int u = (x < a) ? x : a ,
+					v = (y < b) ? y : b;
+			int k = (x < a) ? a-x : x-a ,
+					l = (y < b) ? b-y : y-b;
 			
-	        GeneralPath p = new GeneralPath();
-
-	        for (int ii = 0; ii < points; ii++) {
-	            double an = angle * ii;
-
-	            double x = a+((Math.cos(an) * radius) + radius);
-	            double y = b+((Math.sin(an) * radius) + radius);
-	            if (ii == 0) {
-	                p.moveTo(x, y);
-	            } else {	
-	                p.lineTo(x, y);
-	            }
-	        }*/
-	        return p;
+			Ellipse2D p = new Ellipse2D.Double(u,v, k, l);
+			return p;
 		}
-		
-		public GeneralPath draw_cross(){
+
+		public Shape draw_cross(){
 			GeneralPath p = new GeneralPath();
 			p.moveTo((3*x + a)/4, b);
 			p.lineTo((3*a + x)/4, b);
@@ -238,7 +244,7 @@ public class NewElem extends JDialog implements ActionListener {
 			return p;
 		}
 
-		public GeneralPath draw_rect(){
+		public Shape draw_rect(){
 			GeneralPath p = new GeneralPath();
 			p.moveTo(x, b);
 			p.lineTo(a, b);
@@ -248,46 +254,46 @@ public class NewElem extends JDialog implements ActionListener {
 			return p;
 		}
 
-		public GeneralPath draw_iso(){	
+		public Shape draw_iso(){	
 			GeneralPath p = new GeneralPath();
-			
+
 			p.moveTo((x+a)/2, b);
 			p.lineTo(a, y);
 			p.lineTo(x, y);
 			return p;
 		}
 
-		public GeneralPath draw_star(){
+		public Shape draw_star(){
 			GeneralPath p = new GeneralPath();
 			double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
 			double angle = Math.PI * 2 / 10;
-			
-			for (int ii = 0; ii < 10; ii++) {
-	            double an = angle * ii;
 
-	            double x = a + ((Math.cos(an) * (radius + radius * (1 * (ii%2)))));
-	            double y = b + ((Math.sin(an) * (radius + radius * (1 * (ii%2)))));
-	            if (ii == 0) {
-	                p.moveTo(x, y);
-	            } else {	
-	                p.lineTo(x, y);
-	            }
-	        }
+			for (int ii = 0; ii < 10; ii++) {
+				double an = angle * ii;
+
+				double x = a + ((Math.cos(an) * (radius + radius * (1 * (ii%2)))));
+				double y = b + ((Math.sin(an) * (radius + radius * (1 * (ii%2)))));
+				if (ii == 0) {
+					p.moveTo(x, y);
+				} else {	
+					p.lineTo(x, y);
+				}
+			}
 			p.closePath();
 			return p;
 		}
 
-		public GeneralPath draw_equi(){
+		public Shape draw_equi(){
 			GeneralPath p = new GeneralPath();
 			double angle = Math.toRadians(60);
-			
+
 			p.moveTo(a, b);
 			p.lineTo(x, y);
 			p.lineTo((int)((Math.cos(angle) * ((a-x)) - Math.sin(angle) * ((b-y))) + x), (int)((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y));
 			return p;
 		}
 
-		public GeneralPath draw_arrow(){			
+		public Shape draw_arrow(){			
 			GeneralPath p = new GeneralPath();
 			p.moveTo(a		, (b+y)/2);
 			p.lineTo((a+x)/2, y);
@@ -316,6 +322,9 @@ public class NewElem extends JDialog implements ActionListener {
 				if(e.getSource() == btn_fig[i]){
 					System.out.println(btn_fig[i].getLabel());
 					id_fig = i;
+					if(id_fig == 8){
+						pan.diy = null;
+					}
 				}
 			}
 			if(e.getSource() == btn_fil){
@@ -339,9 +348,18 @@ public class NewElem extends JDialog implements ActionListener {
 		public void mouseReleased(MouseEvent e) {
 			System.out.println("Released");
 			if(e.getSource() == draw){
+				System.out.println("drawing");
 				pan.x = e.getX();
-				pan.y = e.getY();				
-			}
+				pan.y = e.getY();
+				if(id_fig == 8){
+					if(pan.diy == null){
+						pan.diy = new LinkedList<Integer>();
+					}
+					pan.diy.add(pan.x);
+					pan.diy.add(pan.y);
+					pan.repaint();
+				} 
+			}			
 		}
 		public void mouseDragged (MouseEvent e) {		
 			System.out.println("Dragged");			
@@ -445,7 +463,7 @@ public class NewElem extends JDialog implements ActionListener {
 			border_size.addItem(i);
 		}
 		border_size.setSelectedIndex(1);
-		
+
 		board.setLayout(new BorderLayout());
 		menu_forms.setLayout(new GridLayout(2, 4));
 
@@ -480,7 +498,7 @@ public class NewElem extends JDialog implements ActionListener {
 		panneau.add(valider);
 		panneau.add(annuler);
 		fenetre.add("South", panneau);
-		
+
 		add(fenetre) ;
 
 		valider.addActionListener(this);
@@ -491,7 +509,7 @@ public class NewElem extends JDialog implements ActionListener {
 		draw.addMouseMotionListener(controller);
 		//border_size.addMouseListener(controller);
 		border_size.addActionListener(controller);
-		
+
 		pack();
 		setVisible(true);
 	}
@@ -504,7 +522,7 @@ public class NewElem extends JDialog implements ActionListener {
 			dispose();
 		}
 	}
-	
+
 	class PanElem extends JPanel{
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
@@ -544,7 +562,7 @@ public class NewElem extends JDialog implements ActionListener {
 			g2.setColor(border_color);
 			g2.setPaint(fil_color);
 			g2.setStroke(new BasicStroke(border_size.getSelectedIndex()));
-			
+
 			//figure inc
 			if(id_fig == 0){
 				g2.drawLine(xPol[0], yPol[0], xPol[1], yPol[1]);
@@ -616,7 +634,7 @@ public class NewElem extends JDialog implements ActionListener {
 			xPol[9] = x;
 			xPol[10] = x;
 			xPol[11] = (3*x + a)/4;
-			
+
 			yPol[0] = b;
 			yPol[1] = b; 
 			yPol[2] = (3*b + y)/4; 
@@ -630,7 +648,7 @@ public class NewElem extends JDialog implements ActionListener {
 			yPol[10] = (3*b + y)/4;
 			yPol[11] = (3*b + y)/4;
 		}
-		
+
 		public void draw_rect(int x, int y){
 			xPol[0] = x;
 			xPol[1] = a;
@@ -642,7 +660,7 @@ public class NewElem extends JDialog implements ActionListener {
 			yPol[2] = y;
 			yPol[3] = y;
 		}
-				
+
 		public void draw_iso(int x, int y){
 			xPol[0] = (x + a)/2;
 			xPol[1] = a;
@@ -653,7 +671,7 @@ public class NewElem extends JDialog implements ActionListener {
 			yPol[2] = y;
 
 		}
-		
+
 		public void draw_star(int x, int y){
 			double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
 	        double angle = Math.PI * 2 / 10;
@@ -664,7 +682,7 @@ public class NewElem extends JDialog implements ActionListener {
 	            yPol[i] = b +(int)((Math.sin(an) * (radius + radius * (1 * (i%2)))) + radius);
 	        }	       
 		}
-		
+
 		public void draw_equi(int x, int y){
 			double angle = Math.toRadians(60);
 
@@ -676,7 +694,7 @@ public class NewElem extends JDialog implements ActionListener {
 			yPol[1] = y;
 			yPol[2] = (int)((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y);
 		}
-		
+
 		public void draw_arrow(int x, int y){			
 			xPol[0] = (a+x)/2;
 			xPol[1] = a; 
@@ -685,7 +703,7 @@ public class NewElem extends JDialog implements ActionListener {
 			xPol[4] = x;
 			xPol[5] = x;
 			xPol[6] =(a+x)/2;
-	
+
 			yPol[0] = b;
 			yPol[1] = (b+y)/2; 
 			yPol[2] = y;
@@ -748,4 +766,4 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 	}
 }
-*/
+ */
