@@ -1,10 +1,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-public class Controller extends MouseInputAdapter implements ActionListener {
+public class Controller extends MouseInputAdapter implements ActionListener, ComponentListener{
 	Placheux ecran;
 	NewElem elem;
 	
@@ -56,7 +58,8 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 		if(e.getSource() == ecran.panel_modif){
 			System.out.println("modif");			
 		}
-		if(e.getSource() == ecran.panel_view){
+		if(e.getSource() == ecran.panel_view){ 
+			//getElem select on the screen
 			System.out.println("view");
 		}
 	}
@@ -81,7 +84,30 @@ public class Controller extends MouseInputAdapter implements ActionListener {
 	public void mouseDragged (MouseEvent e) {
 		System.out.print("mouseDragged: ");
 		if(e.getSource() == ecran.panel_view){
+			//TODO: 
+			//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
+			//if there is elem select: make an arrow beetwen 
+			///the barycenter of the figure and the point of the moose, to see the translation
 			System.out.println("view");
 		}		
 	}
+	
+	public void componentMoved(ComponentEvent e) {
+		
+	}
+	
+	public void componentResized(ComponentEvent e) {
+		System.out.println("resize");
+	}
+
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
