@@ -14,10 +14,11 @@ import java.util.*;
 
 public class Placheux extends JPanel{
 	private static final long serialVersionUID = 1L;
-	static LinkedList<Sequence> liste_seq; //content figures for sequences
-	static LinkedList<Figure> liste_fig; //content all of figures
+	 LinkedList<Sequence> liste_seq; //content figures for sequences
+	 LinkedList<Figure> liste_fig = new LinkedList<Figure>(); //content all of figures
 	Controller controller;
-	private JComboBox<String> name_elem[] = new JComboBox[100];
+	//private JComboBox<String> name_elem[] = new JComboBox[100];
+	JComboBox<String> comboBox = new JComboBox<String>();
 
 	//view menu
 	JButton lecture_pause = new JButton("lecture");
@@ -34,9 +35,8 @@ public class Placheux extends JPanel{
 	JTable seq;
 	JTable tab;
 
-	Canv panel_view;
+	Vue panel_view;
 	JPanel panel_modif;
-
 
 	private void initColumnSizes() {
 		TableModel model = (TableModel)tab.getModel();
@@ -61,18 +61,19 @@ public class Placheux extends JPanel{
 							tab, null,
 							false, false, 0, i);
 			cellWidth = comp.getPreferredSize().width;
-
-
 			column.setPreferredWidth(Math.max(headerWidth, cellWidth));
 		}
 	}
 
+	public  void addElemToListElem(String nameFigure){
+			System.out.println("add " + nameFigure);
+			comboBox.addItem(nameFigure);
+			tab.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox));
+		}
+	
 	private void setUpElemColumn(){
 		//Set up the editor for the sport cells.
-		JComboBox comboBox = new JComboBox();
-		comboBox.addItem("toto");
-		comboBox.addItem("lala");
-		tab.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox));
+		
 
 		//Set up tool tips for the sport cells.
 		DefaultTableCellRenderer renderer =
@@ -92,12 +93,12 @@ public class Placheux extends JPanel{
 		JPanel panel_elem_menu = new JPanel(new GridLayout(1,3));
 		JPanel panel_view_menu = new JPanel(new GridLayout(1,4));
 
-		panel_view = new Canv();
+		panel_view = new Vue();
 
 		panel_modif.setPreferredSize(new Dimension(1, 200));
 
 		//panel_view.add(new JLabel("LA VUE"));
-		panel_view.setBackground(Color.BLUE);
+		//panel_view.setBackground(Color.BLUE);
 
 		String[] seq_colonnes = {"Liste des séquences"};
 		Object[][] seq_data = {{"la sequence sans nom1"}};
@@ -166,8 +167,7 @@ public class Placheux extends JPanel{
 		this.add("Center", panel_board);
 		this.add("South", panel_modif);
 
-
-		//ctrl		
+		//ctrl
 
 		lecture_pause.addActionListener(controller);	
 		stop.addActionListener(controller);
@@ -175,32 +175,12 @@ public class Placheux extends JPanel{
 		recule_10.addActionListener(controller);
 		add_seq.addActionListener(controller);
 		add_elem.addActionListener(controller);
-		rendu.addActionListener(controller);		
+		rendu.addActionListener(controller);
 		tab.addMouseListener(controller);
 		seq.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_modif.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
 
-
 	}
-	class Canv extends Canvas{
-		int centerX, centerY;
-		float rWidth = 16.0F, rHeight = 9F, pixelSize;
-
-		void initgr() {
-			Dimension d = getSize();
-			int maxX = d.width - 1, maxY = d.height - 1;
-			pixelSize = Math.max(rWidth/maxX, rHeight/maxY);
-			centerX = maxX/2; centerY = maxY/2;
-		}
-
-		int iX(double d){
-			return (int) Math.round(centerX + d/pixelSize);
-		}
-		int iY(double d){
-			return (int) Math.round(centerY - d/pixelSize);
-		}
-	}
-
 }

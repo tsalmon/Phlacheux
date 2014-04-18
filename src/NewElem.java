@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -24,7 +25,10 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.MouseInputAdapter;
 
 
@@ -34,16 +38,20 @@ public class NewElem extends JDialog implements ActionListener {
 	JButton valider = new JButton("Valider");
 	JButton annuler = new JButton("Annuler");
 	PanElem draw = new PanElem();
+	Shape fig_inc = new GeneralPath(); // the figure we do
 	Color border_color;
 	Color fill_color;
+	JTextField name = new JTextField(20);
 	private JComboBox<Integer> border_size = new JComboBox();
-
+	Shape points_fig = null;
 	private JButton btn_border_color;
 	private JButton[] btn_fig = new JButton[10];
 	private JButton btn_fil;
 
 	public NewElem(Placheux ecran) {
 		//define
+		this.fill_color = Color.BLACK;
+		this.border_color = Color.BLACK;
 		setModal(true);
 		setLocation(400, 200);
 		setTitle("Nouvel Element");
@@ -53,6 +61,7 @@ public class NewElem extends JDialog implements ActionListener {
 		JPanel menu_forms = new JPanel();
 		Box border_box = new Box(BoxLayout.Y_AXIS);
 		CtrlElem controller = new CtrlElem(draw);
+
 		this.ecran = ecran;
 		id_fig = 0;
 		btn_fil = new JButton("Couleur forme");
@@ -97,6 +106,7 @@ public class NewElem extends JDialog implements ActionListener {
 
 		//Validation
 		panneau = new JPanel();
+		panneau.add(name);
 		panneau.add(valider);
 		panneau.add(annuler);
 		fenetre.add("South", panneau);
@@ -117,9 +127,26 @@ public class NewElem extends JDialog implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == valider) {
-			dispose();			
-		}
-		else if (e.getSource() == annuler) { 
+			if(!name.getText().matches("\\w+")){
+				JOptionPane.showMessageDialog(this,  "Vous devez choisir un nom avant de valider");
+			} else if(this.fig_inc == null && 
+					(this.id_fig == 8 && draw.diy.size() == 0)){ 
+				JOptionPane.showMessageDialog(this,  "Vous devez fabriquer une figure avant de l'ajouter");				
+			} else {
+				boolean named = false;
+				for(Figure f : ecran.liste_fig){
+					if(f.getName().equals(this.name.getText())){
+						JOptionPane.showMessageDialog(this,  "Le nom a deja été choisi");
+						named = true;
+					}
+				}
+				if(!named){
+					ecran.liste_fig.add(new Figure(fig_inc, border_color, fill_color, this.name.getText()));
+					ecran.addElemToListElem(ecran.liste_fig.getLast().getName());
+					dispose();
+				}
+			}
+		} else if (e.getSource() == annuler) { 
 			dispose();
 		}
 	}
@@ -128,7 +155,7 @@ public class NewElem extends JDialog implements ActionListener {
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
-		Shape form = null;
+		Shape figure = null;
 		LinkedList<Integer> diy = new LinkedList<Integer>();
 		int a, b;
 		int x, y;
@@ -145,28 +172,26 @@ public class NewElem extends JDialog implements ActionListener {
 		};*/
 
 		private void doDrawing(Graphics g) {
-
-
 			if(id_fig == 0){
 				GeneralPath gp = new GeneralPath();
 				gp.moveTo(a, b);
 				gp.lineTo(x, y);
 				gp.closePath();
-				form = gp;
+				fig_inc = gp;
 			} else if (id_fig == 1){//circle
-				form = draw_circle();
+				fig_inc = draw_circle();
 			} else if(id_fig == 2){
-				form = draw_rect();
+				fig_inc = draw_rect();
 			}  else if(id_fig == 3){				
-				form = draw_cross();
+				fig_inc = draw_cross();
 			} else if(id_fig == 4){	
-				form = draw_iso();
+				fig_inc = draw_iso();
 			} else if(id_fig == 5){
-				form = draw_equi();
+				fig_inc = draw_equi();
 			} else if(id_fig == 6){
-				form = draw_arrow();
+				fig_inc = draw_arrow();
 			} else if(id_fig == 7){
-				form = this.draw_star();
+				fig_inc = this.draw_star();
 			} else if(id_fig == 8){
 				GeneralPath aux = new GeneralPath();
 				aux.moveTo(diy.get(0), diy.get(1));
@@ -174,7 +199,7 @@ public class NewElem extends JDialog implements ActionListener {
 					aux.lineTo(diy.get(i), diy.get(i+1));
 				}
 				aux.closePath();
-				form = aux;
+				fig_inc = aux;
 			} else {
 				System.out.println("start: quit");
 				return ;
@@ -183,7 +208,7 @@ public class NewElem extends JDialog implements ActionListener {
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			if(form == null){
+			if(fig_inc == null){
 				doDrawing(g);
 			} else {
 				
@@ -199,16 +224,15 @@ public class NewElem extends JDialog implements ActionListener {
 
 				doDrawing(g);
 
-				g2d.fill(form);  
+				g2d.fill(fig_inc);  
 
 				g2d.setColor(border_color);
 				g2d.setStroke(new BasicStroke(border_size.getSelectedIndex()));
-				g2d.draw(form);
+				g2d.draw(fig_inc);
 
 				g2d.dispose();
 				
 			}
-
 		}
 
 		public void init_a_b(int a, int b){
@@ -268,12 +292,12 @@ public class NewElem extends JDialog implements ActionListener {
 			double radius = Math.sqrt(Math.pow(a-x, 2) + Math.pow(b-y, 2));
 			double angle = Math.PI * 2 / 10;
 
-			for (int ii = 0; ii < 10; ii++) {
-				double an = angle * ii;
+			for (int i = 0; i < 10; i++) {
+				double an = angle * i;
 
-				double x = a + ((Math.cos(an) * (radius + radius * (1 * (ii%2)))));
-				double y = b + ((Math.sin(an) * (radius + radius * (1 * (ii%2)))));
-				if (ii == 0) {
+				double x = a + ((Math.cos(an) * (radius + radius * (1 * (i%2)))));
+				double y = b + ((Math.sin(an) * (radius + radius * (1 * (i%2)))));
+				if (i == 0) {
 					p.moveTo(x, y);
 				} else {	
 					p.lineTo(x, y);
