@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -41,7 +42,7 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 		if(ecran.add_elem == e.getSource()){
 			System.out.println("add elem");			
 			elem = new NewElem(ecran);
-			System.out.println(elem);
+			System.out.println(ecran.liste_fig);
 		}
 		if(ecran.rendu == e.getSource()){
 			System.out.println("rendu");			
@@ -68,7 +69,11 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 		System.out.print("mouseReleased: ");
 		if(e.getSource() == ecran.tab){
 			System.out.println("tab");			
-			System.out.println(ecran.tab.getSelectedColumn() + "  " + ecran.tab.getSelectedRow());
+			int tabx = ecran.tab.getSelectedColumn();
+			int taby = ecran.tab.getSelectedRow();
+			System.out.println(ecran.tab.getSelectedColumn() + "  " + ecran.tab.getSelectedRow() + " (" + ((String) ecran.tab_data[taby][0]) + ")");
+			Graphics g = ecran.panel_view.getGraphics();
+			g.drawOval(ecran.panel_view.left + 25, ecran.panel_view.top + 10, 10, 10);
 		}
 		if(e.getSource() == ecran.seq){
 			System.out.println("seq");
