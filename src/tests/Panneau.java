@@ -88,8 +88,6 @@ public class Panneau extends JPanel {
 		centerX = maxX/2; centerY = maxY/2;
 	}
 
-
-
 	void init_titre(){            
 		Font f = new Font("Serif", Font.BOLD, 100);
 		FontRenderContext frc = new FontRenderContext(null, false, false);
@@ -182,6 +180,7 @@ public class Panneau extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
+		g.setColor(this.getBackground());
 		g.fillRect(0, 0, this.getSize().width, this.getSize().height);
 		switch(this.id_dessin){
 		case 0: this.dessin_titre(g); break;

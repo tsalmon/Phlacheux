@@ -42,7 +42,6 @@ public class TableModel extends AbstractTableModel {
 
             data[row][col] = value;
             fireTableCellUpdated(row, col);
-
         }
 
         private void printDebugData() {

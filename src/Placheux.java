@@ -19,6 +19,7 @@ public class Placheux extends JPanel{
 	Controller controller;
 	//private JComboBox<String> name_elem[] = new JComboBox[100];
 	JComboBox<String> comboBox = new JComboBox<String>();
+	Object[][] tab_data = new Object[100][3601];
 
 	//view menu
 	JButton lecture_pause = new JButton("lecture");
@@ -100,12 +101,11 @@ public class Placheux extends JPanel{
 		//panel_view.add(new JLabel("LA VUE"));
 		//panel_view.setBackground(Color.BLUE);
 
-		String[] seq_colonnes = {"Liste des séquences"};
+		String[] seq_colonnes = {"Liste des sÃ©quences"};
 		Object[][] seq_data = {{"la sequence sans nom1"}};
 
 
 		String[] tab_colonnes = new String[3601];
-		Object[][] tab_data = new Object[100][3601];
 
 		for(int i = 0; i < 100; i++){
 			for(int j = 0; j < 3601; j++){

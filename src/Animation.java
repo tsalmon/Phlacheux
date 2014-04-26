@@ -1,4 +1,4 @@
 
-public class Animation {
-
+public interface Animation {
+	
 }

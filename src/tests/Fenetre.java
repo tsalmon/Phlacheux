@@ -18,8 +18,8 @@ public class Fenetre extends JFrame implements MouseListener{
 
 
 	public static void main(String[] args) {
-		Fenetre f = new Fenetre(2);
-	}
+		Fenetre f = new Fenetre(0);
+	}	
 
 	public Fenetre(int i) {
 		this.choix_fig = i;
@@ -31,10 +31,12 @@ public class Fenetre extends JFrame implements MouseListener{
 		this.setLocationRelativeTo(null);
 		this.add(pan);
 		pan.addMouseListener(this);
+		
+		this.setVisible(true);		
 		if(i == 1){
+			System.out.println("zz");
 			this.go_boule();
 		}
-		this.setVisible(true);		
 	}
 
 	private void go_boule(){

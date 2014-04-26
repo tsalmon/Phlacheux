@@ -22,6 +22,13 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 		elem = e;
 	}
 
+	
+	public void setViewatTime(int t){
+		for(Figure f : ecran.liste_fig){
+			
+		}
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		System.out.print ("ActionPerformed: ");
 		if(ecran.lecture_pause == e.getSource()){
@@ -71,9 +78,8 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 			System.out.println("tab");			
 			int tabx = ecran.tab.getSelectedColumn();
 			int taby = ecran.tab.getSelectedRow();
-			System.out.println(ecran.tab.getSelectedColumn() + "  " + ecran.tab.getSelectedRow() + " (" + ((String) ecran.tab_data[taby][0]) + ")");
-			Graphics g = ecran.panel_view.getGraphics();
-			g.drawOval(ecran.panel_view.left + 25, ecran.panel_view.top + 10, 10, 10);
+			System.out.println("Column : " + ecran.tab.getSelectedColumn() + "  Row: " + ecran.tab.getSelectedRow() + " object selected(" + ((String) ecran.tab_data[taby][0]) + ")");
+			this.setViewatTime(tabx);
 		}
 		if(e.getSource() == ecran.seq){
 			System.out.println("seq");

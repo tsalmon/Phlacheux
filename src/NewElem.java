@@ -136,7 +136,7 @@ public class NewElem extends JDialog implements ActionListener {
 				boolean named = false;
 				for(Figure f : ecran.liste_fig){
 					if(f.getName().equals(this.name.getText())){
-						JOptionPane.showMessageDialog(this,  "Le nom a deja été choisi");
+						JOptionPane.showMessageDialog(this,  "Le nom a deja Ã©tÃ© choisi");
 						named = true;
 					}
 				}
