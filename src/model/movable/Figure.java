@@ -1,4 +1,5 @@
 package model.movable;
+import java.awt.Color;
 import java.lang.Math.*;
 import java.util.ArrayList;
 
@@ -20,6 +21,9 @@ abstract public class Figure extends Movable{
 
         protected int strokeThickness;
         protected ArrayList<Point> points;
+        protected Color borderColor;
+        private Color color;
+
         
         
     //         Constructeur
@@ -32,7 +36,6 @@ abstract public class Figure extends Movable{
         }
         
         protected Figure(ArrayList<Point> p){
-            System.out.print("test");
             points=p;
             this.changeStrokeThickness(1);
         }
@@ -43,9 +46,25 @@ abstract public class Figure extends Movable{
         //    Accesseurs publiques
         //----------------------------
         
-        public int getStrokeThickness(){
-            return this.strokeThickness;
-        }
+            public int getStrokeThickness(){
+                return this.strokeThickness;
+            }
+
+            public Color getBorderColor() {
+                return borderColor;
+            }
+
+            public void setBorderColor(Color borderColor) {
+                this.borderColor = borderColor;
+            }
+
+            public Color getColor() {
+                return color;
+            }
+
+            public void setColor(Color color) {
+                this.color = color;
+            }
         
         
         //    Accesseurs protected
@@ -71,7 +90,7 @@ abstract public class Figure extends Movable{
                     sumx+=p.getX();
                     sumy+=p.getY();
                 }
-                this.setGravityCenter(new Point((int)(sumx/(points.size())),(int)(sumy/points.size())));
+                this.setGravityCenter(new Point((int)Math.round(sumx/(points.size())),(int)Math.round(sumy/points.size())));
                 this.setGravityCenterPerso(false);
             }            
         
@@ -119,8 +138,8 @@ abstract public class Figure extends Movable{
             int gravity_x=this.getGravityCenter().getX();
             int gravity_y=this.getGravityCenter().getY();
             for(Point point : points){
-                int translate_x=(int)((point.getX()-gravity_x)*scale);
-                int translate_y=(int)((point.getY()-gravity_y)*scale);
+                int translate_x=(int)Math.round((point.getX()-gravity_x)*scale);
+                int translate_y=(int)Math.round((point.getY()-gravity_y)*scale);
                 point.moveTo(gravity_x+translate_x,gravity_y+translate_y);
             }            
         }
@@ -129,6 +148,14 @@ abstract public class Figure extends Movable{
         public String toString() {
             StringBuilder builder = new StringBuilder();
             builder.append(" [\n");
+            builder.append(super.toString());
+            builder.append(", strokeThickness=").append(strokeThickness);
+            return builder.toString();
+    }
+
+        protected String toString(String name) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(name).append(" [\n");
             builder.append(super.toString());
             builder.append(", strokeThickness=").append(strokeThickness);
             return builder.toString();

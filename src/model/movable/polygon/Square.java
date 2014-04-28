@@ -43,16 +43,14 @@ public class Square extends Rectangle{
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
-            builder.append("Square [");
-        builder.append("strokeThickness=").append(strokeThickness);
-        builder.append(", gravity_center=").append(gravity_center);
-        builder.append(", gravity_center_personalised=").append(gravity_center_personalised);
-            builder.append(",\nside_length=").append(length);
-            builder.append(",\npoint_haut_gauche=").append(pointhg);
-            builder.append(", point_haut_droit=").append(pointhd);
-            builder.append(",\npoint_bas_gauche=").append(pointbg);
-            builder.append(", point_bas_droite=").append(pointbd);
+            builder.append(super.toString("Square"));
             builder.append("]");
+            return builder.toString();
+        }
+
+        protected String toString(String name) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(super.toString(name));
             return builder.toString();
         }
 

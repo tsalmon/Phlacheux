@@ -53,7 +53,7 @@ public class MovableGroup extends Movable{
                         sumx+=m.getGravityCenter().getX();
                         sumy+=m.getGravityCenter().getY();
                     }
-                    this.setGravityCenter(new Point((int)(sumx/(movables.size())),(int)(sumy/movables.size())));
+                    this.setGravityCenter(new Point((int)Math.round(sumx/(movables.size())),(int)Math.round(sumy/movables.size())));
                 }
                 this.setGravityCenterPerso(false);
             }

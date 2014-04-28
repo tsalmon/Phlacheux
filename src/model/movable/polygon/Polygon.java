@@ -14,34 +14,16 @@ import model.movable.Point;
  * Projet Interface Graphique, Paris 7, Master 1, 2013-2014
  *
  */
-public class Polygon extends Figure{
+    abstract public class Polygon extends Figure{
 
     
     //          Constructeur
     //----------------------------
     
-        public Polygon(ArrayList<Point> points) {
+        protected Polygon(ArrayList<Point> points) {
             super(points);
         }
     
-    
-    //          Accesseurs
-    //----------------------------
-        
-        
-        @Override
-        public void addPoint(Point p){
-            super.addPoint(p);
-        }
-
-        @Override
-        public void removePoint(Point p){
-            super.removePoint(p);
-        }
-
-        public ArrayList<Point> getPoints(){
-            return this.points;
-        }
 
     //          Methodes
     //----------------------------
@@ -49,9 +31,16 @@ public class Polygon extends Figure{
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Polygon").append(super.toString());
+        builder.append(super.toString());
         builder.append(",\npoints=").append(points);
         builder.append("]");
+        return builder.toString();
+    }
+    
+    protected String toString(String name) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(super.toString(name));
+        builder.append(",\npoints=").append(points);
         return builder.toString();
     }
 

@@ -68,8 +68,8 @@ public class Point {
                 int dep_y=this.getY()-p.getY();    
                 double new_x=( dep_x * Math.cos(angle) ) - (dep_y * Math.sin(angle))+p.getX();
                 double new_y=( dep_x * Math.sin(angle) ) + (dep_y * Math.cos(angle))+p.getY();
-                this.setX((int)new_x);
-                this.setY((int)new_y);
+                this.setX((int)Math.round(new_x));
+                this.setY((int)Math.round(new_y));
         }
 
         public void translation(Point from, Point to) {
