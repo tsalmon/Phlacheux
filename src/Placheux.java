@@ -155,7 +155,7 @@ public class Placheux extends JPanel{
 
 		setLayout(new BorderLayout());
 
-		panel_elem_part.add("North", panel_elem_menu);
+		//panel_elem_part.add("North", panel_elem_menu);
 		panel_elem_part.add( "Center", list_tab);
 
 		panel_view_part.add("North", panel_view_menu);
@@ -164,9 +164,11 @@ public class Placheux extends JPanel{
 		panel_board.add(panel_elem_part);
 		panel_board.add(panel_view_part);
 
-		this.add("Center", panel_board);
-		this.add("South", panel_modif);
-
+		this.add("South", panel_view_part);
+		//this.add("North", panel_elem_part);
+		
+		//this.add(panel_board);
+		
 		//ctrl
 
 		lecture_pause.addActionListener(controller);	
