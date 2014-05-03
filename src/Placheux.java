@@ -19,9 +19,9 @@ public class Placheux extends JPanel{
 	Controller controller;
 	//private JComboBox<String> name_elem[] = new JComboBox[100];
 	JComboBox<String> comboBox = new JComboBox<String>();
-	Object[][] tab_data = new Object[100][3601];
+	Object[][] tab_data = new Object[1][3600];
 
-	//view menu
+	//view menu-+
 	JButton lecture_pause = new JButton("lecture");
 	JButton stop = new JButton("stop");
 	JButton avance_10 = new JButton("+10");
@@ -33,7 +33,7 @@ public class Placheux extends JPanel{
 
 	JButton rendu = new JButton("rendu");
 
-	JTable seq;
+	//JTable seq;
 	JTable tab;
 
 	JPanel view;
@@ -45,7 +45,7 @@ public class Placheux extends JPanel{
 		Component comp = null;
 		int headerWidth = 0;
 		int cellWidth = 0;
-		Object[] longValues = model.longValues;
+		//Object[] longValues = model.longValues;
 		TableCellRenderer headerRenderer =
 				tab.getTableHeader().getDefaultRenderer();
 
@@ -66,23 +66,6 @@ public class Placheux extends JPanel{
 		}
 	}
 
-	public  void addElemToListElem(String nameFigure){
-			System.out.println("add " + nameFigure);
-			comboBox.addItem(nameFigure);
-			tab.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox));
-		}
-	
-	private void setUpElemColumn(){
-		//Set up the editor for the sport cells.
-		
-
-		//Set up tool tips for the sport cells.
-		DefaultTableCellRenderer renderer =
-				new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for choose figure");
-		tab.getColumnModel().getColumn(0).setCellRenderer(renderer);
-	}
-
 	Placheux(Controller c){
 		controller = c;
 		liste_seq = new LinkedList<Sequence>();
@@ -96,17 +79,16 @@ public class Placheux extends JPanel{
 		view.setBorder(BorderFactory.createLineBorder(Color.red));
 		view.setPreferredSize(new Dimension(1200, 900));
 		final JScrollPane panel_view = new JScrollPane(view);
-
+		
+		/*
 		String[] seq_colonnes = {"Liste des sÃ©quences"};
 		Object[][] seq_data = {{"la sequence sans nom1"}};
-
+		*/
 
 		String[] tab_colonnes = new String[3601];
 
-		for(int i = 0; i < 100; i++){
-			for(int j = 0; j < 3601; j++){
-				tab_data[i][j] = "";
-			}	
+		for(int j = 0; j < 3601; j++){
+			tab_data[0][j] = "";	
 		}
 
 		int min = 0;
@@ -121,28 +103,31 @@ public class Placheux extends JPanel{
 		
 
 		tab = new JTable(new TableModel(tab_colonnes, tab_data));
-		initColumnSizes();
-		setUpElemColumn();
+		//initColumnSizes();
+		//setUpElemColumn();
 		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		seq = new JTable(new TableModel(seq_colonnes, seq_data));
+		//seq = new JTable(new TableModel(seq_colonnes, seq_data));
 
 		JPanel panel_menu_boutons = new JPanel(new GridLayout(1,3));
 
-		JScrollPane list_seq = new JScrollPane(seq); 
+		tab.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+	    tab.setColumnSelectionAllowed(false);
+	    tab.setRowSelectionAllowed(false);
+		//JScrollPane list_seq = new JScrollPane(seq); 
 		JScrollPane list_tab = new JScrollPane(tab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
-		list_tab.setPreferredSize(new Dimension(500, 200));
+		list_tab.setPreferredSize(new Dimension(500, 54));
 
 		panel_view_menu.setSize(panel_elem_menu.getSize());
 
-		seq.setPreferredScrollableViewportSize(new Dimension(300, 70));
-		seq.setFillsViewportHeight(true);
+		//seq.setPreferredScrollableViewportSize(new Dimension(300, 70));
+		//seq.setFillsViewportHeight(true);
 
 		panel_menu_boutons.add(add_seq);
 		panel_menu_boutons.add(add_elem);
 
 		panel_elem_menu.add(panel_menu_boutons);
-		panel_elem_menu.add(list_seq);
+		//panel_elem_menu.add(list_seq);
 		panel_elem_menu.add(rendu);
 
 		panel_view_menu.add(recule_10);
@@ -266,7 +251,6 @@ public class Placheux extends JPanel{
 		add_elem.addActionListener(controller);
 		rendu.addActionListener(controller);
 		tab.addMouseListener(controller);
-		seq.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
 
