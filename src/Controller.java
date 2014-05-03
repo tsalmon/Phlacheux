@@ -60,13 +60,15 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 		if(e.getSource() == ecran.tab){
 			System.out.println("tab");			
 		}
+		/*
 		if(e.getSource() == ecran.seq){
 			System.out.println("seq");			
 		}
+		*/
 		if(e.getSource() == ecran.panel_modif){
 			System.out.println("modif");			
 		}
-		if(e.getSource() == ecran.panel_view){ 
+		if(e.getSource() == ecran.view){ 
 			//getElem select on the screen
 			System.out.println("view");
 		}
@@ -74,6 +76,7 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 	
 	public void mouseReleased(MouseEvent e) {
 		System.out.print("mouseReleased: ");
+		System.out.println(ecran.getSize());
 		if(e.getSource() == ecran.tab){
 			System.out.println("tab");			
 			int tabx = ecran.tab.getSelectedColumn();
@@ -81,20 +84,20 @@ public class Controller extends MouseInputAdapter implements ActionListener, Com
 			System.out.println("Column : " + ecran.tab.getSelectedColumn() + "  Row: " + ecran.tab.getSelectedRow() + " object selected(" + ((String) ecran.tab_data[taby][0]) + ")");
 			this.setViewatTime(tabx);
 		}
-		if(e.getSource() == ecran.seq){
+		/*if(e.getSource() == ecran.seq){
 			System.out.println("seq");
 			System.out.println(ecran.seq.getSelectedColumn() + "  " + ecran.seq.getSelectedRow());
-		}
+		}*/
 		if(e.getSource() == ecran.panel_modif){
 			System.out.println("modif");			
 		}
-		if(e.getSource() == ecran.panel_view){
+		if(e.getSource() == ecran.view){
 			System.out.println("view");
 		}
 	}
 	public void mouseDragged (MouseEvent e) {
 		System.out.print("mouseDragged: ");
-		if(e.getSource() == ecran.panel_view){
+		if(e.getSource() == ecran.view){
 			//TODO: 
 			//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
 			//if there is elem select: make an arrow beetwen 
