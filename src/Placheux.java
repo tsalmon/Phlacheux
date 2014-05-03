@@ -95,11 +95,16 @@ public class Placheux extends JPanel{
 	class Controller 
 	extends MouseInputAdapter 
 	implements ActionListener, ComponentListener{
+
 		public void setViewatTime(int t){
 			System.out.println("setViewatTime : " + t);
 			//for(Figure f : liste_fig){	}
 		}
 
+		public Figure getFigureSelected(int x, int y){
+			return null;
+		}
+		
 		public boolean clickG(MouseEvent e){
 			return (SwingUtilities.isLeftMouseButton(e));
 		}
@@ -131,10 +136,17 @@ public class Placheux extends JPanel{
 				System.out.println("Column : " + tab.getSelectedColumn() + "  Row: " + tab.getSelectedRow());
 				this.setViewatTime(tabx);
 			}
-			if(e.getSource() == view){
+			if(e.getSource() == view && clickD(e)){
 				System.out.println("view");
+				Figure f = getFigureSelected(e.getX(), e.getY());
+				if(f == null){ // click on void screen
+					System.out.println("vide");
+				} else {
+					System.out.println("une figure");
+				}
 			}
 		}
+		
 		public void mouseDragged (MouseEvent e) {
 			System.out.print("mouseDragged: ");
 			if(e.getSource() == view){
