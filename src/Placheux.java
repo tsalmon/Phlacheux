@@ -1,23 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.awt.geom.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-
 import java.util.*;
 
 public class Placheux extends JPanel{
-
+	private static final long serialVersionUID = 1L;
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
-	Shape fig_inc = new GeneralPath(); // the figure we do
-
 	JButton lecture_pause = new JButton("lecture");
 	JButton stop = new JButton("stop");	
 	JButton rendu = new JButton("rendu");
@@ -27,9 +19,11 @@ public class Placheux extends JPanel{
 	PanElem view;
 
 	/*
-	 * (origin_x, origin_y) is the point of beginning paint
+	 * Drawing section
 	 */
-	int origin_x, origin_y;
+	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
+	Shape fig_inc = new GeneralPath(); // the figure we do
+	int id_fig; // current id of figure to draw
 	
 	//listener of popupmenu
 	ActionListener aListener = new ActionListener() {
@@ -115,6 +109,7 @@ public class Placheux extends JPanel{
 	}
 	
 	class PanElem extends JPanel{
+		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
@@ -340,8 +335,7 @@ public class Placheux extends JPanel{
 			if(e.getSource() == tab){
 				System.out.println("tab");			
 				int tabx = tab.getSelectedColumn();
-				int taby = tab.getSelectedRow();
-				System.out.println("Column : " + tab.getSelectedColumn() + "  Row: " + tab.getSelectedRow());
+				System.out.println("Column : " + tab.getSelectedColumn());
 				this.setViewatTime(tabx);
 			}
 			if(e.getSource() == view && clickD(e)){
