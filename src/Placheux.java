@@ -21,9 +21,10 @@ public class Placheux extends JPanel{
 	/*
 	 * Drawing section
 	 */
+	LinkedList<Shape> liste_fig = new LinkedList<Shape>();
 	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
 	Shape fig_inc = new GeneralPath(); // the figure we do
-	int id_fig; // current id of figure to draw
+	int id_fig = -1; // current id of figure to draw
 
 	/*
 	 * listener of menu
@@ -99,19 +100,53 @@ public class Placheux extends JPanel{
 		rectItem.addActionListener(aListener);
 		menu.add(rectItem);	
 
-		JMenuItem sqrtItem = new JMenuItem("Carré");
+		JMenuItem sqrtItem = new JMenuItem("Croix");
 		sqrtItem.addActionListener(aListener);
 		menu.add(sqrtItem);	
 
-		JMenuItem circleItem = new JMenuItem("Cercle");
-		circleItem.addActionListener(aListener);
-		menu.add(circleItem);	
+		JMenuItem isoItem = new JMenuItem("Triangle Isocele");
+		isoItem.addActionListener(aListener);
+		menu.add(isoItem);	
+
+		JMenuItem equiItem = new JMenuItem("Triangle Equilateral");
+		equiItem.addActionListener(aListener);
+		menu.add(equiItem);
+
+		JMenuItem arrowItem = new JMenuItem("Fleche");
+		arrowItem.addActionListener(aListener);
+		menu.add(arrowItem);	
+
+		JMenuItem starItem = new JMenuItem("Etoile");
+		starItem.addActionListener(aListener);
+		menu.add(starItem);	
 
 	}
 
 	public void choix_menu(String choix){
-		fig_inc = view.draw_rect();
-		this.id_fig = 2;
+		if(choix == "Cercle"){
+			fig_inc = view.draw_circle();
+			this.id_fig = 1;
+		} else if(choix.equals("Rectangle")){
+			fig_inc = view.draw_rect();
+			this.id_fig = 2;
+		} else if(choix.equals("Croix")){
+			fig_inc = view.draw_cross();
+			this.id_fig = 3;
+		} else if(choix.equals("Triangle Isocele")){
+			fig_inc = view.draw_iso();
+			this.id_fig = 4;
+		} else if(choix.equals("Triangle Equilateral")){
+			fig_inc = view.draw_equi();
+			this.id_fig = 5;
+		} else if(choix.equals("Fleche")){
+			fig_inc = view.draw_arrow();
+			this.id_fig = 6;
+		} else if(choix.equals("Etoile")){
+			fig_inc = view.draw_star();
+			this.id_fig = 7;
+		} else if(choix.equals("Do it yourself")) {
+			
+		}
 	}
 
 	class PanElem extends JPanel{
@@ -361,7 +396,7 @@ public class Placheux extends JPanel{
 					view.y = e.getY();
 				}
 			}
-		}
+		}	
 
 		public void mouseDragged (MouseEvent e) {
 			System.out.print("mouseDragged: ");
