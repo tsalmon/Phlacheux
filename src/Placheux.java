@@ -13,7 +13,7 @@ import javax.swing.table.TableColumn;
 import java.util.*;
 
 public class Placheux extends JPanel{
-	
+
 	JPopupMenu menu = new JPopupMenu();
 
 	JButton lecture_pause = new JButton("lecture");
@@ -23,6 +23,18 @@ public class Placheux extends JPanel{
 	JTable tab;
 
 	JPanel view;
+
+	//listener of popupmenu
+	ActionListener aListener = new ActionListener() {
+		public void actionPerformed(ActionEvent event) {
+		}
+	};
+
+	PopupMenuListener pListener = new PopupMenuListener(){
+		public void popupMenuCanceled(PopupMenuEvent event) {}
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
+		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
+	};
 
 	Placheux(){
 		Controller controller = new Controller();
@@ -51,10 +63,10 @@ public class Placheux extends JPanel{
 		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		final JScrollPane panel_tab = 
 				new JScrollPane(tab, 
-								JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-								JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel_tab.setPreferredSize(new Dimension(500, 54));
-	
+
 		setLayout(new BorderLayout());
 
 		JPanel panel_south = new JPanel();
@@ -64,6 +76,7 @@ public class Placheux extends JPanel{
 		this.add("South", panel_south);
 
 		view.addMouseListener(controller);
+		view.addMouseMotionListener(controller);
 		tab.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
@@ -79,52 +92,24 @@ public class Placheux extends JPanel{
 		menu.add(editItem);		
 	}
 
-	//listener of popupmenu
-	ActionListener aListener = new ActionListener() {
-		public void actionPerformed(ActionEvent event) {
-		}
-	};
-	
-	PopupMenuListener pListener = new PopupMenuListener(){
-		public void popupMenuCanceled(PopupMenuEvent event) {}
-		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
-		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
-	};
-	
 	class Controller 
 	extends MouseInputAdapter 
 	implements ActionListener, ComponentListener{
-		Placheux ecran;
-		NewElem elem;
-
-		Controller() {
-		}
-
-		void setEcran(Placheux e){
-			ecran = e;
-		}
-
-		void setElem(NewElem e){
-			elem = e;
-		}
-
-
 		public void setViewatTime(int t){
 			System.out.println("setViewatTime : " + t);
 			//for(Figure f : liste_fig){	}
 		}
 
+		public boolean clickG(MouseEvent e){
+			return (SwingUtilities.isLeftMouseButton(e));
+		}
+
+		public boolean clickD(MouseEvent e){
+			return (SwingUtilities.isRightMouseButton(e));
+		}
+		
 		public void actionPerformed(ActionEvent e) {
 			System.out.print ("ActionPerformed: ");
-			if(lecture_pause == e.getSource()){
-				System.out.println("lecture/pause");
-			} 
-			if(stop == e.getSource()){
-				System.out.println("stop"); 
-			}
-			if(rendu == e.getSource()){
-				System.out.println("rendu");			
-			}
 		}
 		public void mousePressed(MouseEvent e) {
 			System.out.print("mousePressed: ");
@@ -132,7 +117,6 @@ public class Placheux extends JPanel{
 				System.out.println("tab");			
 			}
 			if(e.getSource() == view){ 
-				//getElem select on the screen
 				System.out.println("view");
 			}
 		}
