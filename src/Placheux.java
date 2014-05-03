@@ -24,14 +24,19 @@ public class Placheux extends JPanel{
 	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
 	Shape fig_inc = new GeneralPath(); // the figure we do
 	int id_fig; // current id of figure to draw
-	
-	//listener of popupmenu
+
+	/*
+	 * listener of menu
+	 */
 	ActionListener aListener = new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
 			choix_menu(event.getActionCommand());
 		}
 	};
 
+	/*
+	 * listener of menu
+	 */
 	PopupMenuListener pListener = new PopupMenuListener(){
 		public void popupMenuCanceled(PopupMenuEvent event) {}
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
@@ -103,11 +108,12 @@ public class Placheux extends JPanel{
 		menu.add(circleItem);	
 
 	}
-	
+
 	public void choix_menu(String choix){
 		fig_inc = view.draw_rect();
+		this.id_fig = 2;
 	}
-	
+
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
@@ -169,12 +175,11 @@ public class Placheux extends JPanel{
 			if(fig_inc == null){
 				doDrawing(g);
 			} else {
-				
+
 				Graphics2D g2d = (Graphics2D)g;
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 						RenderingHints.VALUE_ANTIALIAS_ON);
-
 				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
 						RenderingHints.VALUE_RENDER_QUALITY);
 
@@ -188,7 +193,7 @@ public class Placheux extends JPanel{
 				g2d.draw(fig_inc);
 
 				g2d.dispose();
-				
+
 			}
 		}
 
@@ -202,7 +207,7 @@ public class Placheux extends JPanel{
 					v = (y < b) ? y : b;
 			int k = (x < a) ? a-x : x-a ,
 					l = (y < b) ? b-y : y-b;
-			
+
 			Ellipse2D p = new Ellipse2D.Double(u,v, k, l);
 			return p;
 		}
@@ -287,7 +292,7 @@ public class Placheux extends JPanel{
 			return p;
 		}
 	}
-	
+
 	class Controller 
 	extends MouseInputAdapter 
 	implements ActionListener, ComponentListener{
@@ -317,8 +322,9 @@ public class Placheux extends JPanel{
 			if(e.getSource() == tab){
 				System.out.println("tab");			
 			}
-			if(e.getSource() == view){ 
+			if(e.getSource() == view && clickG(e)){ 
 				System.out.println("view");
+				view.init_a_b(e.getX(), e.getY());
 			}
 		}
 
@@ -338,17 +344,22 @@ public class Placheux extends JPanel{
 				System.out.println("Column : " + tab.getSelectedColumn());
 				this.setViewatTime(tabx);
 			}
-			if(e.getSource() == view && clickD(e)){
+			if(e.getSource() == view){
 				System.out.println("view");
-				Figure f = getFigureSelected(e.getX(), e.getY());
-				if(f == null){ // click on void screen
-					System.out.println("vide");
-					 init_menu_createFigure();
+				if(clickD(e)){
+					Figure f = getFigureSelected(e.getX(), e.getY());
+					if(f == null){ // click on void screen
+						System.out.println("vide");
+						init_menu_createFigure();
+					} else {
+						System.out.println("une figure");
+					}
+					menu.show(e.getComponent(), e.getX(), e.getY());
+					menu_launched = true;
 				} else {
-					System.out.println("une figure");
+					view.x = e.getX();
+					view.y = e.getY();
 				}
-				menu.show(e.getComponent(), e.getX(), e.getY());
-				menu_launched = true;
 			}
 		}
 
@@ -360,6 +371,9 @@ public class Placheux extends JPanel{
 				//if there is elem select: make an arrow beetwen 
 				///the barycenter of the figure and the point of the moose, to see the translation
 				System.out.println("view");
+				view.x = e.getX();
+				view.y = e.getY();
+				view.repaint();
 			}		
 		}
 
