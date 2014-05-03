@@ -14,12 +14,12 @@ import java.util.*;
 
 public class Placheux extends JPanel{
 	private static final long serialVersionUID = 1L;
-	 LinkedList<Sequence> liste_seq; //content figures for sequences
-	 LinkedList<Figure> liste_fig = new LinkedList<Figure>(); //content all of figures
+	LinkedList<Sequence> liste_seq; //content figures for sequences
+	LinkedList<Figure> liste_fig = new LinkedList<Figure>(); //content all of figures
 	Controller controller;
 	//private JComboBox<String> name_elem[] = new JComboBox[100];
 	JComboBox<String> comboBox = new JComboBox<String>();
-	Object[][] tab_data = new Object[1][3600];
+	String[][] tab_data = new String[1][3600];
 
 	//view menu-+
 	JButton lecture_pause = new JButton("lecture");
@@ -39,38 +39,10 @@ public class Placheux extends JPanel{
 	JPanel view;
 	JPanel panel_modif;
 
-	private void initColumnSizes() {
-		TableModel model = (TableModel)tab.getModel();
-		TableColumn column = null;
-		Component comp = null;
-		int headerWidth = 0;
-		int cellWidth = 0;
-		//Object[] longValues = model.longValues;
-		TableCellRenderer headerRenderer =
-				tab.getTableHeader().getDefaultRenderer();
-
-		for (int i = 0; i < 3600; i++) {
-			column = tab.getColumnModel().getColumn(i);
-
-			comp = headerRenderer.getTableCellRendererComponent(
-					null, column.getHeaderValue(),
-					false, false, 0, 0);
-			headerWidth = comp.getPreferredSize().width;
-
-			comp = tab.getDefaultRenderer(model.getColumnClass(i)).
-					getTableCellRendererComponent(
-							tab, null,
-							false, false, 0, i);
-			cellWidth = comp.getPreferredSize().width;
-			column.setPreferredWidth(Math.max(headerWidth, cellWidth));
-		}
-	}
-
-	Placheux(Controller c){
-		controller = c;
+	Placheux(){
+		controller = new Controller();
 		liste_seq = new LinkedList<Sequence>();
 
-		
 		JPanel panel_elem_part = new JPanel(new BorderLayout());
 		JPanel panel_view_part = new JPanel(new BorderLayout());
 		JPanel panel_elem_menu = new JPanel(new GridLayout(1,3));
@@ -79,49 +51,33 @@ public class Placheux extends JPanel{
 		view.setBorder(BorderFactory.createLineBorder(Color.red));
 		view.setPreferredSize(new Dimension(1200, 900));
 		final JScrollPane panel_view = new JScrollPane(view);
-		
-		/*
-		String[] seq_colonnes = {"Liste des sÃ©quences"};
-		Object[][] seq_data = {{"la sequence sans nom1"}};
-		*/
 
-		String[] tab_colonnes = new String[3601];
+		Object[] tab_colonnes = new Object[3600];
 
-		for(int j = 0; j < 3601; j++){
+		for(int j = 0; j < 360; j++){
 			tab_data[0][j] = "";	
 		}
 
 		int min = 0;
-		tab_colonnes[0] = "Elements"; 
 		for(int i = 0; i < 3600; i++){
 			double sec = (((double)i)/2.0);
 			if(i > 0 && (sec % 60 == 0)){
 				min++;
 			}
-			tab_colonnes[i+1] =  min + "m" + sec % 60 + " s"; 
+			tab_colonnes[i] =  new String(min + "m" + sec % 60 + " s"); 
 		}
-		
 
-		tab = new JTable(new TableModel(tab_colonnes, tab_data));
-		//initColumnSizes();
-		//setUpElemColumn();
-		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		//seq = new JTable(new TableModel(seq_colonnes, seq_data));
-
-		JPanel panel_menu_boutons = new JPanel(new GridLayout(1,3));
-
+		tab = new JTable(tab_data, tab_colonnes);
 		tab.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-	    tab.setColumnSelectionAllowed(false);
-	    tab.setRowSelectionAllowed(false);
-		//JScrollPane list_seq = new JScrollPane(seq); 
+		tab.setColumnSelectionAllowed(false);
+		tab.setRowSelectionAllowed(false);
+		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane list_tab = new JScrollPane(tab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
 		list_tab.setPreferredSize(new Dimension(500, 54));
 
-		panel_view_menu.setSize(panel_elem_menu.getSize());
+		JPanel panel_menu_boutons = new JPanel(new GridLayout(1,3));		
 
-		//seq.setPreferredScrollableViewportSize(new Dimension(300, 70));
-		//seq.setFillsViewportHeight(true);
+		panel_view_menu.setSize(panel_elem_menu.getSize());
 
 		panel_menu_boutons.add(add_seq);
 		panel_menu_boutons.add(add_elem);
@@ -147,16 +103,16 @@ public class Placheux extends JPanel{
 
 		panel_north.add(panel_view_part);
 		panel_south.add(panel_elem_part);
-		
+
 		panel_south.setMaximumSize(new Dimension(200, 500));
-		
+
 		//this.add("North", panel_north);
 		//this.add("South", panel_south);
-	
+
 		this.add("Center", panel_view);
 		this.add("South", panel_south);
 		System.out.println(panel_view);
-			
+
 		/*
 		controller = c;
 		panel_modif = new JPanel(new GridLayout(1, 6)); //animation, translate, rot, color, mp3, growth/shrink
@@ -195,12 +151,12 @@ public class Placheux extends JPanel{
 			}
 			tab_colonnes[i+1] =  min + "m" + sec % 60 + " s"; 
 		}
-		
+
 		tab = new JTable(new TableModel(tab_colonnes, tab_data));
 		initColumnSizes();
 		setUpElemColumn();
 		tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		seq = new JTable(new TableModel(seq_colonnes, seq_data));
 
 		JPanel panel_menu_boutons = new JPanel(new GridLayout(1,3));
@@ -238,11 +194,11 @@ public class Placheux extends JPanel{
 
 		this.add("South", panel_view_part);
 		this.add("North", panel_elem_part);
-		
+
 		//this.add(panel_board);
-		
+
 		//ctrl
-		*/
+		 */
 		lecture_pause.addActionListener(controller);	
 		stop.addActionListener(controller);
 		avance_10.addActionListener(controller);
@@ -253,6 +209,125 @@ public class Placheux extends JPanel{
 		tab.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
+
+	}
+
+	class Controller extends MouseInputAdapter implements ActionListener, ComponentListener{
+		Placheux ecran;
+		NewElem elem;
+
+		Controller() {
+		}
+
+		void setEcran(Placheux e){
+			ecran = e;
+		}
+
+		void setElem(NewElem e){
+			elem = e;
+		}
+
+
+		public void setViewatTime(int t){
+			for(Figure f : liste_fig){
+
+			}
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.print ("ActionPerformed: ");
+			if(lecture_pause == e.getSource()){
+				System.out.println("lecture/pause");
+			} 
+			if(stop == e.getSource()){
+				System.out.println("stop"); 
+			}
+			if(avance_10 == e.getSource()){
+				System.out.println("+10");			
+			}
+			if(recule_10 == e.getSource()){
+				System.out.println("-10");
+			}
+			if(add_seq == e.getSource()){
+				System.out.println("add seq");			
+			}
+			if(add_elem == e.getSource()){
+				System.out.println("add elem");			
+				elem = new NewElem(ecran);
+				System.out.println(liste_fig);
+			}
+			if(rendu == e.getSource()){
+				System.out.println("rendu");			
+			}
+		}
+		public void mousePressed(MouseEvent e) {
+			System.out.print("mousePressed: ");
+			if(e.getSource() == tab){
+				System.out.println("tab");			
+			}
+			/*
+			if(e.getSource() == seq){
+				System.out.println("seq");			
+			}
+			 */
+			if(e.getSource() == panel_modif){
+				System.out.println("modif");			
+			}
+			if(e.getSource() == view){ 
+				//getElem select on the screen
+				System.out.println("view");
+			}
+		}
+
+		public void mouseReleased(MouseEvent e) {
+			System.out.print("mouseReleased: ");
+			System.out.println(getSize());
+			if(e.getSource() == tab){
+				System.out.println("tab");			
+				int tabx = tab.getSelectedColumn();
+				int taby = tab.getSelectedRow();
+				System.out.println("Column : " + tab.getSelectedColumn() + "  Row: " + tab.getSelectedRow() + " object selected(" + ((String) tab_data[taby][0]) + ")");
+				this.setViewatTime(tabx);
+			}
+			/*if(e.getSource() == seq){
+				System.out.println("seq");
+				System.out.println(seq.getSelectedColumn() + "  " + seq.getSelectedRow());
+			}*/
+			if(e.getSource() == panel_modif){
+				System.out.println("modif");			
+			}
+			if(e.getSource() == view){
+				System.out.println("view");
+			}
+		}
+		public void mouseDragged (MouseEvent e) {
+			System.out.print("mouseDragged: ");
+			if(e.getSource() == view){
+				//TODO: 
+				//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
+				//if there is elem select: make an arrow beetwen 
+				///the barycenter of the figure and the point of the moose, to see the translation
+				System.out.println("view");
+			}		
+		}
+
+		public void componentMoved(ComponentEvent e) {
+
+		}
+
+		public void componentResized(ComponentEvent e) {
+			System.out.println("resize");
+		}
+
+		public void componentShown(ComponentEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void componentHidden(ComponentEvent e) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 }
