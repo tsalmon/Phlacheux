@@ -484,7 +484,7 @@ public class Placheux extends JPanel{
 
 		public void mouseDragged (MouseEvent e) {
 			//System.out.print("mouseDragged: ");
-			if(e.getSource() == view){
+			if(e.getSource() == view && clickG(e)){
 				//TODO: 
 				//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
 				//if there is elem select: make an arrow beetwen 
