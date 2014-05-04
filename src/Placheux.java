@@ -217,19 +217,26 @@ public class Placheux extends JPanel{
 				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
 						RenderingHints.VALUE_RENDER_QUALITY);
 
-				g2d.setColor(Color.BLACK); /** TODO: fill color **/
-				doDrawing(g);
+			//	g2d.setColor(Color.BLACK); /** TODO: fill color **/
+			//	doDrawing(g);
 
-				for(Shape sh : liste_fig){
+			/*	for(Shape sh : liste_fig){
 					g2d.fill(sh);
 				}
-				g2d.fill(fig_inc);  
-
-				g2d.setColor(Color.blue); /** TODO: border color & size **/
-				g2d.setStroke(new BasicStroke(3));
+			 */
 				for(Shape sh : liste_fig){
+					g2d.setColor(Color.BLACK); /** TODO: fill color **/
+					g2d.fill(sh);
+					g2d.setColor(Color.blue); /** TODO: border color & size **/
+					g2d.setStroke(new BasicStroke(3));
 					g2d.draw(sh);
 				}
+
+				g2d.setColor(Color.BLACK); /** TODO: fill color **/
+				this.doDrawing(g);
+				g2d.fill(fig_inc);  
+				g2d.setColor(Color.blue); /** TODO: border color & size **/
+				g2d.setStroke(new BasicStroke(3));
 				g2d.draw(fig_inc);
 
 				g2d.dispose();
