@@ -1,9 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.util.*;
 
 public class Placheux extends JPanel{
@@ -93,7 +95,7 @@ public class Placheux extends JPanel{
 
 	public void init_menu_createFigure()
 	{
-		System.out.println("init_popup_menu");
+		System.out.println("MenuFigure");
 		menu.addPopupMenuListener(pListener);
 
 		JMenuItem rectItem = new JMenuItem("Rectangle");
@@ -119,6 +121,40 @@ public class Placheux extends JPanel{
 		JMenuItem starItem = new JMenuItem("Etoile");
 		starItem.addActionListener(aListener);
 		menu.add(starItem);	
+	}
+
+	public void init_menu_createAnime()
+	{
+		System.out.println("MenuAnime");
+		menu.addPopupMenuListener(pListener);
+
+		JMenuItem transItem = new JMenuItem("Translation");
+		transItem.addActionListener(aListener);
+		menu.add(transItem);	
+
+		JMenuItem rotItem = new JMenuItem("Rotation autour un point");
+		rotItem.addActionListener(aListener);
+		menu.add(rotItem);	
+
+		JMenuItem rotcItem = new JMenuItem("Rotation autour du centre");
+		rotcItem.addActionListener(aListener);
+		menu.add(rotcItem);	
+
+		JMenuItem bzrItem = new JMenuItem("Bezier");
+		bzrItem.addActionListener(aListener);
+		menu.add(bzrItem);
+
+		JMenuItem tailItem = new JMenuItem("Changement d'échelle");
+		tailItem.addActionListener(aListener);
+		menu.add(tailItem);	
+
+		JMenuItem borderItem = new JMenuItem("Changement de bordure");
+		borderItem.addActionListener(aListener);
+		menu.add(borderItem);	
+
+		JMenuItem colorItem = new JMenuItem("Changement de couleur");
+		colorItem.addActionListener(aListener);
+		menu.add(colorItem);	
 	}
 
 	public void choix_menu(String choix){
@@ -418,11 +454,23 @@ public class Placheux extends JPanel{
 			if(e.getSource() == view){
 				System.out.println("view");
 				if(clickD(e)){
+					/*BufferedImage img = new BufferedImage(view.getWidth(), view.getHeight(), BufferedImage.TYPE_INT_RGB);
+					Graphics2D g = img.createGraphics();
+					view.paint(g);
+					int[] colors = new int[3];
+					img.getRaster().getPixel(e.getX(), e.getY(), colors);
+					if(view.getBackground().getRed() == colors[0] && 
+							view.getBackground().getGreen()  == colors[1] &&
+								view.getBackground().getBlue() == colors[2]){
+						System.out.println("Vide");
+						return ;
+					}*/
+
 					Figure f = getFigureSelected(e.getX(), e.getY());
 					if(f == null){ // click on void screen
 						init_menu_createFigure();
 					} else {
-						System.out.println("une figure");
+						init_menu_createAnime();
 					}
 					menu.show(e.getComponent(), e.getX(), e.getY());
 					menu_launched = true;
