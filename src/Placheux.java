@@ -293,6 +293,7 @@ public class Placheux extends JPanel{
 			p.moveTo((x+a)/2, b);
 			p.lineTo(a, y);
 			p.lineTo(x, y);
+			p.lineTo((x+a)/2, b);
 			return p;
 		}
 
@@ -323,6 +324,7 @@ public class Placheux extends JPanel{
 			p.moveTo(a, b);
 			p.lineTo(x, y);
 			p.lineTo((int)((Math.cos(angle) * ((a-x)) - Math.sin(angle) * ((b-y))) + x), (int)((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y));
+			p.lineTo(a, b);
 			return p;
 		}
 
