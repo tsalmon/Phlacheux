@@ -144,7 +144,7 @@ public class Placheux extends JPanel{
 			fig_inc = view.draw_star();
 			this.id_fig = 7;
 		} else if(choix.equals("Do it yourself")) {
-			
+
 		}
 	}
 
@@ -217,13 +217,13 @@ public class Placheux extends JPanel{
 				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
 						RenderingHints.VALUE_RENDER_QUALITY);
 
-			//	g2d.setColor(Color.BLACK); /** TODO: fill color **/
-			//	doDrawing(g);
+				//	g2d.setColor(Color.BLACK); /** TODO: fill color **/
+				//	doDrawing(g);
 
-			/*	for(Shape sh : liste_fig){
+				/*	for(Shape sh : liste_fig){
 					g2d.fill(sh);
 				}
-			 */
+				 */
 				for(Shape sh : liste_fig){
 					g2d.setColor(Color.BLACK); /** TODO: fill color **/
 					g2d.fill(sh);
@@ -352,6 +352,29 @@ public class Placheux extends JPanel{
 		}
 
 		public Figure getFigureSelected(int x, int y){
+			for(Shape sh : liste_fig){
+				PathIterator pi = sh.getPathIterator(null);
+				LinkedList<Point> points = new LinkedList<Point>();
+				while(pi.isDone() == false){
+					double[] coordinates = new double[6];
+					if(pi.currentSegment(coordinates) > 0){
+						points.add(new Point((int)coordinates[0],
+								(int)coordinates[1]));
+					}
+					pi.next();
+				}
+				boolean result = false;
+				for(int i = 0, j = points.size() - 1; i < points.size(); j = i++){
+					if ((points.get(i).y > y) != (points.get(j).y > y) &&
+							(x < (points.get(j).x - points.get(i).x) * (y - points.get(i).y) / (points.get(j).y-points.get(i).y) + points.get(i).x)) {
+						System.out.println("ok");
+						result = !result;
+					}
+				}
+				if(result){
+					return new Figure();
+				}
+			}
 			return null;
 		}
 
@@ -397,7 +420,6 @@ public class Placheux extends JPanel{
 				if(clickD(e)){
 					Figure f = getFigureSelected(e.getX(), e.getY());
 					if(f == null){ // click on void screen
-						System.out.println("vide");
 						init_menu_createFigure();
 					} else {
 						System.out.println("une figure");
