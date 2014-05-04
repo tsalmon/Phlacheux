@@ -119,7 +119,6 @@ public class Placheux extends JPanel{
 		JMenuItem starItem = new JMenuItem("Etoile");
 		starItem.addActionListener(aListener);
 		menu.add(starItem);	
-
 	}
 
 	public void choix_menu(String choix){
@@ -221,10 +220,16 @@ public class Placheux extends JPanel{
 				g2d.setColor(Color.BLACK); /** TODO: fill color **/
 				doDrawing(g);
 
+				for(Shape sh : liste_fig){
+					g2d.fill(sh);
+				}
 				g2d.fill(fig_inc);  
 
 				g2d.setColor(Color.blue); /** TODO: border color & size **/
 				g2d.setStroke(new BasicStroke(3));
+				for(Shape sh : liste_fig){
+					g2d.draw(sh);
+				}
 				g2d.draw(fig_inc);
 
 				g2d.dispose();
@@ -365,13 +370,12 @@ public class Placheux extends JPanel{
 
 		public void mouseReleased(MouseEvent e) {
 			System.out.print("mouseReleased: ");
-			System.out.println(getSize());
 			if(menu_launched) // If right after right click: exit menu
 			{
 				menu.removeAll();
 				menu_launched = false;
 				repaint();
-				return;
+				//return;
 			}
 			if(e.getSource() == tab){
 				System.out.println("tab");			
@@ -394,18 +398,19 @@ public class Placheux extends JPanel{
 				} else {
 					view.x = e.getX();
 					view.y = e.getY();
+					liste_fig.add(fig_inc); 
 				}
 			}
 		}	
 
 		public void mouseDragged (MouseEvent e) {
-			System.out.print("mouseDragged: ");
+			//System.out.print("mouseDragged: ");
 			if(e.getSource() == view){
 				//TODO: 
 				//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
 				//if there is elem select: make an arrow beetwen 
 				///the barycenter of the figure and the point of the moose, to see the translation
-				System.out.println("view");
+				//System.out.println("view");
 				view.x = e.getX();
 				view.y = e.getY();
 				view.repaint();
