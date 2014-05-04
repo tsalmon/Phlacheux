@@ -179,8 +179,22 @@ public class Placheux extends JPanel{
 		} else if(choix.equals("Etoile")){
 			fig_inc = view.draw_star();
 			this.id_fig = 7;
-		} else if(choix.equals("Do it yourself")) {
-
+		} else if(choix.equals("Do it yourself")) { //b spline
+			
+		} else if(choix.equals("Translation")){
+			
+		} else if(choix.equals("Rotation autour un point")){
+			
+		} else if(choix.equals("Rotation autour du centre")){
+			
+		} else if(choix.equals("Bezier")){
+			
+		} else if(choix.equals("Changement d'échelle")){
+			
+		} else if(choix.equals("Changement de bordure")){
+			
+		} else if(choix.equals("Changement de couleur")){
+			
 		}
 	}
 
@@ -477,7 +491,8 @@ public class Placheux extends JPanel{
 				} else {
 					view.x = e.getX();
 					view.y = e.getY();
-					liste_fig.add(fig_inc); 
+					liste_fig.add(fig_inc);
+					id_fig = -1;
 				}
 			}
 		}	
