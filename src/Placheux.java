@@ -215,6 +215,25 @@ public class Placheux extends JPanel{
 		}
 	}
 
+	public Point getCentroid(Shape s) {
+		PathIterator pi = s.getPathIterator(null);
+		LinkedList<Point> points = new LinkedList<Point>();
+		int x = 0, x_n = 0, y = 0, y_n = 0;
+		while(pi.isDone() == false){
+			double[] coordinates = new double[6];
+			if(pi.currentSegment(coordinates) > 0){
+				points.add(new Point((int)coordinates[0],
+						(int)coordinates[1]));
+				x += coordinates[0];
+				x_n++;
+				y += coordinates[1];
+				y_n++;
+			}
+			pi.next();
+		}		
+		return new Point(x/x_n, y/y_n);
+	}
+	
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
