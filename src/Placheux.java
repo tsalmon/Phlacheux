@@ -12,6 +12,16 @@ public class Placheux extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
+	boolean translation_mode = false;
+	boolean rotation_point_mode = false;
+	boolean	changement_echelle_mode = false;
+	boolean create_figure = false;
+	boolean bezier_mode = false;
+	int bezier[] = new int[3];
+    private Point arrowStart;
+    private Point arrowEnd;
+    private PointyThing pointyThing = new PointyThing();
+
 	JButton lecture_pause = new JButton("lecture");
 	JButton stop = new JButton("stop");	
 	JButton rendu = new JButton("rendu");
@@ -161,28 +171,35 @@ public class Placheux extends JPanel{
 		if(choix == "Cercle"){
 			fig_inc = view.draw_circle();
 			this.id_fig = 1;
+			create_figure = true;
 		} else if(choix.equals("Rectangle")){
 			fig_inc = view.draw_rect();
 			this.id_fig = 2;
+			create_figure = true;
 		} else if(choix.equals("Croix")){
 			fig_inc = view.draw_cross();
 			this.id_fig = 3;
+			create_figure = true;
 		} else if(choix.equals("Triangle Isocele")){
 			fig_inc = view.draw_iso();
 			this.id_fig = 4;
+			create_figure = true;
 		} else if(choix.equals("Triangle Equilateral")){
 			fig_inc = view.draw_equi();
 			this.id_fig = 5;
+			create_figure = true;
 		} else if(choix.equals("Fleche")){
 			fig_inc = view.draw_arrow();
 			this.id_fig = 6;
+			create_figure = true;
 		} else if(choix.equals("Etoile")){
 			fig_inc = view.draw_star();
 			this.id_fig = 7;
+			create_figure = true;
 		} else if(choix.equals("Do it yourself")) { //b spline
 			
 		} else if(choix.equals("Translation")){
-			
+			this.translation_mode = true;
 		} else if(choix.equals("Rotation autour un point")){
 			
 		} else if(choix.equals("Rotation autour du centre")){
@@ -225,7 +242,7 @@ public class Placheux extends JPanel{
 				gp.moveTo(a, b);
 				gp.lineTo(x, y);
 				gp.closePath();
-				fig_inc = gp;
+				fig_inc = gp;				
 			} else if (id_fig == 1){
 				fig_inc = draw_circle();
 			} else if(id_fig == 2){
@@ -249,17 +266,38 @@ public class Placheux extends JPanel{
 				aux.closePath();
 				fig_inc = aux;
 			} else {
-				System.out.println("start: quit");
 				return ;
 			}
 		}
 
+		public void draw_arrowTranslation(Graphics2D g2d){
+			System.out.println("print arrow");
+            double rotation = 0f;
+            if (arrowEnd != null) {
+                int x = arrowStart.x;
+                int y = arrowStart.y;
+                int deltaX = arrowEnd.x - x;
+                int deltaY = arrowEnd.y - y;
+                rotation = -Math.atan2(deltaX, deltaY);
+                rotation = Math.toDegrees(rotation) + 180;
+            }
+            Rectangle bounds = pointyThing.getBounds();
+            g2d.setStroke(new BasicStroke(3));
+            g2d.setColor(Color.RED);
+            g2d.draw(new Line2D.Float(arrowStart, arrowEnd));
+            AffineTransform at = new AffineTransform();
+            at.translate(arrowEnd.x - (bounds.width / 2), arrowEnd.y - (bounds.height / 2));
+            at.rotate(Math.toRadians(rotation), bounds.width / 2, bounds.height / 2);
+            Shape shape = new Path2D.Float(pointyThing, at);
+            g2d.fill(shape);
+            g2d.draw(shape);			
+		}
+		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			if(fig_inc == null){
-				doDrawing(g);
+				doDrawing(g);				
 			} else {
-
 				Graphics2D g2d = (Graphics2D)g;
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -288,6 +326,10 @@ public class Placheux extends JPanel{
 				g2d.setColor(Color.blue); /** TODO: border color & size **/
 				g2d.setStroke(new BasicStroke(3));
 				g2d.draw(fig_inc);
+
+				if (arrowStart != null && arrowEnd != null) {
+					this.draw_arrowTranslation(g2d);
+				}
 
 				g2d.dispose();
 
@@ -392,6 +434,16 @@ public class Placheux extends JPanel{
 		}
 	}
 
+	public class PointyThing extends Path2D.Float {
+		private static final long serialVersionUID = 1L;
+		public PointyThing() {
+            moveTo(15, 0);
+            lineTo(30, 15);
+            lineTo(0, 15);
+            lineTo(15, 0);
+        }
+    }
+	
 	class Controller 
 	extends MouseInputAdapter 
 	implements ActionListener, ComponentListener{
@@ -445,8 +497,13 @@ public class Placheux extends JPanel{
 				System.out.println("tab");			
 			}
 			if(e.getSource() == view && clickG(e)){ 
-				System.out.println("view");
-				view.init_a_b(e.getX(), e.getY());
+				if(translation_mode){
+					System.out.println("translation");
+                    arrowStart = e.getPoint();
+				} else if(create_figure){
+					System.out.println("view");
+					view.init_a_b(e.getX(), e.getY());
+				}
 			}
 		}
 
@@ -493,6 +550,7 @@ public class Placheux extends JPanel{
 					view.y = e.getY();
 					liste_fig.add(fig_inc);
 					id_fig = -1;
+					create_figure = false;
 				}
 			}
 		}	
@@ -500,14 +558,16 @@ public class Placheux extends JPanel{
 		public void mouseDragged (MouseEvent e) {
 			//System.out.print("mouseDragged: ");
 			if(e.getSource() == view && clickG(e)){
-				//TODO: 
-				//if there is no elements selected, move the view: +/- e.getX, x/- e.getY
-				//if there is elem select: make an arrow beetwen 
-				///the barycenter of the figure and the point of the moose, to see the translation
-				//System.out.println("view");
-				view.x = e.getX();
-				view.y = e.getY();
-				view.repaint();
+				if(create_figure){
+					System.out.println("create figure");
+					view.x = e.getX();
+					view.y = e.getY();
+					view.repaint();
+				} else if(translation_mode){
+					System.out.println("dragged: translation");
+					arrowEnd = e.getPoint();
+                    repaint();
+				}
 			}		
 		}
 
