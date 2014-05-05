@@ -484,6 +484,8 @@ public class Placheux extends JPanel{
 					}
 					pi.next();
 				}
+				
+				/*
 				boolean result = false;
 				for(int i = 0, j = points.size() - 1; i < points.size(); j = i++){
 					if ((points.get(i).y > y) != (points.get(j).y > y) &&
@@ -495,10 +497,29 @@ public class Placheux extends JPanel{
 				if(result){
 					return new Figure();
 				}
+				*/
 			}
 			return null;
 		}
 
+		/*
+		 * @param coord x of click
+		 * @param coord y of click 
+		 */
+		public boolean voidClick(int x, int y){
+			BufferedImage img = new BufferedImage(view.getWidth(), view.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = img.createGraphics();
+			view.paint(g);
+			int[] colors = new int[3];
+			img.getRaster().getPixel(x, y, colors);
+			if(view.getBackground().getRed() == colors[0] && 
+					view.getBackground().getGreen()  == colors[1] &&
+						view.getBackground().getBlue() == colors[2]){
+				return true;
+			}
+			return false;
+		}
+		
 		public boolean clickG(MouseEvent e){
 			return (SwingUtilities.isLeftMouseButton(e));
 		}
@@ -544,17 +565,7 @@ public class Placheux extends JPanel{
 			if(e.getSource() == view){
 				System.out.println("view");
 				if(clickD(e)){
-					/*BufferedImage img = new BufferedImage(view.getWidth(), view.getHeight(), BufferedImage.TYPE_INT_RGB);
-					Graphics2D g = img.createGraphics();
-					view.paint(g);
-					int[] colors = new int[3];
-					img.getRaster().getPixel(e.getX(), e.getY(), colors);
-					if(view.getBackground().getRed() == colors[0] && 
-							view.getBackground().getGreen()  == colors[1] &&
-								view.getBackground().getBlue() == colors[2]){
-						System.out.println("Vide");
-						return ;
-					}*/
+					/**/
 
 					Figure f = getFigureSelected(e.getX(), e.getY());
 					if(f == null){ // click on void screen
