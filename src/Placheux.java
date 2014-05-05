@@ -469,7 +469,6 @@ public class Placheux extends JPanel{
 
 		public void setViewatTime(int t){
 			System.out.println("setViewatTime : " + t);
-			//for(Figure f : liste_fig){	}
 		}
 
 		public Figure getFigureSelected(int x, int y){
@@ -485,7 +484,6 @@ public class Placheux extends JPanel{
 					pi.next();
 				}
 				
-				/*
 				boolean result = false;
 				for(int i = 0, j = points.size() - 1; i < points.size(); j = i++){
 					if ((points.get(i).y > y) != (points.get(j).y > y) &&
@@ -497,7 +495,6 @@ public class Placheux extends JPanel{
 				if(result){
 					return new Figure();
 				}
-				*/
 			}
 			return null;
 		}
@@ -576,11 +573,15 @@ public class Placheux extends JPanel{
 					menu.show(e.getComponent(), e.getX(), e.getY());
 					menu_launched = true;
 				} else {
-					view.x = e.getX();
-					view.y = e.getY();
-					liste_fig.add(fig_inc);
-					id_fig = -1;
-					create_figure = false;
+					if(create_figure){
+						view.x = e.getX();
+						view.y = e.getY();
+						liste_fig.add(fig_inc);
+						id_fig = -1;
+						create_figure = false;
+					} else if(translation_mode){
+						
+					}
 				}
 			}
 		}	
