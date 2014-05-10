@@ -33,7 +33,7 @@ public class Placheux extends JPanel{
 	/*
 	 * Drawing section
 	 */
-	LinkedList<Shape> liste_fig = new LinkedList<Shape>();
+	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
 	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
 	Shape fig_inc = new GeneralPath(); // the figure we do
 	int id_fig = -1; // current id of figure to draw
@@ -331,12 +331,12 @@ public class Placheux extends JPanel{
 					g2d.fill(sh);
 				}
 				 */
-				for(Shape sh : liste_fig){
+				for(Figure sh : liste_fig){
 					g2d.setColor(Color.BLACK); /** TODO: fill color **/
-					g2d.fill(sh);
+					g2d.fill(sh.getShape());
 					g2d.setColor(Color.blue); /** TODO: border color & size **/
 					g2d.setStroke(new BasicStroke(3));
-					g2d.draw(sh);
+					g2d.draw(sh.getShape());
 				}
 
 				g2d.setColor(Color.BLACK); /** TODO: fill color **/
@@ -472,8 +472,8 @@ public class Placheux extends JPanel{
 		}
 
 		public Figure getFigureSelected(int x, int y){
-			for(Shape sh : liste_fig){
-				PathIterator pi = sh.getPathIterator(null);
+			for(Figure sh : liste_fig){
+				PathIterator pi = sh.getShape().getPathIterator(null);
 				LinkedList<Point> points = new LinkedList<Point>();
 				while(pi.isDone() == false){
 					double[] coordinates = new double[6];
@@ -563,7 +563,7 @@ public class Placheux extends JPanel{
 				System.out.println("view");
 				if(clickD(e)){
 					/**/
-
+					
 					Figure f = getFigureSelected(e.getX(), e.getY());
 					if(f == null){ // click on void screen
 						init_menu_createFigure();
@@ -576,7 +576,7 @@ public class Placheux extends JPanel{
 					if(create_figure){
 						view.x = e.getX();
 						view.y = e.getY();
-						liste_fig.add(fig_inc);
+						liste_fig.add(new Figure(fig_inc, Color.blue, 5, Color.BLACK));
 						id_fig = -1;
 						create_figure = false;
 					} else if(translation_mode){
