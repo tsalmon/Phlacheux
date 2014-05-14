@@ -9,24 +9,28 @@ import java.util.List;
 
 public class Figure{
 	public int id;
-	private String name;
 	private Shape path;
 	private Color border_color;
 	private Color fill_color;
-	int a; //firts points;
-	int b; //first points;
-	LinkedList<Animation>liste_animations;
+	private int border_weight;
+	LinkedList<Animation_Translate> translation;
+	LinkedList<Animation_Bezier> bezier;
+	LinkedList<Animation_RotationPoint> rotation_point;
+	LinkedList<Animation_RotationCentre> rotation_centre;
+	LinkedList<Animation_Echelle> anim_echelle;
+	LinkedList<Animation_Couleur> anim_couleur;
+	LinkedList<Animation_Bordure> anim_bordure;
 	
 	Figure(){
 		this.id = -1;
 	}
 	
-	Figure(Shape shape, Color border, Color fill, String name){
+	Figure(Shape shape, Color border, int border_weight, Color fill){
 		this.path = shape;
+		this.setBorder_weight(border_weight);
 		this.setBorder_color(border);
-		this.name = name;
 		this.setFill_color(fill);
-		this.liste_animations = new LinkedList<Animation>();
+		//this.liste_animations = new LinkedList<Animation>();
 	}
 	
 	public List<double[]> getPoints(){
@@ -41,6 +45,10 @@ public class Figure{
 		return l;
 	}
 
+	public Shape getShape(){
+		return path;
+	}
+	
 	public int getId(){
 		return this.id;
 	}
@@ -61,12 +69,8 @@ public class Figure{
 		this.fill_color = fill_color;
 	}
 	
-	public String getName(){
-		return this.name;
-	}
-	
 	public String toString(){
-		return "<" + this.name + ": (" + this.path + ")>";
+		return "<" + this.path + ">";
 	}
 
 	//move the barycenter of the figure to the point (x, y) in time 
@@ -77,5 +81,13 @@ public class Figure{
 	//make a rotation around point (x, y)
 	public void addAnim_rotation(int x, int y, int sens, int time){
 		
+	}
+
+	public int getBorder_weight() {
+		return border_weight;
+	}
+
+	public void setBorder_weight(int border_weight) {
+		this.border_weight = border_weight;
 	}	
 }

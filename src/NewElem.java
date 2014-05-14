@@ -134,7 +134,7 @@ public class NewElem extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(this,  "Vous devez fabriquer une figure avant de l'ajouter");				
 			} else {
 				boolean named = false;
-				for(Figure f : ecran.liste_fig){
+				/*for(Figure f : ecran.liste_fig){
 					if(f.getName().equals(this.name.getText())){
 						JOptionPane.showMessageDialog(this,  "Le nom a deja Ã©tÃ© choisi");
 						named = true;
@@ -142,9 +142,9 @@ public class NewElem extends JDialog implements ActionListener {
 				}
 				if(!named){
 					ecran.liste_fig.add(new Figure(fig_inc, border_color, fill_color, this.name.getText()));
-					ecran.addElemToListElem(ecran.liste_fig.getLast().getName());
+					//ecran.addElemToListElem(ecran.liste_fig.getLast().getName());
 					dispose();
-				}
+				}*/
 			}
 		} else if (e.getSource() == annuler) { 
 			dispose();

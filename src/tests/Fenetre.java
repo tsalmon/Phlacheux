@@ -18,7 +18,7 @@ public class Fenetre extends JFrame implements MouseListener{
 
 
 	public static void main(String[] args) {
-		Fenetre f = new Fenetre(0);
+		Fenetre f = new Fenetre(1);
 	}	
 
 	public Fenetre(int i) {

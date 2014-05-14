@@ -9,20 +9,14 @@ public class Launcher {
 	
 	Launcher(){		
 		JFrame window = new JFrame();
-		Controller controller = new Controller();
-		screen = new Placheux(controller);
+		screen = new Placheux();
 		
-		controller.setEcran(screen);
-		controller.setElem(elem);
-		
-		screen.addMouseListener(controller);
-		screen.addMouseMotionListener(controller);
 		window.setContentPane(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.pack();		
 
-		window.setMinimumSize(new Dimension(1152, 486));
-		window.setSize(new Dimension(1152, 486));
+		window.setMinimumSize(new Dimension(1152, 700));
+		window.setSize(new Dimension(1152, 700));
 		window.setMaximumSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 		
 		window.setVisible(true);
