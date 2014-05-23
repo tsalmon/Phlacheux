@@ -139,23 +139,23 @@ public class Panneau extends JPanel {
 		for(int i = 0; i < 4; i++) {
             BouleAffineTransform bt = new BouleAffineTransform(b[i], g2, 0.1,200,200);
             bt.start();
-//			AffineTransform at = new AffineTransform();
-//			at.rotate(0.1, 200, 200);
-//			at.transform(b[i].p, b[i].p);
-//
-//			g2.setColor(b[i].c);
-//			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+			AffineTransform at = new AffineTransform();
+			at.rotate(0.1, 200, 200);
+			at.transform(b[i].p, b[i].p);
+
+			g2.setColor(b[i].c);
+			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
 		}
 
 		for(int i = 4; i < 8; i++) {
             BouleAffineTransform bt = new BouleAffineTransform(b[i], g2, -0.1,200,200);
             bt.start();
-//            AffineTransform at = new AffineTransform();
-//			at.rotate(-0.1, 200, 200);
-//			at.transform(b[i].p, b[i].p);
-//
-//			g2.setColor(b[i].c);
-//			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
+            AffineTransform at = new AffineTransform();
+			at.rotate(-0.1, 200, 200);
+			at.transform(b[i].p, b[i].p);
+
+			g2.setColor(b[i].c);
+			g2.fillOval(b[i].p.x, b[i].p.y, b[i].r, b[i].r);
 		}
 
 		g2.setColor(b[8].c);

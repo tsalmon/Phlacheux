@@ -59,8 +59,7 @@ public class EquilateralTriangle extends Triangle {
             double scal = dx*d + 0;
             double angle = Math.acos(scal/(d*d));
             
-            double o;
-            if(up){o=1;}else{o=-1;}
+            double o = (up) ? 1 : 1;
             
              Point res=new Point(
                     (int)Math.round(Math.cos((o*Math.PI/3)+angle)*d+p1.getX()), 

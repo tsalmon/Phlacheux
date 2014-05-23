@@ -34,7 +34,6 @@ public class Fenetre extends JFrame implements MouseListener{
 		
 		this.setVisible(true);		
 		if(i == 1){
-			System.out.println("zz");
 			this.go_boule();
 		}
 	}
@@ -45,7 +44,7 @@ public class Fenetre extends JFrame implements MouseListener{
 			pan.repaint();
 			pan.setDelta(i+=10);
 			try {
-				Thread.sleep(30);
+				Thread.sleep(24);
 			} catch (InterruptedException ex) {
 				Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
 			}
