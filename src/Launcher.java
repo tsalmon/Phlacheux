@@ -12,6 +12,8 @@ public class Launcher {
 		JFrame window = new JFrame();
 		screen = new Placheux();
 		
+		
+		
 		window.setContentPane(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.pack();		
