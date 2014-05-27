@@ -42,7 +42,7 @@ public class NewElem extends JDialog implements ActionListener {
 	Color border_color;
 	Color fill_color;
 	JTextField name = new JTextField(20);
-	private JComboBox<Integer> border_size = new JComboBox();
+	private JComboBox border_size = new JComboBox();
 	Shape points_fig = null;
 	private JButton btn_border_color;
 	private JButton[] btn_fig = new JButton[10];
