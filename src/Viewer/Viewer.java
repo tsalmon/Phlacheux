@@ -1,3 +1,5 @@
+package Viewer;
+
 import ch.randelshofer.media.avi.AVIOutputStream;
 
 import javax.imageio.ImageIO;
