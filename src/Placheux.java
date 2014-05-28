@@ -8,6 +8,9 @@ import javax.swing.event.*;
 
 import java.util.*;
 
+import model.*;
+import model.movable.Figure;
+
 public class Placheux extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JPopupMenu menu = new JPopupMenu();
@@ -32,7 +35,7 @@ public class Placheux extends JPanel{
 
 	/*
 	 * Drawing section
-	 */
+	 +*/
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
 	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
 	Shape fig_inc = new GeneralPath(); // the figure we do
@@ -101,8 +104,9 @@ public class Placheux extends JPanel{
 		tab.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
+		new DialogInitProject(this);
 	}
-
+	
 	public void init_menu_createFigure()
 	{
 		System.out.println("MenuFigure");
@@ -493,7 +497,7 @@ public class Placheux extends JPanel{
 					}
 				}
 				if(result){
-					return new Figure();
+					//return new Figure();
 				}
 			}
 			return null;
@@ -576,7 +580,7 @@ public class Placheux extends JPanel{
 					if(create_figure){
 						view.x = e.getX();
 						view.y = e.getY();
-						liste_fig.add(new Figure(fig_inc, Color.blue, 5, Color.BLACK));
+						//liste_fig.add(new Figure(fig_inc, Color.blue, 5, Color.BLACK));
 						id_fig = -1;
 						create_figure = false;
 					} else if(translation_mode){
