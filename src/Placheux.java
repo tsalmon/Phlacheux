@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -59,7 +60,7 @@ public class Placheux extends JPanel{
 		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
 	};
 
-	Placheux(){
+	Placheux(String nom, int size, int width, int height){
 		Controller controller = new Controller();
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
@@ -104,9 +105,12 @@ public class Placheux extends JPanel{
 		tab.addMouseListener(controller);
 		panel_view.addMouseListener(controller);
 		panel_view.addMouseMotionListener(controller);
-		new DialogInitProject(this);
 	}
 	
+	public Placheux(File animeFile) {
+		System.out.println(animeFile);
+	}
+
 	public void init_menu_createFigure()
 	{
 		System.out.println("MenuFigure");
@@ -503,7 +507,7 @@ public class Placheux extends JPanel{
 			return null;
 		}
 
-		/*
+		/**
 		 * @param coord x of click
 		 * @param coord y of click 
 		 */
