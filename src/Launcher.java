@@ -1,18 +1,21 @@
 import java.awt.Dimension;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
-public class Launcher {
+public class Launcher{
 	Placheux screen;
-	NewElem elem;
 	
-	Launcher(){		
+	Launcher(){	
+		run();
+	}
+
+	public void run(){
 		JFrame window = new JFrame();
 		screen = new Placheux();
-		
-		
 		
 		window.setContentPane(screen);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
