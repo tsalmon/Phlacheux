@@ -141,7 +141,8 @@ public class Launcher extends JFrame implements ActionListener{
 		File select = chooser.getSelectedFile();
 		if(select.toString() != ""){
 			if(!this.estUnFichierXML(select.toString())){
-				JOptionPane.showMessageDialog(this, "Le fichier n'est pas au format XML.");
+				JOptionPane.showMessageDialog(this, 
+										"Le fichier n'est pas au format XML.");
 			} else {
 				this.setVisible(false);
 				initVue(select);
@@ -176,7 +177,8 @@ public class Launcher extends JFrame implements ActionListener{
 				).equals("xml"));
 	}
 
-	public static void main(String [] args){  
+	public static void main(String [] args){
+		System.out.println(System.getProperty("user.language"));
 		if(args.length == 1){
 			new Launcher(args[0]);
 		} else if(args.length == 4){

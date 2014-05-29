@@ -1,35 +1,61 @@
+import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 import java.util.*;
 
 import model.*;
 import model.movable.Figure;
 
-public class Placheux extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
+public class Placheux 
+extends JPanel 
+implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionListener{
 	private static final long serialVersionUID = 1L;
-	
+
 	JFrame frame;
-	JMenuBar bar;
+	JMenuBar bar = new JMenuBar();
 	JMenu fichier = new JMenu("Fichier");
-	JMenu figure = new JMenu("Fichier");
+	JMenu figure = new JMenu("Figure");
+	JMenuItem nouveau_film = new JMenuItem("Nouveau film");
+	JMenuItem ouvrir_film = new JMenuItem("Ouvrir un film");
+	JMenuItem enregistrer_film = new JMenuItem("Enregistrer");
+	JMenuItem enregistrer_sous_film = new JMenuItem("Enregistrer Sous");
+	JMenuItem rendu_film = new JMenuItem("Faire un rendu");
+	JMenuItem quitter_film = new JMenuItem("Quitter");
+
+/*	fig_select.add(new JLabel("carre"));
+	fig_select.add(new JLabel("rectangle"));
+	fig_select.add(new JLabel("circle"));
+	fig_select.add(new JLabel("ellipse"));
+	fig_select.add(new JLabel("triangle rectangle"));
+	fig_select.add(new JLabel("triangle equilateral"));
+	fig_select.add(new JLabel("fleche"));*/
+	JButton etoile_btn = new JButton();
+
+	
+	private JTree tree;
 
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
 	boolean translation_mode = false;
-	boolean rotation_point_mode = false;
+	boolean rotation_point_mode = false; 
 	boolean	changement_echelle_mode = false;
 	boolean create_figure = false;
 	boolean bezier_mode = false;
 	private Point arrowStart;
-    private Point arrowEnd;
-    private PointyThing pointyThing = new PointyThing();
+	private Point arrowEnd;
+	private PointyThing pointyThing = new PointyThing();
 
 	JButton lecture_pause = new JButton("lecture");
 	JButton stop = new JButton("stop");	
@@ -44,9 +70,18 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 	Shape fig_inc = new GeneralPath();
 	int id_fig = -1; 
 
-	Placheux(JFrame frame, String nom, int size, int width, int height){
-		
-		
+	Placheux(JFrame frame, String nom, int size, int width, int height){       
+		fichier.add(nouveau_film);
+		fichier.add(ouvrir_film);
+		fichier.add(enregistrer_film);
+		fichier.add(enregistrer_sous_film);
+		fichier.addSeparator();
+		fichier.add(rendu_film);
+		fichier.addSeparator();
+		fichier.add(quitter_film);
+		bar.add(fichier);
+		bar.add(figure);
+
 		this.frame = frame;
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		view.setPreferredSize(new Dimension(width, height));
@@ -83,28 +118,93 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 		JPanel panel_view = new JPanel();
 		panel_view.add(view);
 		if(width < 1100 && height < 700){
-			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);			
+			panel_center = new JScrollPane(panel_view, 
+					JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);			
 		} else if(width < 1100){
-			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);				
+			panel_center = new JScrollPane(panel_view, 
+					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);				
 		} else if(height < 700){
-			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+			panel_center = new JScrollPane(panel_view, 
+					JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		}else {
-			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);			
+			panel_center = new JScrollPane(panel_view, JScrollPane.
+					VERTICAL_SCROLLBAR_ALWAYS, 
+					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);			
 		}
-		
+
 		this.add("Center", panel_center);
+		panel_west();
 		this.add("South", panel_south);
-		
+
 		view.addMouseListener(this);
 		view.addMouseMotionListener(this);
 		tab.addMouseListener(this);
-		
+
+		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
+		ouvrir_film.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
+		enregistrer_film.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
+		enregistrer_sous_film.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
+		rendu_film.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
+		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
+
+		nouveau_film.addActionListener(this);
+		ouvrir_film.addActionListener(this);
+		enregistrer_film.addActionListener(this);
+		enregistrer_sous_film.addActionListener(this);
+		rendu_film.addActionListener(this);
+		quitter_film.addActionListener(this);
+
 		frame.setJMenuBar(bar);
 	}
-	
+
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
 		System.out.println(animeFile);
+	}
+
+	public JPanel panel_listefigure(Dimension minDim){
+		JPanel fig_select = new JPanel();
+		fig_select.setMinimumSize(minDim);
+		fig_select.setLayout(new GridLayout(4, 2));
+		
+		fig_select.add(new JLabel("carre"));
+		fig_select.add(new JLabel("rectangle"));
+		fig_select.add(new JLabel("circle"));
+		fig_select.add(new JLabel("ellipse"));
+		fig_select.add(new JLabel("triangle rectangle"));
+		fig_select.add(new JLabel("triangle equilateral"));
+		fig_select.add(new JLabel("fleche"));
+		fig_select.add(new JLabel("etoile"));
+		
+		return fig_select;
+	}
+	
+	public void panel_west(){
+		Dimension minimumSize = new Dimension(100, 50);
+		
+		DefaultMutableTreeNode top =
+                new DefaultMutableTreeNode("Liste des figures");
+
+		tree = new JTree(top);
+		tree.getSelectionModel().setSelectionMode
+		(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
+		tree.addTreeSelectionListener(this);
+
+		JScrollPane sp_tree = new JScrollPane(tree);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setBottomComponent(sp_tree);
+		splitPane.setTopComponent(panel_listefigure(minimumSize));
+
+		sp_tree.setMinimumSize(minimumSize);
+		splitPane.setDividerLocation(100); 
+		splitPane.setPreferredSize(new Dimension(500, 300));
+
+		//Add the split pane to this panel.
+		this.add("West", splitPane);
 	}
 
 	ActionListener aListener = new ActionListener() {
@@ -118,6 +218,19 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
 		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
 	};
+
+	public void init_bouton_image(){
+        /*try {
+           playIcon = ImageIO.read(new File("Resources/Viewer/play.png"));
+            pauseIcon = ImageIO.read(new File("Resources/Viewer/pause.png"));
+            rewindIcon = ImageIO.read(new File("Resources/Viewer/rewind.png"));
+            fastForwardIcon = ImageIO.read(new File("Resources/Viewer/fast_forward.png"));
+            repeatIcon = ImageIO.read(new File("Resources/Viewer/repeat.png"));
+            toFileIcon = ImageIO.read(new File("Resources/Viewer/tofile.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+	}
 	
 	public void init_menu_createFigure()
 	{
@@ -213,21 +326,21 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 			this.id_fig = 7;
 			create_figure = true;
 		} else if(choix.equals("Do it yourself")) { //b spline
-			
+
 		} else if(choix.equals("Translation")){
 			this.translation_mode = true;
 		} else if(choix.equals("Rotation autour un point")){
-			
+
 		} else if(choix.equals("Rotation autour du centre")){
-			
+
 		} else if(choix.equals("Bezier")){
-			
+
 		} else if(choix.equals("Changement d'échelle")){
-			
+
 		} else if(choix.equals("Changement de bordure")){
-			
+
 		} else if(choix.equals("Changement de couleur")){
-			
+
 		}
 	}
 
@@ -249,7 +362,7 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 		}		
 		return new Point(x/x_n, y/y_n);
 	}
-	
+
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
@@ -303,27 +416,30 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 
 		public void draw_arrowTranslation(Graphics2D g2d){
 			System.out.println("print arrow");
-            double rotation = 0f;
-            if (arrowEnd != null) {
-                int x = arrowStart.x;
-                int y = arrowStart.y;
-                int deltaX = arrowEnd.x - x;
-                int deltaY = arrowEnd.y - y;
-                rotation = -Math.atan2(deltaX, deltaY);
-                rotation = Math.toDegrees(rotation) + 180;
-            }
-            Rectangle bounds = pointyThing.getBounds();
-            g2d.setStroke(new BasicStroke(3));
-            g2d.setColor(Color.RED);
-            g2d.draw(new Line2D.Float(arrowStart, arrowEnd));
-            AffineTransform at = new AffineTransform();
-            at.translate(arrowEnd.x - (bounds.width / 2), arrowEnd.y - (bounds.height / 2));
-            at.rotate(Math.toRadians(rotation), bounds.width / 2, bounds.height / 2);
-            Shape shape = new Path2D.Float(pointyThing, at);
-            g2d.fill(shape);
-            g2d.draw(shape);			
+			double rotation = 0f;
+			if (arrowEnd != null) {
+				int x = arrowStart.x;
+				int y = arrowStart.y;
+				int deltaX = arrowEnd.x - x;
+				int deltaY = arrowEnd.y - y;
+				rotation = -Math.atan2(deltaX, deltaY);
+				rotation = Math.toDegrees(rotation) + 180;
+			}
+			Rectangle bounds = pointyThing.getBounds();
+			g2d.setStroke(new BasicStroke(3));
+			g2d.setColor(Color.RED);
+			g2d.draw(new Line2D.Float(arrowStart, arrowEnd));
+			AffineTransform at = new AffineTransform();
+			at.translate(arrowEnd.x - (bounds.width / 2), 
+					arrowEnd.y - (bounds.height / 2));
+			at.rotate(Math.toRadians(rotation), 
+					bounds.width / 2, 
+					bounds.height / 2);
+			Shape shape = new Path2D.Float(pointyThing, at);
+			g2d.fill(shape);
+			g2d.draw(shape);			
 		}
-		
+
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			if(fig_inc == null){
@@ -428,8 +544,10 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 			for (int i = 0; i < 10; i++) {
 				double an = angle * i;
 
-				double x = a + ((Math.cos(an) * (radius + radius * (1 * (i%2)))));
-				double y = b + ((Math.sin(an) * (radius + radius * (1 * (i%2)))));
+				double x = a + 
+						((Math.cos(an) * (radius + radius * (1 * (i%2)))));
+				double y = b + 
+						((Math.sin(an) * (radius + radius * (1 * (i%2)))));
 				if (i == 0) {
 					p.moveTo(x, y);
 				} else {	
@@ -446,7 +564,11 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 
 			p.moveTo(a, b);
 			p.lineTo(x, y);
-			p.lineTo((int)((Math.cos(angle) * ((a-x)) - Math.sin(angle) * ((b-y))) + x), (int)((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y));
+			p.lineTo(
+					(int)
+					((Math.cos(angle) * ((a-x)) - Math.sin(angle) * ((b-y))) + x),
+					(int)
+					((Math.sin(angle) * ((a-x)) + Math.cos(angle) * ((b-y))) + y));
 			p.lineTo(a, b);
 			return p;
 		}
@@ -468,192 +590,193 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 	public class PointyThing extends Path2D.Float {
 		private static final long serialVersionUID = 1L;
 		public PointyThing() {
-            moveTo(15, 0);
-            lineTo(30, 15);
-            lineTo(0, 15);
-            lineTo(15, 0);
-        }
-    }
-	
+			moveTo(15, 0);
+			lineTo(30, 15);
+			lineTo(0, 15);
+			lineTo(15, 0);
+		}
+	}
+
 	/*class Controller 
 	extends MouseInputAdapter 
 	implements ActionListener, ComponentListener{*/
 
-		public void setViewatTime(int t){
-			System.out.println("setViewatTime : " + t);
-		}
+	public void setViewatTime(int t){
+		System.out.println("setViewatTime : " + t);
+	}
 
-		public Figure getFigureSelected(int x, int y){
-			for(Figure sh : liste_fig){
-				PathIterator pi = sh.getShape().getPathIterator(null);
-				LinkedList<Point> points = new LinkedList<Point>();
-				while(pi.isDone() == false){
-					double[] coordinates = new double[6];
-					if(pi.currentSegment(coordinates) > 0){
-						points.add(new Point((int)coordinates[0],
-								(int)coordinates[1]));
-					}
-					pi.next();
+	public Figure getFigureSelected(int x, int y){
+		for(Figure sh : liste_fig){
+			PathIterator pi = sh.getShape().getPathIterator(null);
+			LinkedList<Point> points = new LinkedList<Point>();
+			while(pi.isDone() == false){
+				double[] coordinates = new double[6];
+				if(pi.currentSegment(coordinates) > 0){
+					points.add(new Point((int)coordinates[0],
+							(int)coordinates[1]));
 				}
-				
-				boolean result = false;
-				for(int i = 0, j = points.size() - 1; i < points.size(); j = i++){
-					if ((points.get(i).y > y) != (points.get(j).y > y) &&
-							(x < (points.get(j).x - points.get(i).x) * (y - points.get(i).y) / (points.get(j).y-points.get(i).y) + points.get(i).x)) {
-						System.out.println("ok");
-						result = !result;
-					}
-				}
-				if(result){
-					//return new Figure();
+				pi.next();
+			}
+
+			boolean result = false;
+			for(int i = 0, j = points.size() - 1; 
+					i < points.size(); 
+					j = i++){
+				if ((points.get(i).y > y) != (points.get(j).y > y) &&
+						(x < (points.get(j).x - points.get(i).x) * (y - points.get(i).y) / (points.get(j).y-points.get(i).y) + points.get(i).x)) {
+					System.out.println("ok");
+					result = !result;
 				}
 			}
-			return null;
+			if(result){
+				//return new Figure();
+			}
 		}
+		return null;
+	}
 
-		/**
-		 * @param coord x of click
-		 * @param coord y of click 
-		 */
-		public boolean voidClick(int x, int y){
-			BufferedImage img = new BufferedImage(view.getWidth(), view.getHeight(), BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = img.createGraphics();
-			view.paint(g);
-			int[] colors = new int[3];
-			img.getRaster().getPixel(x, y, colors);
-			if(view.getBackground().getRed() == colors[0] && 
-					view.getBackground().getGreen()  == colors[1] &&
-						view.getBackground().getBlue() == colors[2]){
-				return true;
-			}
-			return false;
+	/**
+	 * @param coord x of click
+	 * @param coord y of click 
+	 */
+	public boolean voidClick(int x, int y){
+		BufferedImage img = new BufferedImage(view.getWidth(), 
+				view.getHeight(), 
+				BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = img.createGraphics();
+		view.paint(g);
+		int[] colors = new int[3];
+		img.getRaster().getPixel(x, y, colors);
+		if(view.getBackground().getRed() == colors[0] && 
+				view.getBackground().getGreen()  == colors[1] &&
+				view.getBackground().getBlue() == colors[2]){
+			return true;
 		}
-		
-		public boolean clickG(MouseEvent e){
-			return (SwingUtilities.isLeftMouseButton(e));
-		}
+		return false;
+	}
 
-		public boolean clickD(MouseEvent e){
-			return (SwingUtilities.isRightMouseButton(e));
-		}
+	public boolean clickG(MouseEvent e){
+		return (SwingUtilities.isLeftMouseButton(e));
+	}
 
-		public void actionPerformed(ActionEvent e) {
-			System.out.print ("ActionPerformed: ");
-		}
-		public void mousePressed(MouseEvent e) {
-			System.out.print("mousePressed: ");
-			if(e.getSource() == tab){
-				System.out.println("tab");			
-			}
-			if(e.getSource() == view && clickG(e)){ 
-				if(translation_mode){
-					System.out.println("translation");
-                    arrowStart = e.getPoint();
-				} else if(create_figure){
-					System.out.println("view");
-					view.init_a_b(e.getX(), e.getY());
-				}
-			}
-		}
+	public boolean clickD(MouseEvent e){
+		return (SwingUtilities.isRightMouseButton(e));
+	}
 
-		public void mouseReleased(MouseEvent e) {
-			System.out.print("mouseReleased: ");
-			if(menu_launched) // If right after right click: exit menu
-			{
-				menu.removeAll();
-				menu_launched = false;
-				repaint();
-				//return;
-			}
-			if(e.getSource() == tab){
-				System.out.println("tab");			
-				int tabx = tab.getSelectedColumn();
-				System.out.println("Column : " + tab.getSelectedColumn());
-				this.setViewatTime(tabx);
-			}
-			if(e.getSource() == view){
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == nouveau_film){
+			System.out.println("nouveau");
+		}
+		if(e.getSource() ==  ouvrir_film){
+			System.out.println("ouvrir");
+		}
+		if(e.getSource() == enregistrer_film){
+			System.out.println("enregistrer");
+		}
+		if(e.getSource() == enregistrer_sous_film){
+			System.out.println("engistrer sous");
+		}
+		if(e.getSource() == rendu_film){
+			System.out.println("rendu");				
+		}
+		if(e.getSource() == quitter_film){
+			System.out.println("quitter");
+			System.exit(0);
+		}
+	}
+	public void mousePressed(MouseEvent e) {
+		System.out.print("mousePressed: ");
+		if(e.getSource() == tab){
+			System.out.println("tab");			
+		}
+		if(e.getSource() == view && clickG(e)){ 
+			if(translation_mode){
+				System.out.println("translation");
+				arrowStart = e.getPoint();
+			} else if(create_figure){
 				System.out.println("view");
-				if(clickD(e)){
-					/**/
-					
-					Figure f = getFigureSelected(e.getX(), e.getY());
-					if(f == null){ // click on void screen
-						init_menu_createFigure();
-					} else {
-						init_menu_createAnime();
-					}
-					menu.show(e.getComponent(), e.getX(), e.getY());
-					menu_launched = true;
-				} else {
-					if(create_figure){
-						view.x = e.getX();
-						view.y = e.getY();
-						//liste_fig.add(new Figure(fig_inc, Color.blue, 5, Color.BLACK));
-						id_fig = -1;
-						create_figure = false;
-					} else if(translation_mode){
-						
-					}
-				}
+				view.init_a_b(e.getX(), e.getY());
 			}
-		}	
+		}
+	}
 
-		public void mouseDragged (MouseEvent e) {
-			//System.out.print("mouseDragged: ");
-			if(e.getSource() == view && clickG(e)){
+	public void mouseReleased(MouseEvent e) {
+		System.out.print("mouseReleased: ");
+		if(menu_launched) // If right after right click: exit menu
+		{
+			menu.removeAll();
+			menu_launched = false;
+			repaint();
+			//return;
+		}
+		if(e.getSource() == tab){
+			System.out.println("tab");			
+			int tabx = tab.getSelectedColumn();
+			System.out.println("Column : " + tab.getSelectedColumn());
+			this.setViewatTime(tabx);
+		}
+		if(e.getSource() == view){
+			System.out.println("view");
+			if(clickD(e)){
+				/**/
+
+				Figure f = getFigureSelected(e.getX(), e.getY());
+				if(f == null){ // click on void screen
+					init_menu_createFigure();
+				} else {
+					init_menu_createAnime();
+				}
+				menu.show(e.getComponent(), e.getX(), e.getY());
+				menu_launched = true;
+			} else {
 				if(create_figure){
-					System.out.println("create figure");
 					view.x = e.getX();
 					view.y = e.getY();
-					view.repaint();
+					//liste_fig.add(
+					//new Figure(fig_inc, Color.blue, 5, Color.BLACK));
+					id_fig = -1;
+					create_figure = false;
 				} else if(translation_mode){
-					System.out.println("dragged: translation");
-					arrowEnd = e.getPoint();
-                    repaint();
+
 				}
-			}		
+			}
 		}
+	}	
 
-		public void componentMoved(ComponentEvent e) {
+	public void mouseDragged (MouseEvent e) {
+		//System.out.print("mouseDragged: ");
+		if(e.getSource() == view && clickG(e)){
+			if(create_figure){
+				System.out.println("create figure");
+				view.x = e.getX();
+				view.y = e.getY();
+				view.repaint();
+			} else if(translation_mode){
+				System.out.println("dragged: translation");
+				arrowEnd = e.getPoint();
+				repaint();
+			}
+		}		
+	}
 
-		}
+	public void componentMoved(ComponentEvent e) {}
+	public void componentResized(ComponentEvent e) {}
+	public void componentShown(ComponentEvent e) {}
+	public void componentHidden(ComponentEvent e) {	}
+	@Override
+	public void mouseMoved(MouseEvent e) {}
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 
-		public void componentResized(ComponentEvent e) {
-			System.out.println("resize");
-		}
-
-		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void componentHidden(ComponentEvent e) {
-			// TO
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//}
 }
