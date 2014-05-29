@@ -4,14 +4,15 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
 public class FilmParser {
-    public static Document readFile(String filename) {
+    public static Document readFile(File filmFile) {
         try {
             SAXBuilder parser = new SAXBuilder();
-            FileReader fr = new FileReader(filename+".xml");
+            FileReader fr = new FileReader(filmFile);
             Document rDoc = parser.build(fr);
             System.out.println(rDoc.getRootElement().getName());
             List<Element> temp = rDoc.getRootElement().getChildren();

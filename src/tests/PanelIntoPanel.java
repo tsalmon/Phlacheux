@@ -32,7 +32,7 @@ public class PanelIntoPanel extends JFrame implements ActionListener, MouseListe
 		JPanel pan = new JPanel();
 		pan.setLayout(new BorderLayout());
 
-		vue.setSize(new Dimension((int)size.getValue(), (int)size.getValue()));
+//		vue.setSize(new Dimension((int)size.getValue(), (int)size.getValue()));
 		
 		JPanel pan_nord = new JPanel();
 		pan_nord.add(btn);
@@ -53,9 +53,9 @@ public class PanelIntoPanel extends JFrame implements ActionListener, MouseListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btn){
-			vue.setSize(new Dimension((int)size.getValue(), (int)size.getValue()));
-		}
+//		if(e.getSource() == btn){
+//			vue.setSize(new Dimension((int)size.getValue(), (int)size.getValue()));
+//		}
 	}
 	
 	@Override

@@ -137,18 +137,20 @@ public class Launcher extends JFrame implements ActionListener{
 		JFileChooser chooser = new JFileChooser();
 		File f = new File("");
 		chooser.setSelectedFile(f);
-		chooser.showOpenDialog(null);
-		File select = chooser.getSelectedFile();
-		if(select.toString() != ""){
-			if(!this.estUnFichierXML(select.toString())){
-				JOptionPane.showMessageDialog(this, "Le fichier n'est pas au format XML.");
-			} else {
-				this.setVisible(false);
-				initVue(select);
-			}
-		} else {
-			initVue(chooser.getSelectedFile());
-		}		
+		int result = chooser.showOpenDialog(null);
+        if (result != JFileChooser.CANCEL_OPTION){
+            File select = chooser.getSelectedFile();
+            if(select.toString() != ""){
+                if(!this.estUnFichierXML(select.toString())){
+                    JOptionPane.showMessageDialog(this, "Le fichier n'est pas au format XML.");
+                } else {
+                    this.setVisible(false);
+                    initVue(select);
+                }
+            } else {
+                initVue(chooser.getSelectedFile());
+            }
+        }
 	}
 	
 	@Override

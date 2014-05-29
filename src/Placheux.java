@@ -9,8 +9,10 @@ import javax.swing.event.*;
 
 import java.util.*;
 
-import model.*;
+import XML.FilmParser;
+//import model.*;
 import model.movable.Figure;
+import org.jdom2.Document;
 
 public class Placheux extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -104,7 +106,8 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 	
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
-		System.out.println(animeFile);
+        Document xmlDoc = FilmParser.readFile(animeFile);
+		System.out.println(xmlDoc.toString());
 	}
 
 	ActionListener aListener = new ActionListener() {
