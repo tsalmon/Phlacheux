@@ -12,7 +12,7 @@ import java.util.*;
 import model.*;
 import model.movable.Figure;
 
-public class Placheux extends JPanel{
+public class Placheux extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
@@ -32,42 +32,16 @@ public class Placheux extends JPanel{
 
 	JTable tab;
 
-	PanElem view;
+	PanElem view = new PanElem();
 
-	/*
-	 * Drawing section
-	 +*/
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
-	int origin_x, origin_y; //(origin_x, origin_y) is the point of beginning paint
-	Shape fig_inc = new GeneralPath(); // the figure we do
-	int id_fig = -1; // current id of figure to draw
-
-	/*
-	 * listener of menu
-	 */
-	ActionListener aListener = new ActionListener() {
-		public void actionPerformed(ActionEvent event) {
-			choix_menu(event.getActionCommand());
-		}
-	};
-
-	/*
-	 * listener of menu
-	 */
-	PopupMenuListener pListener = new PopupMenuListener(){
-		public void popupMenuCanceled(PopupMenuEvent event) {}
-		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
-		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
-	};
+	int origin_x, origin_y; 
+	Shape fig_inc = new GeneralPath();
+	int id_fig = -1; 
 
 	Placheux(String nom, int size, int width, int height){
-		Controller controller = new Controller();
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-
-		view = new PanElem();
-		view.setBorder(BorderFactory.createLineBorder(Color.red));
-		view.setPreferredSize(new Dimension(1200, 900));
-		final JScrollPane panel_view = new JScrollPane(view);
+		view.setPreferredSize(new Dimension(width, height));
 
 		Object[] tab_colonnes = new Object[3600];
 		String[][] tab_data = new String[1][3600];
@@ -92,25 +66,47 @@ public class Placheux extends JPanel{
 						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel_tab.setPreferredSize(new Dimension(500, 54));
 
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		JPanel panel_south = new JPanel();
 		panel_south.add(panel_tab); /**TODO: add buttons play/stop**/
 
-		this.add("Center", panel_view);
+		final JScrollPane panel_center;
+		JPanel panel_view = new JPanel();
+		panel_view.add(view);
+		if(width < 1100 && height < 700){
+			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);			
+		} else if(width < 1100){
+			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);				
+		} else if(height < 700){
+			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		}else {
+			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);			
+		}
+		this.add("Center", panel_center);
 		this.add("South", panel_south);
-
-		view.addMouseListener(controller);
-		view.addMouseMotionListener(controller);
-		tab.addMouseListener(controller);
-		panel_view.addMouseListener(controller);
-		panel_view.addMouseMotionListener(controller);
+		
+		view.addMouseListener(this);
+		view.addMouseMotionListener(this);
+		tab.addMouseListener(this);
 	}
 	
 	public Placheux(File animeFile) {
 		System.out.println(animeFile);
 	}
 
+	ActionListener aListener = new ActionListener() {
+		public void actionPerformed(ActionEvent event) {
+			choix_menu(event.getActionCommand());
+		}
+	};
+
+	PopupMenuListener pListener = new PopupMenuListener(){
+		public void popupMenuCanceled(PopupMenuEvent event) {}
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
+		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
+	};
+	
 	public void init_menu_createFigure()
 	{
 		System.out.println("MenuFigure");
@@ -252,10 +248,6 @@ public class Placheux extends JPanel{
 		int a, b;
 		int x, y;
 
-		PanElem() { 
-			setPreferredSize(new Dimension(600, 400));
-		}
-
 		/*It's might be usefull for drawing stars
 		private double points[][] = { 
 				{ 0, 85 }, { 75, 75 }, { 100, 10 }, { 125, 75 }, 
@@ -322,6 +314,9 @@ public class Placheux extends JPanel{
 		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
+			g.setColor(Color.BLACK);
+
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			if(fig_inc == null){
 				doDrawing(g);				
 			} else {
@@ -471,9 +466,9 @@ public class Placheux extends JPanel{
         }
     }
 	
-	class Controller 
+	/*class Controller 
 	extends MouseInputAdapter 
-	implements ActionListener, ComponentListener{
+	implements ActionListener, ComponentListener{*/
 
 		public void setViewatTime(int t){
 			System.out.println("setViewatTime : " + t);
@@ -624,9 +619,32 @@ public class Placheux extends JPanel{
 		}
 
 		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
+			// TO
 		}
 
-	}
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	//}
 }

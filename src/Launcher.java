@@ -28,8 +28,16 @@ public class Launcher extends JFrame implements ActionListener{
 	private JSpinner width = new JSpinner(new SpinnerNumberModel(100,100,3500,25));
 	private JSpinner height = new JSpinner(new SpinnerNumberModel(100,100,3500,25));
 
+	public void testinitproject(){
+		name.setText("test");
+		size.setValue(2000);
+		width.setValue(1080);
+		height.setValue(1920);
+	}
+	
 	public Launcher() {
 		super("Nouveau projet Placheux");
+		testinitproject();
 		setContenu();
 		ecouteurs();
 		launcherConfig();
