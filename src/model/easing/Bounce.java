@@ -2,11 +2,11 @@ package model.easing;
 
 public class Bounce extends Easing {
 	
-	public  float  easeIn(float t,float b , float c, float d) {
+	public  double  easeIn(double t,double b , double c, double d) {
 		return c - easeOut (d-t, 0, c, d) + b;
 	}
 	
-	public  float  easeOut(float t,float b , float c, float d) {
+	public  double  easeOut(double t,double b , double c, double d) {
 		if ((t/=d) < (1/2.75f)) {
 			return c*(7.5625f*t*t) + b;
 		} else if (t < (2/2.75f)) {
@@ -18,7 +18,7 @@ public class Bounce extends Easing {
 		}
 	}
 	
-	public  float  easeInOut(float t,float b , float c, float d) {
+	public  double  easeInOut(double t,double b , double c, double d) {
 		if (t < d/2) return easeIn (t*2, 0, c, d) * .5f + b;
 		else return easeOut (t*2-d, 0, c, d) * .5f + c*.5f + b;
 	}

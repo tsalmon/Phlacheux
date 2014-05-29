@@ -47,13 +47,14 @@ public class MovableGroup extends Movable{
 
      @Override
             protected void autoGravityCenter(){
-                if(this.movables.size()!=0){int sumx=0;
-                    int sumy=0;
+                if(this.movables.size()!=0){
+                    double sumx=0;
+                    double sumy=0;
                     for(Movable m : movables){
                         sumx+=m.getGravityCenter().getX();
                         sumy+=m.getGravityCenter().getY();
                     }
-                    this.setGravityCenter(new Point((int)Math.round(sumx/(movables.size())),(int)Math.round(sumy/movables.size())));
+                    this.setGravityCenter(new Point(sumx/(movables.size()),sumy/movables.size()));
                 }
                 this.setGravityCenterPerso(false);
             }
@@ -62,14 +63,14 @@ public class MovableGroup extends Movable{
     //----------------------------
 
         @Override
-           public void rotation(int angle, Point p){
+           public void rotation(double angle, Point p){
                for (Movable m : this.movables){
                    m.rotation(angle,p);
                }
            }
 
         @Override
-           public void rotation(int angle){
+           public void rotation(double angle){
                for (Movable m : this.movables){
                    m.rotation(angle,this.getGravityCenter());
                }
@@ -83,7 +84,7 @@ public class MovableGroup extends Movable{
            }
 
         @Override
-           public void translation(int x_from, int y_from, int x_to, int y_to){
+           public void translation(double x_from, double y_from, double x_to, double y_to){
                for (Movable m : this.movables){
                    m.translation(x_from,y_from,x_to,y_to);
                }
@@ -97,7 +98,7 @@ public class MovableGroup extends Movable{
            }
 
         @Override
-           public void scaling(float scale){
+           public void scaling(double scale){
                for (Movable m : this.movables){
                    m.scaling(scale);
                }

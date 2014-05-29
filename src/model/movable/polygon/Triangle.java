@@ -52,7 +52,7 @@ public class Triangle extends Polygon{
         this.addPoint(this.sommet1);
     }
     
-    public void setSommet1(int x, int y) {
+    public void setSommet1(double x, double y) {
         this.setSommet1(new Point(x,y));
     }
 
@@ -66,7 +66,7 @@ public class Triangle extends Polygon{
         this.addPoint(this.sommet2);
     }
     
-    public void setSommet2(int x, int y) {
+    public void setSommet2(double x, double y) {
         this.setSommet2(new Point(x,y));
     }
 
@@ -80,7 +80,7 @@ public class Triangle extends Polygon{
         this.addPoint(this.sommet3);
     }
     
-    public void setSommet3(int x, int y) {
+    public void setSommet3(double x, double y) {
         this.setSommet3(new Point(x,y));
     }
     
@@ -94,7 +94,7 @@ public class Triangle extends Polygon{
         this.setSommet3(p3);
     }
 
-    public void setSommets(int x1, int y1, int x2, int y2, int x3, int y3) {
+    public void setSommets(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.setSommet1(x1,y1);
         this.setSommet2(x2,y2);
         this.setSommet3(x3,y3);

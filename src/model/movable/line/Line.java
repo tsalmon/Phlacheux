@@ -62,7 +62,7 @@ abstract public class Line extends Figure {
             this.point_depart = p;
         }
 
-        public void setPointDepart(int x, int y) {
+        public void setPointDepart(double x, double y) {
             this.setPointDepart(new Point(x,y));
         }
 
@@ -72,7 +72,7 @@ abstract public class Line extends Figure {
             this.point_arrivee = p;
         }
 
-        public void setPointArrivee(int x, int y) {
+        public void setPointArrivee(double x, double y) {
             this.setPointArrivee(new Point(x,y));
         }
 
@@ -86,7 +86,7 @@ abstract public class Line extends Figure {
             this.setPointArrivee(arrivee);
         }
         
-        public void setPointsTerminaison(int x_point_depart, int y_point_depart, int x_point_arrivee, int y_point_arrivee) {
+        public void setPointsTerminaison(double x_point_depart, double y_point_depart, double x_point_arrivee, double y_point_arrivee) {
             this.setPointDepart(x_point_depart,y_point_depart);
             this.setPointArrivee(x_point_arrivee,y_point_arrivee);
         }

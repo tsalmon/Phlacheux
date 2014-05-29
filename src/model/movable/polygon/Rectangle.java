@@ -19,8 +19,8 @@
         //          Attributs
         //---------------------------
 
-        protected int length;
-        protected int width;
+        protected double length;
+        protected double width;
         protected Point pointhg;
         protected Point pointbg;
         protected Point pointhd;
@@ -30,11 +30,11 @@
         //       Constructeurs
         //----------------------------
 
-            public Rectangle(int length, int width, Point point_haut_gauche) {
+            public Rectangle(double length, double width, Point point_haut_gauche) {
                 super(new ArrayList<Point>());
                 this.length = length;
                 this.width = width;
-                int x=point_haut_gauche.getX(); int y=point_haut_gauche.getY();
+                double x=point_haut_gauche.getX(); double y=point_haut_gauche.getY();
                 this.pointhg = point_haut_gauche;
                 this.pointbg = new Point(x,y-width);
                 this.pointhd = new Point(x+length,y);
@@ -54,19 +54,19 @@
         //----------------------------
 
 
-            public int getLength() {
+            public double getLength() {
                 return length;
             }
 
-            public void setLength(int length) {
+            public void setLength(double length) {
                 this.length = length;
             }
 
-            public int getWidth() {
+            public double getWidth() {
                 return width;
             }
 
-            public void setWidth(int width) {
+            public void setWidth(double width) {
                 this.width = width;
             }        
 
@@ -110,19 +110,19 @@
                 this.addLesPoints();
             }
 
-            public void setPointhg(int x, int y) {
+            public void setPointhg(double x, double y) {
                 this.setPointhg(new Point(x,y));
             }
 
-            public void setPointbg(int x, int y) {
+            public void setPointbg(double x, double y) {
                 this.setPointbg(new Point(x,y));
             }
 
-            public void setPointhd(int x, int y) {
+            public void setPointhd(double x, double y) {
                 this.setPointhd(new Point(x,y));
             }
 
-            public void setPointbd(int x, int y) {
+            public void setPointbd(double x, double y) {
                 this.setPointbd(new Point(x,y));
             }
 

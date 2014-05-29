@@ -19,7 +19,7 @@ public class Square extends Rectangle{
     //       Constructeurs
     //----------------------------
     
-        public Square(int length, Point point_haut_gauche) {
+        public Square(double length, Point point_haut_gauche) {
             super(length, length, point_haut_gauche);
         }
         
@@ -27,11 +27,11 @@ public class Square extends Rectangle{
     //----------------------------
     
 
-        public int getSideLength() {
+        public double getSideLength() {
             return this.getLength();
         }
 
-        public void setSideLength(int length) {
+        public void setSideLength(double length) {
             this.setLength(length);
             this.setWidth(length);
         }        
