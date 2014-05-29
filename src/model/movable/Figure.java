@@ -1,4 +1,6 @@
 package model.movable;
+import XML.XMLSerializable;
+
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  *
  */
 
-abstract public class Figure extends Movable{
+abstract public class Figure extends Movable implements XMLSerializable{
     
 
     //          Attributs

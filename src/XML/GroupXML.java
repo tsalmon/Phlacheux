@@ -8,7 +8,7 @@ import java.util.List;
 public class GroupXML extends Element{
 
     private GroupXML(String name){
-        setName("shape");
+        super("shape");
 
         setAttribute("name", name);
 

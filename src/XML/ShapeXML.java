@@ -53,7 +53,7 @@ public class ShapeXML extends Element{
     }
 
     private ShapeXML(String name, int colorR, int colorG, int colorB){
-        setName("shape");
+        super("shape");
 
         setAttribute("name", name);
         setAttribute("colorR", Integer.toString(colorR));

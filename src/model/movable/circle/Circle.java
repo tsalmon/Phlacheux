@@ -3,6 +3,7 @@ package model.movable.circle;
 
 import model.movable.Figure;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -80,4 +81,8 @@ public class Circle  extends Figure{
     }
 
 
+    @Override
+    public Element toXML() {
+        return null;
+    }
 }

@@ -3,6 +3,7 @@
 
     import java.util.ArrayList;
     import model.movable.Point;
+    import org.jdom2.Element;
 
     /**
      *
@@ -152,4 +153,8 @@
                 return builder.toString();
             }
 
+        @Override
+        public Element toXML() {
+            return null;
+        }
     }

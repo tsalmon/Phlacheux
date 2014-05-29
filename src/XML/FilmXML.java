@@ -1,5 +1,6 @@
 package XML;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class FilmXML extends Element {
     public FilmXML(int backgroundR, int backgroundG, int backgroundB, int width, int height, int duration){
-        setName("film");
+        super("film");
         setAttribute("backgroundR", Integer.toString(backgroundR));
         setAttribute("backgroundG", Integer.toString(backgroundG));
         setAttribute("backgroundB", Integer.toString(backgroundB));
@@ -40,7 +41,7 @@ public class FilmXML extends Element {
             XMLOutputter outputter = new XMLOutputter();
             outputter.setFormat(Format.getPrettyFormat());
             FileWriter fw = new FileWriter(filename+".xml");
-            outputter.output(this, fw);
+            outputter.output(new Document(this), fw);
             fw.close();
         }
         catch (Exception ex) {

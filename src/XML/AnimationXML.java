@@ -28,7 +28,7 @@ public class AnimationXML extends Element {
     }
 
     private AnimationXML(int startTime, int endTime, Easing easing){
-        setName("animation");
+        super("animation");
         setAttribute("startTime", Integer.toString(startTime));
         setAttribute("endTime", Integer.toString(endTime));
         setAttribute("easing", easingString(easing));
