@@ -3,6 +3,9 @@ package model.movable.line;
 
 import model.movable.Figure;
 import model.movable.Point;
+import org.jdom2.Element;
+
+import java.util.Iterator;
 
 /**
  *
@@ -104,6 +107,16 @@ abstract public class Line extends Figure {
             return builder.toString();
         }
 
-        
+        public Element toXML(){
+            Element el = super.toXML();
+
+            el.setAttribute("type", "line");
+            el.setAttribute("srcX", Integer.toString(point_depart.getX()));
+            el.setAttribute("srcY", Integer.toString(point_depart.getY()));
+            el.setAttribute("dstX", Integer.toString(point_arrivee.getX()));
+            el.setAttribute("dstY", Integer.toString(point_arrivee.getY()));
+
+            return el;
+        }
 
 }

@@ -3,6 +3,7 @@ package model.movable.polygon;
 
 import java.util.ArrayList;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -82,6 +83,14 @@ public class EquilateralTriangle extends Triangle {
             StringBuilder builder = new StringBuilder();
             builder.append(super.toString(name));
             return builder.toString();
+        }
+
+        public Element toXML(){
+            Element el = super.toXML();
+
+            el.setAttribute("type", "equilateralTriangle");
+
+            return el;
         }
 
 }

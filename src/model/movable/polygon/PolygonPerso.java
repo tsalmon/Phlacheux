@@ -2,6 +2,8 @@
 package model.movable.polygon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import model.movable.Point;
 import org.jdom2.Element;
 
@@ -51,6 +53,10 @@ public class PolygonPerso extends Polygon{
 
     @Override
     public Element toXML() {
-        return null;
+        Element el = super.toXML();
+
+        el.setAttribute("type", "polygonPerso");
+
+        return el;
     }
 }

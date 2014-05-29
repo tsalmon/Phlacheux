@@ -2,8 +2,11 @@
 package model.movable.polygon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import model.movable.Figure;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -44,6 +47,24 @@ import model.movable.Point;
         return builder.toString();
     }
 
-        
+    public Element toXML(){
+        Element el = super.toXML();
+
+        el.setAttribute("type", "polygon");
+
+        Element pointsElement = new Element("points");
+        Iterator it = points.iterator();
+        while (it.hasNext()){
+            Point p = (Point) it.next();
+            Element pointElement = new Element("point");
+            pointElement.setAttribute("x", Integer.toString(p.getX()));
+            pointElement.setAttribute("y", Integer.toString(p.getY()));
+            pointsElement.addContent(pointElement);
+        }
+
+        el.addContent(pointsElement);
+
+        return el;
+    }
 
 }

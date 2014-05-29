@@ -155,6 +155,15 @@
 
         @Override
         public Element toXML() {
-            return null;
+            Element el = super.toXML();
+
+            el.setAttribute("type", "rectangle");
+
+            el.setAttribute("srcX", Integer.toString(pointhg.getX()));
+            el.setAttribute("srcY", Integer.toString(pointhg.getY()));
+            el.setAttribute("sideH", Integer.toString(width));
+            el.setAttribute("sideV", Integer.toString(length));
+
+            return el;
         }
     }

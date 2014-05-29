@@ -1,5 +1,6 @@
 package model.movable;
 import XML.XMLSerializable;
+import org.jdom2.Element;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -164,6 +165,17 @@ abstract public class Figure extends Movable implements XMLSerializable{
             builder.append(", strokeThickness=").append(strokeThickness);
             return builder.toString();
     }
+
+        public Element toXML(){
+            Element el = new Element("shape");
+
+            el.setAttribute("name", "name");
+            el.setAttribute("colorR", Integer.toString(color.getRed()));
+            el.setAttribute("colorG", Integer.toString(color.getGreen()));
+            el.setAttribute("colorB", Integer.toString(color.getBlue()));
+
+            el.addContent(new Element("animations"));
+        }
 
 		public Shape getShape() {
 			GeneralPath gp = new GeneralPath();

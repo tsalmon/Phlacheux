@@ -41,6 +41,10 @@ public class Segment extends Line{
 
     @Override
     public Element toXML() {
-        return null;
+        Element el = super.toXML();
+
+        el.setAttribute("type", "segment");
+
+        return el;
     }
 }

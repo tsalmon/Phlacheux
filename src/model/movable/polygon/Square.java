@@ -3,6 +3,7 @@ package model.movable.polygon;
 
 import java.util.ArrayList;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -54,5 +55,11 @@ public class Square extends Rectangle{
             return builder.toString();
         }
 
+        public Element toXML(){
+            Element el = super.toXML();
 
+            el.setAttribute("type", "square");
+
+            return el;
+        }
 }

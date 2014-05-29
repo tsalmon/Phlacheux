@@ -83,6 +83,14 @@ public class Circle  extends Figure{
 
     @Override
     public Element toXML() {
-        return null;
+        Element el = super.toXML();
+
+        el.setAttribute("type", "circle");
+
+        el.setAttribute("centerX", Integer.toString(center.getX()));
+        el.setAttribute("centerY", Integer.toString(center.getY()));
+        el.setAttribute("radius", Integer.toString(radius));
+
+        return el;
     }
 }

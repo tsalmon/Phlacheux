@@ -69,6 +69,12 @@ public class QuadraticCurve extends Line {
 
     @Override
     public Element toXML() {
-        return null;
+        Element el = super.toXML();
+
+        el.setAttribute("type", "quadraticLine");
+        el.setAttribute("ctrlX", Integer.toString(point_controle.getX()));
+        el.setAttribute("ctrlY", Integer.toString(point_controle.getY()));
+
+        return el;
     }
 }
