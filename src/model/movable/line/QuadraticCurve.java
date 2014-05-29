@@ -2,6 +2,7 @@
 package model.movable.line;
 
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -65,4 +66,9 @@ public class QuadraticCurve extends Line {
             builder.append("]");
             return builder.toString();
         }
+
+    @Override
+    public Element toXML() {
+        return null;
+    }
 }

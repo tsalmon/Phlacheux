@@ -3,6 +3,7 @@ package model.movable.polygon;
 
 import java.util.ArrayList;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -123,4 +124,8 @@ public class Triangle extends Polygon{
             return builder.toString();
         }
 
+    @Override
+    public Element toXML() {
+        return null;
+    }
 }

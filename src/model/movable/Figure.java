@@ -1,5 +1,9 @@
 package model.movable;
+import XML.XMLSerializable;
+
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
 import java.lang.Math.*;
 import java.util.ArrayList;
 
@@ -13,7 +17,7 @@ import java.util.ArrayList;
  *
  */
 
-abstract public class Figure extends Movable{
+abstract public class Figure extends Movable implements XMLSerializable{
     
 
     //          Attributs
@@ -160,5 +164,13 @@ abstract public class Figure extends Movable{
             builder.append(", strokeThickness=").append(strokeThickness);
             return builder.toString();
     }
+
+		public Shape getShape() {
+			GeneralPath gp = new GeneralPath();
+			for(Point p : points){
+				
+			}
+			return gp;
+		}
         
 }

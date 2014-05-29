@@ -25,7 +25,7 @@ public class FramewithMenuShortcut extends JFrame {
     openItem = fileMenu.add("Open");
     closeItem = fileMenu.add("Close");
     fileMenu.addSeparator();
-    saveItem = fileMenu.add("Save");
+    saveItem = fileMenu.add("Save");	
     saveAsItem = fileMenu.add("Save As...");
     fileMenu.addSeparator();
     printItem = fileMenu.add("Print");

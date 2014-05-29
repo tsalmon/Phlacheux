@@ -2,6 +2,7 @@
 package model.movable.line;
 
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -38,4 +39,8 @@ public class Segment extends Line{
         }
 
 
+    @Override
+    public Element toXML() {
+        return null;
+    }
 }
