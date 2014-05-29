@@ -30,9 +30,9 @@ public class Launcher extends JFrame implements ActionListener{
 
 	public void testinitproject(){
 		name.setText("test");
-		size.setValue(2000);
-		width.setValue(1080);
-		height.setValue(1920);
+		size.setValue(3600);
+		width.setValue(1920);
+		height.setValue(1080);
 	}
 	
 	public Launcher() {
@@ -53,7 +53,7 @@ public class Launcher extends JFrame implements ActionListener{
 	}
 
 	public Launcher(String nom, int duree, int largeur, int hauteur){
-		new Placheux(nom, duree, largeur, hauteur);
+		initVue(nom, duree, largeur, hauteur);
 	}
 
 	public void	ecouteurs(){
@@ -102,7 +102,7 @@ public class Launcher extends JFrame implements ActionListener{
 
 	public void initVue(File film){
 		JFrame frame = new JFrame();
-		Placheux screen = new Placheux(film);
+		Placheux screen = new Placheux(frame, film);
 		frame.setContentPane(screen);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
@@ -114,8 +114,8 @@ public class Launcher extends JFrame implements ActionListener{
 	}
 
 	public void initVue(String nom, int size, int width, int height){
-		JFrame frame = new JFrame();
-		Placheux screen = new Placheux(nom, size, width, height);
+		JFrame frame = new JFrame(nom);
+		Placheux screen = new Placheux(frame, nom, size, width, height);
 		frame.setContentPane(screen);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
@@ -130,7 +130,7 @@ public class Launcher extends JFrame implements ActionListener{
 		System.out.println("Usage:\n"+
 				"0 argument: launcher gui\n" +
 				"1 argument: fichier xml d'animation\n" +
-				"4 arguments: nom_film duree_film largeur_film hauteur_film\n");
+				"4 arguments: nom_film duree_film largeur_film hauteur_film");
 	}
 
 	public void ouvrirFilm(){
@@ -147,7 +147,7 @@ public class Launcher extends JFrame implements ActionListener{
 				initVue(select);
 			}
 		} else {
-			new Placheux(chooser.getSelectedFile());
+			initVue(chooser.getSelectedFile());
 		}		
 	}
 	
@@ -180,7 +180,7 @@ public class Launcher extends JFrame implements ActionListener{
 		if(args.length == 1){
 			new Launcher(args[0]);
 		} else if(args.length == 4){
-			new Placheux(args[0], 
+			new Launcher(args[0], 
 					Integer.parseInt(args[1]), 
 					Integer.parseInt(args[2]), 
 					Integer.parseInt(args[3]));

@@ -14,6 +14,12 @@ import model.movable.Figure;
 
 public class Placheux extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
 	private static final long serialVersionUID = 1L;
+	
+	JFrame frame;
+	JMenuBar bar;
+	JMenu fichier = new JMenu("Fichier");
+	JMenu figure = new JMenu("Fichier");
+
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
 	boolean translation_mode = false;
@@ -21,8 +27,7 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 	boolean	changement_echelle_mode = false;
 	boolean create_figure = false;
 	boolean bezier_mode = false;
-	int bezier[] = new int[3];
-    private Point arrowStart;
+	private Point arrowStart;
     private Point arrowEnd;
     private PointyThing pointyThing = new PointyThing();
 
@@ -39,7 +44,10 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 	Shape fig_inc = new GeneralPath();
 	int id_fig = -1; 
 
-	Placheux(String nom, int size, int width, int height){
+	Placheux(JFrame frame, String nom, int size, int width, int height){
+		
+		
+		this.frame = frame;
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		view.setPreferredSize(new Dimension(width, height));
 
@@ -83,15 +91,19 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 		}else {
 			panel_center = new JScrollPane(panel_view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);			
 		}
+		
 		this.add("Center", panel_center);
 		this.add("South", panel_south);
 		
 		view.addMouseListener(this);
 		view.addMouseMotionListener(this);
 		tab.addMouseListener(this);
+		
+		frame.setJMenuBar(bar);
 	}
 	
-	public Placheux(File animeFile) {
+	public Placheux(JFrame frame, File animeFile) {
+		this.frame = frame;
 		System.out.println(animeFile);
 	}
 
@@ -314,9 +326,6 @@ public class Placheux extends JPanel implements MouseListener, MouseMotionListen
 		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.setColor(Color.BLACK);
-
-			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			if(fig_inc == null){
 				doDrawing(g);				
 			} else {
