@@ -1,7 +1,10 @@
 
 package model.movable;
+import org.jdom2.Element;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  *
@@ -113,5 +116,37 @@ public class MovableGroup extends Movable{
            return builder.toString();
        }
 
+        public Element toXML(){
+            Element el = new Element("group");
+            //TODO::nom du group!
+            el.setAttribute("name", "groupname");
+
+            Element animations = new Element("animations");
+
+            Element grouplinks = new Element("grouplinks");
+            Element shapelinks = new Element("shapelinks");
+
+            Iterator it = movables.iterator();
+
+            while (it.hasNext()){
+                Movable m = (Movable) it.next();
+
+                if (m instanceof Figure){
+                    String shapeName = m.toXML().getAttribute("name").toString();
+                    Element shapeLink = new Element("shapeLink");
+                    shapeLink.setAttribute("name", shapeName);
+                    shapelinks.addContent(shapeLink);
+                }
+
+                if (m instanceof MovableGroup){
+                    String groupName = m.toXML().getAttribute("name").toString();
+                    Element groupLink = new Element("grouplink");
+                    groupLink.setAttribute("name", groupName);
+                    grouplinks.addContent(groupLink);
+                }
+            }
+
+            return el;
+        }
 
 }

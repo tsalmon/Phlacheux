@@ -1,5 +1,8 @@
 package model.movable;
 
+import XML.XMLSerializable;
+import org.jdom2.Element;
+
 /**
  *
  * @author Josian Chevalier, Vladislav Fitc, Thomas Salmon
@@ -10,7 +13,7 @@ package model.movable;
  *
  */
 
-abstract public class Movable {
+abstract public class Movable implements XMLSerializable{
 
     //          Attributs
     //---------------------------
@@ -77,6 +80,5 @@ abstract public class Movable {
             builder.append(", gravity_center_personalised=").append(gravity_center_personalised);
             return builder.toString();
         }
-        
         
 }

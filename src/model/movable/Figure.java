@@ -169,6 +169,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         public Element toXML(){
             Element el = new Element("shape");
 
+            //TODO::nom d'une figure!!!
             el.setAttribute("name", "name");
             el.setAttribute("colorR", Integer.toString(color.getRed()));
             el.setAttribute("colorG", Integer.toString(color.getGreen()));
