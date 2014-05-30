@@ -15,15 +15,13 @@ import model.movable.Movable;
  */
 public abstract class Animation {
 
-
     //          Attributs
     //---------------------------
 
         protected Movable movable;
         protected Easing easing;
         protected double debut;
-        protected double fin;
-        protected String easing_Type;
+        protected double fin;  
         protected double current;
         
     
@@ -81,7 +79,7 @@ public abstract class Animation {
             this.fin = fin;
         }
 
-        public String getEasing_Type() {
+        public enum getEasing_Type() {
             return easing_Type;
         }
 
@@ -92,21 +90,37 @@ public abstract class Animation {
 
     //          Methodes
     //----------------------------
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Animation [");
-        builder.append("current=").append(current);
-        builder.append(", debut=").append(debut);
-        builder.append(", easing=").append(easing);
-        builder.append(", easing_Type=").append(easing_Type);
-        builder.append(", fin=").append(fin);
-        builder.append(", movable=").append(movable);
-        builder.append("]");
-        return builder.toString();
-    }
-
         
+        protected double applyEasing(double s,double t,double c,double d){
+            switch(this.getEasing_Type()){
+                case IN:
+                    return this.getEasing().easeIn(s,t,c,d);
+                case OUT:
+                    return this.getEasing().easeOut(s,t,c,d);
+                case INOUT:
+                    return this.getEasing().easeInOut(s,t,c,d);
+                case NONE:
+                    return this.getEasing().easeNone(s,t,c,d);
+                default:
+                    return this.getEasing().easeNone(s,t,c,d);
+            }
+            
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("Animation [");
+            builder.append("current=").append(current);
+            builder.append(", debut=").append(debut);
+            builder.append(", easing=").append(easing);
+            builder.append(", easing_Type=").append(easing_Type);
+            builder.append(", fin=").append(fin);
+            builder.append(", movable=").append(movable);
+            builder.append("]");
+            return builder.toString();
+        }
+
+
 
 }
