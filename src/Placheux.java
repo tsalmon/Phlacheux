@@ -1,6 +1,9 @@
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -9,6 +12,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.TransferHandler.DropLocation;
+import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
@@ -20,6 +25,7 @@ import XML.FilmParser;
 import model.movable.Figure;
 
 import org.jdom2.Document;
+
 
 public class Placheux extends JPanel implements MouseListener, 
 MouseMotionListener, 
@@ -40,8 +46,10 @@ TreeSelectionListener{
 	JMenuItem quitter_film = new JMenuItem("Quitter");
 
 	BufferedImage[] img_icon = new BufferedImage[8]; 
-	JLabel[] label_img = new JLabel[8];
-	
+	DragComponent[] label_img = new DragComponent[8];
+
+	JLabel label1, label2;
+
 	private JTree tree;
 
 	JPopupMenu menu = new JPopupMenu();
@@ -73,11 +81,11 @@ TreeSelectionListener{
 		this.setLayout(new BorderLayout());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		view.setPreferredSize(new Dimension(width, height));
-		
+
 		init_menu_bar();
 		init_bouton_image();
 		init_bouton_dessin();
-		
+
 		panel_center(width, height);
 		panel_west();
 		panel_south(size);
@@ -115,7 +123,7 @@ TreeSelectionListener{
 		rendu_film.addActionListener(this);
 		quitter_film.addActionListener(this);
 	}
-	
+
 	public void 
 	init_timelineTexte(Object[] tab_colonnes, String[][] tab_data, int size){
 		int min = 0;
@@ -141,7 +149,7 @@ TreeSelectionListener{
 		panel_tab.setPreferredSize(new Dimension(500, 54));
 		return panel_tab;
 	}
-	
+
 	public void panel_south(int size){
 		Object[] tab_colonnes = new Object[size];
 		String[][] tab_data = new String[1][size];
@@ -153,11 +161,11 @@ TreeSelectionListener{
 		this.add("South", panel_south);
 
 	}
-	
+
 	public void init_drag(){
-		
+
 	}
-	
+
 	public void panel_center(int width, int height){
 		final JScrollPane panel_center;
 		JPanel panel_view = new JPanel();
@@ -183,25 +191,16 @@ TreeSelectionListener{
 		this.add("Center", panel_center);
 
 	}
-	
+
 	public JPanel panel_listefigure(Dimension minDim){
 		JPanel fig_select = new JPanel();
+
 		fig_select.setMinimumSize(minDim);
 		fig_select.setLayout(new GridLayout(4, 2));
 
 		for(int i = 0; i < label_img.length; i++){
 			fig_select.add(label_img[i]);
 		}
-		
-		/*fig_select.add(carre_btn);
-		fig_select.add(rect_btn);
-		fig_select.add(circle_btn);
-		fig_select.add(cross_btn);
-		fig_select.add(tri_equi_btn);
-		fig_select.add(tri_iso_btn);
-		fig_select.add(fleche_btn);
-		fig_select.add(star_btn);*/
-
 		return fig_select;
 	}
 
@@ -224,7 +223,7 @@ TreeSelectionListener{
 
 		sp_tree.setMinimumSize(minimumSize);
 		splitPane.setDividerLocation(100); 
-		splitPane.setPreferredSize(new Dimension(500, 300));
+		splitPane.setPreferredSize(new Dimension(300, 300));
 
 		//Add the split pane to this panel.
 		this.add("West", splitPane);
@@ -241,6 +240,13 @@ TreeSelectionListener{
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {}
 		public void popupMenuWillBecomeVisible(PopupMenuEvent event) {}
 	};
+
+	public void init_icones_drag(){
+		for(int i = 0; i < img_icon.length; i++){
+			label_img[i].setTransferHandler(new TransferHandler("icon"));
+		}
+		view.setTransferHandler(new TransferHandler("icon"));
+	}	
 
 	public void init_bouton_image(){
 		try {
@@ -262,18 +268,12 @@ TreeSelectionListener{
 	}
 
 	public void init_bouton_dessin(){
+		Color[] b = {Color.BLACK, Color.BLUE, Color.GREEN};
 		for(int i = 0; i < img_icon.length; i++){
-			label_img[i] = new JLabel(new ImageIcon(img_icon[i]));
+			label_img[i] = new DragComponent(img_icon[i], i);
+			label_img[i].repaint();
 		}
-		
-		/*carre_btn = new JButton(new ImageIcon(carre_btn_img));
-		rect_btn = new JButton(new ImageIcon(rect_btn_img));
-		circle_btn = new JButton(new ImageIcon(circle_btn_img));
-		cross_btn = new JButton(new ImageIcon(cross_btn_img));
-		tri_equi_btn = new JButton(new ImageIcon(tri_equi_btn_img));
-		tri_iso_btn = new JButton(new ImageIcon(tri_iso_btn_img));
-		fleche_btn = new JButton(new ImageIcon(fleche_btn_img));
-		star_btn = new JButton(new ImageIcon(star_btn_img));*/
+		view.setTransferHandler(new ImgTransferHandler(view));
 	}
 
 	public void init_menu_bar(){
@@ -824,18 +824,6 @@ TreeSelectionListener{
 	public void mouseEntered(MouseEvent e) {}
 	@Override
 	public void mouseExited(MouseEvent e) {}
-
 	@Override
-	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	class DragMouseAdapter extends MouseAdapter {
-		public void mousePressed(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			TransferHandler handler = c.getTransferHandler();
-			handler.exportAsDrag(c, e, TransferHandler.COPY);
-		}
-	}
+	public void valueChanged(TreeSelectionEvent e) {}
 }
