@@ -23,6 +23,10 @@ public class Square extends Rectangle{
         public Square(double length, Point point_haut_gauche) {
             super(length, length, point_haut_gauche);
         }
+
+        public Square(Element xml){
+            super(xml);
+        }
         
     //          Accesseurs
     //----------------------------

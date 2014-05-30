@@ -3,6 +3,7 @@ package model.movable.polygon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import model.movable.Figure;
 import model.movable.Point;
@@ -22,11 +23,27 @@ import org.jdom2.Element;
     
     //          Constructeur
     //----------------------------
-    
+
         protected Polygon(ArrayList<Point> points) {
             super(points);
         }
-    
+
+        protected Polygon(Element xml){
+            super(xml);
+
+            List<Element> pointsElement = xml.getChild("points").getChildren();
+
+            Iterator it = pointsElement.iterator();
+
+            while (it.hasNext()){
+                Element pointElement = (Element) it.next();
+
+                double pX = Double.parseDouble(pointElement.getAttributeValue("x"));
+                double pY = Double.parseDouble(pointElement.getAttributeValue("y"));
+
+                this.addPoint(new Point(pX, pY));
+            }
+        }
 
     //          Methodes
     //----------------------------
@@ -49,8 +66,6 @@ import org.jdom2.Element;
 
     public Element toXML(){
         Element el = super.toXML();
-
-        el.setAttribute("type", "polygon");
 
         Element pointsElement = new Element("points");
         Iterator it = points.iterator();

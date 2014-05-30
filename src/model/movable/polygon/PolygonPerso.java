@@ -26,12 +26,17 @@ public class PolygonPerso extends Polygon{
     
     //          Constructeur
     //----------------------------
-    
-        public PolygonPerso(ArrayList<Point> points) {
-            super(points);
-        }
 
-    
+        public PolygonPerso(ArrayList<Point> points) {
+                super(points);
+            }
+
+        public PolygonPerso(Element xml) {
+        super(xml);
+    }
+
+
+
     //          Accesseurs
     //----------------------------
         

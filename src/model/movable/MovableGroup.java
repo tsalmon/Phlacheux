@@ -5,6 +5,7 @@ import org.jdom2.Element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -21,15 +22,41 @@ public class MovableGroup extends Movable{
     //          Attributs
     //---------------------------
 
-     protected ArrayList<Movable> movables;
+     protected ArrayList<Movable> movables = new ArrayList<Movable>();
 
     
     
     //         Constructeur
     //----------------------------
 
-        public void FigureGroup(){
-            movables=new ArrayList<Movable>();
+        public MovableGroup(){
+        }
+
+        protected MovableGroup(Element xml){
+            super(xml);
+
+            List<Element> grouplinks = xml.getChild("grouplinks").getChildren();
+            List<Element> shapelinks = xml.getChild("shapelinks").getChildren();
+
+            Iterator it = grouplinks.iterator();
+
+            while (it.hasNext()){
+                Element e = (Element) it.next();
+                String eName = e.getAttributeValue("name").toString();
+                addMovable(MovablePool.getInstance().getMovable(eName));
+            }
+
+            it = shapelinks.iterator();
+
+            while (it.hasNext()){
+                Element e = (Element) it.next();
+                String eName = e.getAttributeValue("name").toString();
+                addMovable(MovablePool.getInstance().getMovable(eName));
+            }
+
+            //TODO: load animations!
+            List<Element> animations = xml.getChild("animations").getChildren();
+
         }
 
      
@@ -119,11 +146,10 @@ public class MovableGroup extends Movable{
 
         public Element toXML(){
             Element el = new Element("group");
-            //TODO::nom du group!
-            el.setAttribute("name", "groupname");
+            el.setAttribute("name", name);
 
             Element animations = new Element("animations");
-
+            //TODO: add animations!
             Element grouplinks = new Element("grouplinks");
             Element shapelinks = new Element("shapelinks");
 
@@ -146,6 +172,10 @@ public class MovableGroup extends Movable{
                     grouplinks.addContent(groupLink);
                 }
             }
+
+            el.addContent(animations);
+            el.addContent(grouplinks);
+            el.addContent(shapelinks);
 
             return el;
         }

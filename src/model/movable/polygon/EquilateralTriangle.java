@@ -25,6 +25,11 @@ public class EquilateralTriangle extends Triangle {
         super.setSommet3(this.getLast(this.getSommet1(),this.getSommet2(),true));
     }
 
+    public EquilateralTriangle(Element xml) {
+        super(xml);
+        super.setSommet3(this.getLast(this.getSommet1(),this.getSommet2(),true));
+    }
+
 
     
     //          Accesseurs

@@ -43,6 +43,20 @@
                 this.addLesPoints();
             }
 
+            public Rectangle(Element xml){
+                super(xml);
+                this.length = Double.parseDouble(xml.getAttributeValue("sideV").toString());
+                this.width = Double.parseDouble(xml.getAttributeValue("sideH").toString());
+                double x = Double.parseDouble(xml.getAttributeValue("srcX").toString());
+                double y = Double.parseDouble(xml.getAttributeValue("srcY").toString());
+
+                this.pointhg = new Point(x,y);
+                this.pointbg = new Point(x,y-width);
+                this.pointhd = new Point(x+length,y);
+                this.pointbd = new Point(x+length,y-width);
+                this.addLesPoints();
+            }
+
             private void addLesPoints(){
                 this.addPoint(this.pointhg);
                 this.addPoint(this.pointbg);

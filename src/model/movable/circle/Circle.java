@@ -39,6 +39,17 @@ public class Circle  extends Figure{
             this.radius = radius;
         }
 
+        public Circle(Element xml) {
+            super(xml);
+
+            double centerX = Double.parseDouble(xml.getAttributeValue("centerX"));
+            double centerY = Double.parseDouble(xml.getAttributeValue("centerY"));
+            double radius  = Double.parseDouble(xml.getAttributeValue("radius"));
+            this.center = new Point(centerX, centerY);
+            this.addPoint(this.center);
+            this.radius = radius;
+        }
+
     
     //          Accesseurs
     //----------------------------

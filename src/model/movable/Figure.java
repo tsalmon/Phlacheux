@@ -1,5 +1,6 @@
 package model.movable;
 import XML.XMLSerializable;
+import org.jdom2.Document;
 import org.jdom2.Element;
 
 import java.awt.Color;
@@ -24,8 +25,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //          Attributs
     //---------------------------
 
-        protected double strokeThickness;
-        protected ArrayList<Point> points;
+        protected double strokeThickness = 1;
+        protected ArrayList<Point> points = new ArrayList<Point>();
         protected Color borderColor;
         private Color color;
 
@@ -36,13 +37,17 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         protected Figure(){
             System.out.print("test");
-            points=new ArrayList<Point>();
-            this.changeStrokeThickness(1);
         }
-        
+
         protected Figure(ArrayList<Point> p){
             points=p;
-            this.changeStrokeThickness(1);
+        }
+
+        protected Figure(Element xml){
+            super(xml);
+            int R = Integer.parseInt(xml.getAttribute("colorR").toString());
+            int G = Integer.parseInt(xml.getAttribute("colorG").toString());
+            int B = Integer.parseInt(xml.getAttribute("colorB").toString());
         }
         
     //          Accesseurs
@@ -109,7 +114,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
             for(Point point : points){
                 point.rotateAroundRadian(angle_rad, p);
             }
-            this.getGravityCenter().rotateAroundRadian(angle,p);
+            this.getGravityCenter().rotateAroundRadian(angle, p);
         }
 
         @Override
@@ -169,13 +174,13 @@ abstract public class Figure extends Movable implements XMLSerializable{
         public Element toXML(){
             Element el = new Element("shape");
 
-            //TODO::nom d'une figure!!!
-            el.setAttribute("name", "name");
+            el.setAttribute("name", name);
             el.setAttribute("colorR", Integer.toString(color.getRed()));
             el.setAttribute("colorG", Integer.toString(color.getGreen()));
             el.setAttribute("colorB", Integer.toString(color.getBlue()));
 
             el.addContent(new Element("animations"));
+            //TODO:add animations!
 
             return el;
         }
