@@ -26,18 +26,20 @@ public abstract class Animation implements XMLSerializable{
         protected double fin;  
         protected double current;
         protected Easing_Type easing_type;
+        protected String name;
         
     
     //          Constructeur
     //----------------------------
         
-        protected Animation(Movable m, double d, double f, double current_time, Easing e, Easing_Type et){
+        protected Animation(String name, Movable m, double d, double f, double current_time, Easing e, Easing_Type et){
             this.setMovable(m);
             this.setEasing(e);
             this.setDebut(d);
             this.setEasing_type(et);
             this.setFin(f);
             this.setCurrent(current_time);
+            this.name=name;
         }
 
     //          Accesseurs
@@ -90,9 +92,19 @@ public abstract class Animation implements XMLSerializable{
             this.easing_type = easing_type;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
 
     //          Methodes
     //----------------------------
+        
+        abstract public void goToTime(double t);
         
         protected double applyEasing(double s,double t,double c,double d){
             switch(this.getEasing_type()){

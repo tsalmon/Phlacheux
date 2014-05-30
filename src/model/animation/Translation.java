@@ -28,26 +28,26 @@ public class Translation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_depart, Point point_arrivee) {
-        super(movable, debut, fin, current_time, easing, easing_type);
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_depart, Point point_arrivee) {
+        super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_arrivee) {
-        super(movable, debut, fin, current_time, easing, easing_type);
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_arrivee) {
+        super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Point point_arrivee) {
-        super(movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_arrivee) {
+        super(name, movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Point point_depart, Point point_arrivee) {
-        super(movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_depart, Point point_arrivee) {
+        super(name, movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
@@ -119,9 +119,12 @@ public class Translation extends Animation{
         builder.append(", easing_type=").append(easing_type);
         builder.append(", fin=").append(fin);
         builder.append(", movable=").append(movable);
+        builder.append(", name=").append(name);
         builder.append("]");
         return builder.toString();
     }
+        
+        
 
         
 }

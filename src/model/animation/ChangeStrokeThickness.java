@@ -26,13 +26,13 @@ public class ChangeStrokeThickness extends Animation{
     //        Constructeur
     //---------------------------
 
-    public ChangeStrokeThickness(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double thickness_difference) {
-        super(movable, debut, fin, current_time, easing, easing_type);
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double thickness_difference) {
+        super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setThickness(thickness_difference);
     }
 
-    public ChangeStrokeThickness(Movable movable, double debut, double fin, double current_time,  double thickness_difference) {
-        super(movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time,  double thickness_difference) {
+        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
         this.setThickness(thickness_difference);
     }
 
@@ -71,20 +71,21 @@ public class ChangeStrokeThickness extends Animation{
             return el;
         }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("ChangeStrokeThickness [");
-        builder.append("thickness_difference=").append(thickness_difference);
-        builder.append(", current=").append(current);
-        builder.append(", debut=").append(debut);
-        builder.append(", easing=").append(easing);
-        builder.append(", easing_type=").append(easing_type);
-        builder.append(", fin=").append(fin);
-        builder.append(", movable=").append(movable);
-        builder.append("]");
-        return builder.toString();
-    }
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("ChangeStrokeThickness [");
+            builder.append("thickness_difference=").append(thickness_difference);
+            builder.append(", current=").append(current);
+            builder.append(", debut=").append(debut);
+            builder.append(", easing=").append(easing);
+            builder.append(", easing_type=").append(easing_type);
+            builder.append(", fin=").append(fin);
+            builder.append(", movable=").append(movable);
+            builder.append(", name=").append(name);
+            builder.append("]");
+            return builder.toString();
+        }
 
         
 

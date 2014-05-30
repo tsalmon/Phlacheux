@@ -28,26 +28,26 @@ public class Rotation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Rotation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle, Point centre) {
-        super(movable, debut, fin, current_time, easing, easing_type);
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle, Point centre) {
+        super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(centre);
         this.setAngle(angle);
     }
 
-    public Rotation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle) {
-        super(movable, debut, fin, current_time, easing, easing_type);
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle) {
+        super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
-    public Rotation(Movable movable, double debut, double fin, double current_time,  double angle) {
-        super(movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle) {
+        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
-    public Rotation(Movable movable, double debut, double fin, double current_time,  double angle, Point centre) {
-        super(movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle, Point centre) {
+        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
         this.setCenter(centre);
         this.setAngle(angle);
     }
@@ -77,6 +77,7 @@ public class Rotation extends Animation{
     //          Methodes
     //----------------------------
         
+        @Override
         public void goToTime(double t){
             double angle_to_apply=this.getAngleAt(t)-this.getAngleAt(this.getCurrent());
             this.getMovable().rotation(angle_to_apply, this.getCenter());
@@ -86,21 +87,6 @@ public class Rotation extends Animation{
             return this.applyEasing(0, t, this.getAngle(), this.getFin()-this.getDebut());
         }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Rotation [");
-        builder.append("angle=").append(angle);
-        builder.append(", center=").append(center);
-        builder.append(", current=").append(current);
-        builder.append(", debut=").append(debut);
-        builder.append(", easing=").append(easing);
-        builder.append(", easing_Type=").append(easing_type);
-        builder.append(", fin=").append(fin);
-        builder.append(", movable=").append(movable);
-        builder.append("]");
-        return builder.toString();
-    }
 
     @Override
     public Element toXML(){
@@ -112,6 +98,23 @@ public class Rotation extends Animation{
         el.setAttribute("angle", Double.toString(angle));
 
         return el;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Rotation [");
+        builder.append("angle=").append(angle);
+        builder.append(", center=").append(center);
+        builder.append(", current=").append(current);
+        builder.append(", debut=").append(debut);
+        builder.append(", easing=").append(easing);
+        builder.append(", easing_type=").append(easing_type);
+        builder.append(", fin=").append(fin);
+        builder.append(", movable=").append(movable);
+        builder.append(", name=").append(name);
+        builder.append("]");
+        return builder.toString();
     }
 
         
