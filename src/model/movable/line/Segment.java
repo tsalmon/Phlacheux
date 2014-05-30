@@ -26,6 +26,11 @@ public class Segment extends Line{
         public Segment(Point point1, Point point2, double strokeThickness) {
             super(point1, point2, strokeThickness);
         }
+
+        public Segment(Element xml) {
+            super(xml);
+        }
+
     //          Methodes
     //----------------------------
 

@@ -35,6 +35,16 @@ public class QuadraticCurve extends Line {
             this.point_controle = controle;
             this.addPoint(controle);
         }
+
+        public QuadraticCurve(Element xml){
+            super(xml);
+
+            double ctrlX = Double.parseDouble(xml.getAttributeValue("ctrlX"));
+            double ctrlY = Double.parseDouble(xml.getAttributeValue("ctrlY"));
+
+            this.point_controle = new Point(ctrlX, ctrlY);
+            this.addPoint(this.point_controle);
+        }
     
     //          Accesseurs
     //----------------------------
@@ -71,7 +81,7 @@ public class QuadraticCurve extends Line {
     public Element toXML() {
         Element el = super.toXML();
 
-        el.setAttribute("type", "quadraticLine");
+        el.setAttribute("type", "quadraticCurve");
         el.setAttribute("ctrlX", Double.toString(point_controle.getX()));
         el.setAttribute("ctrlY", Double.toString(point_controle.getY()));
 

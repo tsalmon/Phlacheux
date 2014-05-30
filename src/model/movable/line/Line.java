@@ -30,7 +30,6 @@ abstract public class Line extends Figure {
     //----------------------------
         
         public Line(Point depart, Point arrivee) {
-            super();
             this.point_depart = depart;
             this.point_arrivee = arrivee;
             this.addPoint(depart);
@@ -38,15 +37,28 @@ abstract public class Line extends Figure {
         }
         
         public Line(Point depart, Point arrivee, double strokeThickness) {
-            super();
             this.point_depart = depart;
             this.point_arrivee = arrivee;
             this.addPoint(depart);
             this.addPoint(arrivee);
             this.changeStrokeThickness(strokeThickness);
         }
-        
-        
+
+        public Line(Element xml) {
+            super(xml);
+            double srcX = Double.parseDouble(xml.getAttributeValue("srcX"));
+            double srcY = Double.parseDouble(xml.getAttributeValue("srcY"));
+            double dstX = Double.parseDouble(xml.getAttributeValue("dstX"));
+            double dstY = Double.parseDouble(xml.getAttributeValue("dstY"));
+
+            this.point_depart = new Point(srcX, srcY);
+            this.point_arrivee = new Point(dstX, dstY);
+            this.addPoint(this.point_depart);
+            this.addPoint(this.point_arrivee);
+        }
+
+
+
     //          Accesseurs
     //----------------------------
 
@@ -110,7 +122,6 @@ abstract public class Line extends Figure {
         public Element toXML(){
             Element el = super.toXML();
 
-            el.setAttribute("type", "line");
             el.setAttribute("srcX", Double.toString(point_depart.getX()));
             el.setAttribute("srcY", Double.toString(point_depart.getY()));
             el.setAttribute("dstX", Double.toString(point_arrivee.getX()));

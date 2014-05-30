@@ -40,6 +40,21 @@ public class CubicCurve extends Line {
             this.point_controle2 = controle2;
             this.addPoint(controle2);
         }
+
+        public CubicCurve(Element xml){
+            super(xml);
+
+            double ctrl1X = Double.parseDouble(xml.getAttributeValue("ctrl1X"));
+            double ctrl1Y = Double.parseDouble(xml.getAttributeValue("ctrl1Y"));
+            this.point_controle1 = new Point(ctrl1X, ctrl1Y);
+            this.addPoint(this.point_controle1);
+
+
+            double ctrl2X = Double.parseDouble(xml.getAttributeValue("ctrl2X"));
+            double ctrl2Y = Double.parseDouble(xml.getAttributeValue("ctrl2Y"));
+            this.point_controle1 = new Point(ctrl2X, ctrl2Y);
+            this.addPoint(this.point_controle2);
+        }
     
     //          Accesseurs
     //----------------------------
@@ -107,7 +122,7 @@ public class CubicCurve extends Line {
     public Element toXML() {
         Element el = super.toXML();
 
-        el.setAttribute("type", "cubicLine");
+        el.setAttribute("type", "cubicCurve");
         el.setAttribute("ctrl1X", Double.toString(point_controle1.getX()));
         el.setAttribute("ctrl1Y", Double.toString(point_controle1.getY()));
         el.setAttribute("ctrl2X", Double.toString(point_controle2.getX()));
