@@ -20,9 +20,11 @@ import XML.FilmParser;
 import model.movable.Figure;
 import org.jdom2.Document;
 
-public class Placheux 
-extends JPanel 
-implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionListener{
+public class Placheux extends JPanel implements MouseListener, 
+MouseMotionListener, 
+ActionListener, 
+TreeSelectionListener{
+
 	private static final long serialVersionUID = 1L;
 
 	JFrame frame;
@@ -45,14 +47,15 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 					fleche_btn_img,
 					star_btn_img;
 
-	JButton carre_btn;
-	JButton rect_btn;
-	JButton circle_btn; 
-	JButton cross_btn; 
-	JButton tri_equi_btn; 
-	JButton tri_iso_btn; 
-	JButton fleche_btn; 
-    JButton star_btn; 
+	JButton 	carre_btn,
+				rect_btn,
+				circle_btn, 
+				cross_btn,
+				tri_equi_btn,
+				tri_iso_btn, 
+				fleche_btn,
+				star_btn;
+
 	private JTree tree;
 
 	JPopupMenu menu = new JPopupMenu();
@@ -80,26 +83,66 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 	int id_fig = -1; 
 
 	Placheux(JFrame frame, String nom, int size, int width, int height){       
+		this.frame = frame;
+		this.setLayout(new BorderLayout());
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		view.setPreferredSize(new Dimension(width, height));
+		
 		init_menu_bar();
 		init_bouton_image();
 		init_bouton_dessin();
 		
-		this.frame = frame;
-		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-		view.setPreferredSize(new Dimension(width, height));
+		panel_center(width, height);
+		panel_west();
+		panel_south(size);
 
-		Object[] tab_colonnes = new Object[3600];
-		String[][] tab_data = new String[1][3600];
+		init_hotkey();
+		init_listeners();
+
+		frame.setJMenuBar(bar);
+	}
+
+	public Placheux(JFrame frame, File animeFile) {
+		this.frame = frame;
+		Document xmlDoc = FilmParser.readFile(animeFile);
+		System.out.println(xmlDoc.toString());
+	}
+
+	public void init_hotkey(){
+		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
+		ouvrir_film.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
+		enregistrer_film.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
+		enregistrer_sous_film.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
+		rendu_film.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
+		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));		
+	}
+
+	public void init_listeners(){
+		view.addMouseListener(this);
+		view.addMouseMotionListener(this);
+		tab.addMouseListener(this);
+
+		nouveau_film.addActionListener(this);
+		ouvrir_film.addActionListener(this);
+		enregistrer_film.addActionListener(this);
+		enregistrer_sous_film.addActionListener(this);
+		rendu_film.addActionListener(this);
+		quitter_film.addActionListener(this);
+	}
+	
+	public void panel_south(int size){
+		Object[] tab_colonnes = new Object[size];
+		String[][] tab_data = new String[1][size];
 
 		int min = 0;
-		for(int i = 0; i < 3600; i++){
+		for(int i = 0; i < size; i++){
 			double sec = (((double)i)/2.0);
 			if(i > 0 && (sec % 60 == 0)){
 				min++;
 			}
 			tab_colonnes[i] =  min + "m" + sec % 60 + " s"; 
 		}
-
+		
 		tab = new JTable(tab_data, tab_colonnes);
 		tab.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		tab.setColumnSelectionAllowed(false);
@@ -111,11 +154,14 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel_tab.setPreferredSize(new Dimension(500, 54));
 
-		this.setLayout(new BorderLayout());
-
 		JPanel panel_south = new JPanel();
-		panel_south.add(panel_tab); /**TODO: add buttons play/stop**/
+		panel_south.add(panel_tab);
 
+		this.add("South", panel_south);
+
+	}
+	
+	public void panel_center(int width, int height){
 		final JScrollPane panel_center;
 		JPanel panel_view = new JPanel();
 		panel_view.add(view);
@@ -138,41 +184,14 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 		}
 
 		this.add("Center", panel_center);
-		panel_west();
-		this.add("South", panel_south);
 
-		view.addMouseListener(this);
-		view.addMouseMotionListener(this);
-		tab.addMouseListener(this);
-
-		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
-		ouvrir_film.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
-		enregistrer_film.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
-		enregistrer_sous_film.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
-		rendu_film.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
-		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
-
-		nouveau_film.addActionListener(this);
-		ouvrir_film.addActionListener(this);
-		enregistrer_film.addActionListener(this);
-		enregistrer_sous_film.addActionListener(this);
-		rendu_film.addActionListener(this);
-		quitter_film.addActionListener(this);
-
-		frame.setJMenuBar(bar);
 	}
-
-	public Placheux(JFrame frame, File animeFile) {
-		this.frame = frame;
-        Document xmlDoc = FilmParser.readFile(animeFile);
-		System.out.println(xmlDoc.toString());
-	}
-
+	
 	public JPanel panel_listefigure(Dimension minDim){
 		JPanel fig_select = new JPanel();
 		fig_select.setMinimumSize(minDim);
 		fig_select.setLayout(new GridLayout(4, 2));
-		
+
 		fig_select.add(carre_btn);
 		fig_select.add(rect_btn);
 		fig_select.add(circle_btn);
@@ -181,15 +200,15 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 		fig_select.add(tri_iso_btn);
 		fig_select.add(fleche_btn);
 		fig_select.add(star_btn);
-		
+
 		return fig_select;
 	}
-	
+
 	public void panel_west(){
 		Dimension minimumSize = new Dimension(300, 250);
-		
+
 		DefaultMutableTreeNode top =
-                new DefaultMutableTreeNode("Liste des figures");
+				new DefaultMutableTreeNode("Liste des figures");
 
 		tree = new JTree(top);
 		tree.getSelectionModel().setSelectionMode
@@ -223,20 +242,20 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 	};
 
 	public void init_bouton_image(){
-        try {
-          carre_btn_img = ImageIO.read(new File("Resources/Vue/square.png"));
-          rect_btn_img = ImageIO.read(new File("Resources/Vue/square.png")); //TODO: trouver une putain d'image
-          circle_btn_img = ImageIO.read(new File("Resources/Vue/circle.png"));
-          cross_btn_img = ImageIO.read(new File("Resources/Vue/cross.png"));
-          tri_equi_btn_img = ImageIO.read(new File("Resources/Vue/triangle_equi.png"));
-          tri_iso_btn_img = ImageIO.read(new File("Resources/Vue/triangle_equi.png")); //TODO: trouver une putain d'image
-          fleche_btn_img = ImageIO.read(new File("Resources/Vue/fleche.png"));
-          star_btn_img = ImageIO.read(new File("Resources/Vue/star.png"));
-          } catch (IOException e) {
-            e.printStackTrace();
-        }
+		try {
+			carre_btn_img = ImageIO.read(new File("Resources/Vue/square.png"));
+			rect_btn_img = ImageIO.read(new File("Resources/Vue/square.png")); //TODO: trouver une putain d'image
+			circle_btn_img = ImageIO.read(new File("Resources/Vue/circle.png"));
+			cross_btn_img = ImageIO.read(new File("Resources/Vue/cross.png"));
+			tri_equi_btn_img = ImageIO.read(new File("Resources/Vue/triangle_equi.png"));
+			tri_iso_btn_img = ImageIO.read(new File("Resources/Vue/triangle_equi.png")); //TODO: trouver une putain d'image
+			fleche_btn_img = ImageIO.read(new File("Resources/Vue/fleche.png"));
+			star_btn_img = ImageIO.read(new File("Resources/Vue/star.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void init_bouton_dessin(){
 		carre_btn = new JButton(new ImageIcon(carre_btn_img));
 		rect_btn = new JButton(new ImageIcon(rect_btn_img));
@@ -245,9 +264,9 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 		tri_equi_btn = new JButton(new ImageIcon(tri_equi_btn_img));
 		tri_iso_btn = new JButton(new ImageIcon(tri_iso_btn_img));
 		fleche_btn = new JButton(new ImageIcon(fleche_btn_img));
-	    star_btn = new JButton(new ImageIcon(star_btn_img));
+		star_btn = new JButton(new ImageIcon(star_btn_img));
 	}
-	
+
 	public void init_menu_bar(){
 		fichier.add(nouveau_film);
 		fichier.add(ouvrir_film);
@@ -260,7 +279,7 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 		bar.add(fichier);
 		bar.add(figure);
 	}
-	
+
 	public void init_menu_createFigure()
 	{
 		System.out.println("MenuFigure");
@@ -800,7 +819,7 @@ implements MouseListener, MouseMotionListener, ActionListener, TreeSelectionList
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	//}
