@@ -23,9 +23,11 @@ public class ImgTransferHandler extends TransferHandler {
 	}
 	public boolean importData(TransferHandler.TransferSupport ts) {
 		Transferable t = ts.getTransferable();
+		int x = ts.getDropLocation().getDropPoint().x;
+		int y = ts.getDropLocation().getDropPoint().y;
 		try {
 			int id_fig = (int)t.getTransferData(cdf);
-			System.out.println(id_fig);
+			System.out.println(id_fig + " (" + x + " " + y + ")");
 			return true;
 		} catch(UnsupportedFlavorException ue) {
 			ue.printStackTrace();
