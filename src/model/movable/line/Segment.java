@@ -23,7 +23,7 @@ public class Segment extends Line{
             super(point1, point2);
         }
 
-        public Segment(Point point1, Point point2, int strokeThickness) {
+        public Segment(Point point1, Point point2, double strokeThickness) {
             super(point1, point2, strokeThickness);
         }
     //          Methodes

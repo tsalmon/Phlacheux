@@ -33,7 +33,7 @@ public class CubicCurve extends Line {
             this.addPoint(controle2);
         }
 
-        public CubicCurve(Point depart, Point arrivee, Point controle1, Point controle2, int strokeThickness) {
+        public CubicCurve(Point depart, Point arrivee, Point controle1, Point controle2, double strokeThickness) {
             super(depart, arrivee, strokeThickness);
             this.point_controle1 = controle1;
             this.addPoint(controle1);

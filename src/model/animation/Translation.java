@@ -28,26 +28,26 @@ public class Translation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, String easing_type,  Point point_depart, Point point_arrivee) {
+    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_depart, Point point_arrivee) {
         super(movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, String easing_type,  Point point_arrivee) {
+    public Translation(Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_arrivee) {
         super(movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
     public Translation(Movable movable, double debut, double fin, double current_time, Point point_arrivee) {
-        super(movable, debut, fin, current_time, new Linear(),  "easeNone");
+        super(movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
     public Translation(Movable movable, double debut, double fin, double current_time, Point point_depart, Point point_arrivee) {
-        super(movable, debut, fin, current_time, new Linear(),  "easeNone");
+        super(movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
@@ -86,33 +86,11 @@ public class Translation extends Animation{
         }
         
         protected double getDXAt(double t){
-            switch(this.getEasing_Type()){
-                case "easeIn":
-                    return this.getEasing().easeIn(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
-                case "easeOut":
-                    return this.getEasing().easeOut(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
-                case "easeInOut":
-                    return this.getEasing().easeInOut(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
-                case "easeNone":
-                    return this.getEasing().easeNone(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
-                default:
-                    return this.getEasing().easeNone(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
-            }
+            return this.applyEasing(0, t, this.getPointArrivee().getX()-this.getPointDepart().getX(), this.getFin()-this.getDebut());
         }
         
         protected double getDYAt(double t){
-            switch(this.getEasing_Type()){
-                case "easeIn":
-                    return this.getEasing().easeIn(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
-                case "easeOut":
-                    return this.getEasing().easeOut(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
-                case "easeInOut":
-                    return this.getEasing().easeInOut(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
-                case "easeNone":
-                    return this.getEasing().easeNone(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
-                default:
-                    return this.getEasing().easeNone(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
-            }
+            return this.applyEasing(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
         }
 
 
@@ -128,6 +106,22 @@ public class Translation extends Animation{
 
             return el;
         }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Translation [");
+        builder.append("arrivee=").append(arrivee);
+        builder.append(", depart=").append(depart);
+        builder.append(", current=").append(current);
+        builder.append(", debut=").append(debut);
+        builder.append(", easing=").append(easing);
+        builder.append(", easing_type=").append(easing_type);
+        builder.append(", fin=").append(fin);
+        builder.append(", movable=").append(movable);
+        builder.append("]");
+        return builder.toString();
+    }
 
         
 }

@@ -37,7 +37,7 @@ abstract public class Line extends Figure {
             this.addPoint(arrivee);
         }
         
-        public Line(Point depart, Point arrivee, int strokeThickness) {
+        public Line(Point depart, Point arrivee, double strokeThickness) {
             super();
             this.point_depart = depart;
             this.point_arrivee = arrivee;

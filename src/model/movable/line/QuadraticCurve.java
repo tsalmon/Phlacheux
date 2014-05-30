@@ -30,7 +30,7 @@ public class QuadraticCurve extends Line {
             this.addPoint(controle);
         }
 
-        public QuadraticCurve(Point depart, Point arrivee, Point controle, int strokeThickness) {
+        public QuadraticCurve(Point depart, Point arrivee, Point controle, double strokeThickness) {
             super(depart, arrivee, strokeThickness);
             this.point_controle = controle;
             this.addPoint(controle);

@@ -19,7 +19,8 @@ abstract public class Movable implements XMLSerializable{
     //---------------------------
 
         protected Point gravity_center;  
-        protected boolean gravity_center_personalised;  
+        protected boolean gravity_center_personalised; 
+        protected String name;
     
     
     
@@ -54,7 +55,15 @@ abstract public class Movable implements XMLSerializable{
                 this.autoGravityCenter();
             }
         }
-            
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
         
     //     Transformations
     //----------------------------
@@ -67,7 +76,7 @@ abstract public class Movable implements XMLSerializable{
 
         abstract public void translation(Point from, Point to);
 
-        abstract public void changeStrokeThickness(int thickness);
+        abstract public void changeStrokeThickness(double thickness);
 
         abstract public void scaling(double scale);
 
@@ -76,6 +85,7 @@ abstract public class Movable implements XMLSerializable{
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
+            builder.append("name=").append(name);
             builder.append("gravity_center=").append(gravity_center);
             builder.append(", gravity_center_personalised=").append(gravity_center_personalised);
             return builder.toString();

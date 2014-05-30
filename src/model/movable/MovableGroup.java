@@ -94,7 +94,7 @@ public class MovableGroup extends Movable{
            }
 
         @Override
-           public void changeStrokeThickness(int thickness){
+           public void changeStrokeThickness(double thickness){
                for (Movable m : this.movables){
                    m.changeStrokeThickness(thickness);
                }

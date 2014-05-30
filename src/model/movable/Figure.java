@@ -24,7 +24,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //          Attributs
     //---------------------------
 
-        protected int strokeThickness;
+        protected double strokeThickness;
         protected ArrayList<Point> points;
         protected Color borderColor;
         private Color color;
@@ -51,7 +51,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         //    Accesseurs publiques
         //----------------------------
         
-            public int getStrokeThickness(){
+            public double getStrokeThickness(){
                 return this.strokeThickness;
             }
 
@@ -134,8 +134,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         @Override
-        public void changeStrokeThickness(int thickness) {
-            this.strokeThickness=thickness;
+        public void changeStrokeThickness(double thickness_difference) {
+            this.strokeThickness+=thickness_difference;
         }
 
         @Override
