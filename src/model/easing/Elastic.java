@@ -2,54 +2,54 @@ package model.easing;
  
 public class Elastic extends Easing {
 
-	public  float  easeIn(float t,float b , float c, float d ) {
+	public  double  easeIn(double t,double b , double c, double d ) {
 		if (t==0) return b;  if ((t/=d)==1) return b+c;  
-		float p=d*.3f;
-		float a=c; 
-		float s=p/4;
-		return -(a*(float)Math.pow(2,10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p )) + b;
+		double p=d*.3f;
+		double a=c; 
+		double s=p/4;
+		return -(a*(double)Math.pow(2,10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )) + b;
 	}
 
-	public  float  easeIn(float t,float b , float c, float d, float a, float p) {
-		float s;
+	public  double  easeIn(double t,double b , double c, double d, double a, double p) {
+		double s;
 		if (t==0) return b;  if ((t/=d)==1) return b+c;  
 		if (a < Math.abs(c)) { a=c;  s=p/4; }
-		else { s = p/(2*(float)Math.PI) * (float)Math.asin (c/a);}
-		return -(a*(float)Math.pow(2,10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+		else { s = p/(2*(double)Math.PI) * (double)Math.asin (c/a);}
+		return -(a*(double)Math.pow(2,10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
 	}
 
-	public  float  easeOut(float t,float b , float c, float d) {
+	public  double  easeOut(double t,double b , double c, double d) {
 		if (t==0) return b;  if ((t/=d)==1) return b+c;  
-		float p=d*.3f;
-		float a=c; 
-		float s=p/4;
-		return (a*(float)Math.pow(2,-10*t) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p ) + c + b);	
+		double p=d*.3f;
+		double a=c; 
+		double s=p/4;
+		return (a*(double)Math.pow(2,-10*t) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p ) + c + b);	
 	}
 	
-	public  float  easeOut(float t,float b , float c, float d, float a, float p) {
-		float s;
+	public  double  easeOut(double t,double b , double c, double d, double a, double p) {
+		double s;
 		if (t==0) return b;  if ((t/=d)==1) return b+c;  
 		if (a < Math.abs(c)) { a=c;  s=p/4; }
-		else { s = p/(2*(float)Math.PI) * (float)Math.asin (c/a);}
-		return (a*(float)Math.pow(2,-10*t) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p ) + c + b);	
+		else { s = p/(2*(double)Math.PI) * (double)Math.asin (c/a);}
+		return (a*(double)Math.pow(2,-10*t) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p ) + c + b);	
 	}
 	
-	public  float  easeInOut(float t,float b , float c, float d) {
+	public  double  easeInOut(double t,double b , double c, double d) {
 		if (t==0) return b;  if ((t/=d/2)==2) return b+c; 
-		float p=d*(.3f*1.5f);
-		float a=c; 
-		float s=p/4;
-		if (t < 1) return -.5f*(a*(float)Math.pow(2,10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p )) + b;
-		return a*(float)Math.pow(2,-10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p )*.5f + c + b;
+		double p=d*(.3f*1.5f);
+		double a=c; 
+		double s=p/4;
+		if (t < 1) return -.5f*(a*(double)Math.pow(2,10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )) + b;
+		return a*(double)Math.pow(2,-10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )*.5f + c + b;
 	}
 	
-	public  float  easeInOut(float t,float b , float c, float d, float a, float p) {
-		float s;
+	public  double  easeInOut(double t,double b , double c, double d, double a, double p) {
+		double s;
 		if (t==0) return b;  if ((t/=d/2)==2) return b+c;  
 		if (a < Math.abs(c)) { a=c; s=p/4; }
-		else { s = p/(2*(float)Math.PI) * (float)Math.asin (c/a);}
-		if (t < 1) return -.5f*(a*(float)Math.pow(2,10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p )) + b;
-		return a*(float)Math.pow(2,-10*(t-=1)) * (float)Math.sin( (t*d-s)*(2*(float)Math.PI)/p )*.5f + c + b;
+		else { s = p/(2*(double)Math.PI) * (double)Math.asin (c/a);}
+		if (t < 1) return -.5f*(a*(double)Math.pow(2,10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )) + b;
+		return a*(double)Math.pow(2,-10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )*.5f + c + b;
 	}
 
 }

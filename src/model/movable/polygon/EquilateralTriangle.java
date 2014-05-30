@@ -63,8 +63,8 @@ public class EquilateralTriangle extends Triangle {
             double o = (up) ? 1 : 1;
             
              Point res=new Point(
-                    (int)Math.round(Math.cos((o*Math.PI/3)+angle)*d+p1.getX()), 
-                    (int)Math.round(Math.sin((o*Math.PI/3)+angle)*d+p1.getY()));
+                    Math.cos((o*Math.PI/3)+angle)*d+p1.getX(), 
+                    Math.sin((o*Math.PI/3)+angle)*d+p1.getY());
              
              return res;
         }

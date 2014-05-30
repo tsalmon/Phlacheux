@@ -16,15 +16,15 @@ abstract public class Easing {
             
         }
     
-	public float easeNone (float t,float b , float c, float d) {
+	public double easeNone (double t,double b , double c, double d) {
 		return c*t/d + b;
 	}
 	
-	abstract public float easeIn (float t,float b , float c, float d);
+	abstract public double easeIn (double t,double b , double c, double d);
 	
-	abstract public float easeOut (float t,float b , float c, float d);
+	abstract public double easeOut (double t,double b , double c, double d);
 	
-	abstract public float easeInOut (float t,float b , float c, float d);
+	abstract public double easeInOut (double t,double b , double c, double d);
 	
 
 

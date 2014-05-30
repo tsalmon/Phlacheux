@@ -18,13 +18,13 @@ public class Point {
     //          Attributs
     //---------------------------
        
-        protected int x;
-        protected int y;
+        protected double x;
+        protected double y;
     
     //         Constructeur
     //----------------------------
         
-        public Point(int abs, int ord){
+        public Point(double abs, double ord){
             x=abs;
             y=ord;
         }
@@ -32,23 +32,23 @@ public class Point {
     //          Accesseurs
     //----------------------------
     
-        public int getX(){
+        public double getX(){
             return this.x;
         }    
 
-        public int getY(){
+        public double getY(){
             return this.y;
         }    
 
-        public void setX(int abs){
+        public void setX(double abs){
             this.x=abs;
         }    
 
-        public void setY(int ord){
+        public void setY(double ord){
             this.y=ord;
         }    
 
-        public void moveTo(int abs, int ord){
+        public void moveTo(double abs, double ord){
             this.setX(abs);
             this.setY(ord);
         }
@@ -57,19 +57,19 @@ public class Point {
     //----------------------------
         
         // angle en degres
-        public void rotateAround(int angle, Point p){
+        public void rotateAroundDegres(double angle, Point p){
             double angle_rad=(Math.PI*(angle))/180;
-            this.rotateAround(angle_rad, p);
+            this.rotateAroundRadian(angle_rad, p);
         }
         
         // angle en radiants
-        public void rotateAround(double angle, Point p){
-                int dep_x=this.getX()-p.getX();
-                int dep_y=this.getY()-p.getY();    
+        public void rotateAroundRadian(double angle, Point p){
+                double dep_x=this.getX()-p.getX();
+                double dep_y=this.getY()-p.getY();    
                 double new_x=( dep_x * Math.cos(angle) ) - (dep_y * Math.sin(angle))+p.getX();
                 double new_y=( dep_x * Math.sin(angle) ) + (dep_y * Math.cos(angle))+p.getY();
-                this.setX((int)Math.round(new_x));
-                this.setY((int)Math.round(new_y));
+                this.setX(new_x);
+                this.setY(new_y);
         }
 
         public void translation(Point from, Point to) {
@@ -77,7 +77,7 @@ public class Point {
             this.setY(this.getY()+to.getY()-from.getY());
         }
 
-        public void translation(int x_from, int y_from, int x_to, int y_to){
+        public void translation(double x_from, double y_from, double x_to, double y_to){
             this.setX(this.getX()+x_to-x_from);
             this.setY(this.getY()+y_to-y_from);
         }

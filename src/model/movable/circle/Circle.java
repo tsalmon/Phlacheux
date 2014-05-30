@@ -20,20 +20,20 @@ public class Circle  extends Figure{
     //          Attributs
     //---------------------------
         protected Point center;
-        protected int radius;
+        protected double radius;
 
     
     //          Constructeur
     //----------------------------
 
 
-        public Circle(Point c, int radius) {
+        public Circle(Point c, double radius) {
             this.center = c;
             this.addPoint(c);
             this.radius = radius;
         }
         
-        public Circle(int x_center, int y_center, int radius) {
+        public Circle(double x_center, double y_center, double radius) {
             this.center = new Point(x_center,y_center);
             this.addPoint(this.center);
             this.radius = radius;
@@ -54,15 +54,15 @@ public class Circle  extends Figure{
             this.addPoint(this.center);
         }
         
-        public void setCenter(int x_center, int y_center) {
+        public void setCenter(double x_center, double y_center) {
             this.setCenter(new Point(x_center,y_center));
         }
 
-        public int getRadius() {
+        public double getRadius() {
             return radius;
         }
 
-        public void setRadius(int radius) {
+        public void setRadius(double radius) {
             this.radius = radius;
         }
 

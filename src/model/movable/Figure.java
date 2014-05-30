@@ -89,13 +89,13 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         @Override
             public void autoGravityCenter(){
-                int sumx=0;
-                int sumy=0;
+                double sumx=0;
+                double sumy=0;
                 for(Point p : points){
                     sumx+=p.getX();
                     sumy+=p.getY();
                 }
-                this.setGravityCenter(new Point((int)Math.round(sumx/(points.size())),(int)Math.round(sumy/points.size())));
+                this.setGravityCenter(new Point(sumx/(points.size()),sumy/points.size()));
                 this.setGravityCenterPerso(false);
             }            
         
@@ -104,16 +104,16 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //----------------------------
 
         @Override
-        public void rotation(int angle, Point p){
+        public void rotation(double angle, Point p){
             double angle_rad=(Math.PI*(angle))/180;
             for(Point point : points){
-                point.rotateAround(angle_rad, p);
+                point.rotateAroundRadian(angle_rad, p);
             }
-            this.getGravityCenter().rotateAround(angle,p);
+            this.getGravityCenter().rotateAroundRadian(angle,p);
         }
 
         @Override
-        public void rotation(int angle){
+        public void rotation(double angle){
             this.rotation(angle,this.getGravityCenter());
         }
 
@@ -126,7 +126,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         @Override
-        public void translation(int x_from, int y_from, int x_to, int y_to){
+        public void translation(double x_from, double y_from, double x_to, double y_to){
             for(Point point : points){
                 point.translation(x_from, y_from, x_to, y_to);
             }            
@@ -139,12 +139,12 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         @Override
-        public void scaling(float scale){
-            int gravity_x=this.getGravityCenter().getX();
-            int gravity_y=this.getGravityCenter().getY();
+        public void scaling(double scale){
+            double gravity_x=this.getGravityCenter().getX();
+            double gravity_y=this.getGravityCenter().getY();
             for(Point point : points){
-                int translate_x=(int)Math.round((point.getX()-gravity_x)*scale);
-                int translate_y=(int)Math.round((point.getY()-gravity_y)*scale);
+                double translate_x=(point.getX()-gravity_x)*scale;
+                double translate_y=(point.getY()-gravity_y)*scale;
                 point.moveTo(gravity_x+translate_x,gravity_y+translate_y);
             }            
         }

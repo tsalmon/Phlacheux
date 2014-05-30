@@ -55,7 +55,7 @@ public class CubicCurve extends Line {
             this.point_controle1 = p;
         }
 
-        public void setPointControle1(int x, int y) {
+        public void setPointControle1(double x, double y) {
             this.setPointControle1(new Point(x,y));
         }
 
@@ -69,7 +69,7 @@ public class CubicCurve extends Line {
             this.point_controle2 = p;
         }
 
-        public void setPointControle2(int x, int y) {
+        public void setPointControle2(double x, double y) {
             this.setPointControle2(new Point(x,y));
         }
 
@@ -83,7 +83,7 @@ public class CubicCurve extends Line {
             this.setPointControle2(arrivee);
         }
         
-        public void setPointsControle(int x_point_controle1, int y_point_controle1, int x_point_controle2, int y_point_controle2) {
+        public void setPointsControle(double x_point_controle1, double y_point_controle1, double x_point_controle2, double y_point_controle2) {
             this.setPointControle1(x_point_controle1,y_point_controle1);
             this.setPointControle2(x_point_controle2,y_point_controle2);
         }

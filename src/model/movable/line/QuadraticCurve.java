@@ -49,7 +49,7 @@ public class QuadraticCurve extends Line {
             this.point_controle = p;
         }
 
-        public void setPointControle(int x, int y) {
+        public void setPointControle(double x, double y) {
             this.setPointControle(new Point(x,y));
         }
 

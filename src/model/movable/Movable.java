@@ -44,7 +44,7 @@ abstract public class Movable implements XMLSerializable{
         }
         
         //set avec les coordonnées
-        public void setGravityCenter(int x, int y){
+        public void setGravityCenter(double x, double y){
             this.gravity_center.moveTo(x,y);
             this.setGravityCenterPerso(true);
         }
@@ -59,17 +59,17 @@ abstract public class Movable implements XMLSerializable{
     //     Transformations
     //----------------------------
         
-        abstract public void rotation(int angle);
+        abstract public void rotation(double angle);
 
-        abstract public void rotation(int angle, Point p);
+        abstract public void rotation(double angle, Point p);
 
-        abstract public void translation(int x_from, int y_from, int x_to, int y_to);
+        abstract public void translation(double x_from, double y_from, double x_to, double y_to);
 
         abstract public void translation(Point from, Point to);
 
         abstract public void changeStrokeThickness(int thickness);
 
-        abstract public void scaling(float scale);
+        abstract public void scaling(double scale);
 
         abstract protected void autoGravityCenter();
 
