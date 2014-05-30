@@ -4,6 +4,7 @@ package model.animation;
 import model.easing.*;
 import model.movable.Movable;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -110,6 +111,18 @@ public class Rotation extends Animation{
         builder.append(", movable=").append(movable);
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public Element toXML(){
+        Element el = super.toXML();
+
+        el.setAttribute("type", "rotation");
+        el.setAttribute("pointX", Double.toString(center.getX()));
+        el.setAttribute("pointY", Double.toString(center.getY()));
+        el.setAttribute("angle", Double.toString(angle));
+
+        return el;
     }
 
         

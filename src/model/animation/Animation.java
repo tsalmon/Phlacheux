@@ -1,8 +1,10 @@
 
 package model.animation;
 
+import XML.XMLSerializable;
 import model.easing.Easing;
 import model.movable.Movable;
+import org.jdom2.Element;
 
 /**
  *
@@ -13,7 +15,7 @@ import model.movable.Movable;
  * Projet Interface Graphique, Paris 7, Master 1, 2013-2014
  *
  */
-public abstract class Animation {
+public abstract class Animation implements XMLSerializable{
 
 
     //          Attributs
@@ -107,6 +109,17 @@ public abstract class Animation {
         return builder.toString();
     }
 
+    @Override
+    public Element toXML(){
+        Element el = new Element("animation");
+
+        el.setAttribute("startTime", Double.toString(debut));
+        el.setAttribute("endTime", Double.toString(fin));
+        //TODO::easing STRING!
+        //el.setAttribute("easing", easingString(easing));
+
+        return el;
+    }
         
 
 }
