@@ -175,9 +175,11 @@ abstract public class Figure extends Movable implements XMLSerializable{
             Element el = new Element("shape");
 
             el.setAttribute("name", name);
-            el.setAttribute("colorR", Integer.toString(color.getRed()));
-            el.setAttribute("colorG", Integer.toString(color.getGreen()));
-            el.setAttribute("colorB", Integer.toString(color.getBlue()));
+            if (color != null){
+                el.setAttribute("colorR", Integer.toString(color.getRed()));
+                el.setAttribute("colorG", Integer.toString(color.getGreen()));
+                el.setAttribute("colorB", Integer.toString(color.getBlue()));
+            }
 
             el.addContent(new Element("animations"));
             //TODO:add animations!

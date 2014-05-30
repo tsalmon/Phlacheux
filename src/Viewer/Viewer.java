@@ -1,6 +1,7 @@
 package Viewer;
 
 import ch.randelshofer.media.avi.AVIOutputStream;
+import model.movable.Film;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -196,6 +197,14 @@ public class Viewer  extends JFrame{
             }
         });
 
+        JButton toXML = new JButton("XML");
+        toXML.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+
         /* Setting progress bar */
         progress.setMinorTickSpacing(1);
         progress.setPaintTicks(true);
@@ -210,6 +219,7 @@ public class Viewer  extends JFrame{
         controlPanel.add(fastForward);
         controlPanel.add(repeat);
         controlPanel.add(toFile);
+        controlPanel.add(toXML);
         controlPanel.add(progress);
 
 

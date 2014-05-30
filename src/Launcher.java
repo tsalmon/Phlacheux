@@ -1,10 +1,18 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import model.movable.*;
+import model.movable.Point;
+import model.movable.circle.Circle;
+import model.movable.line.CubicCurve;
+import model.movable.line.QuadraticCurve;
+import model.movable.line.Segment;
+import model.movable.polygon.*;
+import model.movable.polygon.Rectangle;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -162,6 +170,61 @@ public class Launcher extends JFrame implements ActionListener{
 					(Integer)width.getValue(), 
 					(Integer)height.getValue());
 		} else if(e.getSource() == XMLfile) {
+            /*
+            Film film = new Film();
+
+            Circle c = new Circle(50, 40, 100);
+            c.setColor(Color.cyan);
+            film.addShape(c);
+
+            Segment s = new Segment(new Point(10,20), new Point(30,40));
+            s.setColor(Color.black);
+            film.addShape(s);
+
+            QuadraticCurve q = new QuadraticCurve(new Point(10,20), new Point(30,40), new Point(50,60));
+            q.setColor(Color.yellow);
+            film.addShape(q);
+
+            CubicCurve cubcurve = new CubicCurve(new Point(10,20), new Point(30,40), new Point(50,60), new Point(70,80));
+            cubcurve.setColor(Color.blue);
+            film.addShape(cubcurve);
+
+            EquilateralTriangle eqtri = new EquilateralTriangle(new Point(15,15), new Point(30,30));
+            eqtri.setColor(Color.green);
+            film.addShape(eqtri);
+
+            ArrayList<Point> points = new ArrayList<Point>();
+            points.add(new Point(10,10));
+            points.add(new Point(20,20));
+            points.add(new Point(30,30));
+            points.add(new Point(40,40));
+            PolygonPerso poly = new PolygonPerso(points);
+            poly.setColor(Color.gray);
+            film.addShape(poly);
+
+            model.movable.polygon.Rectangle rect = new Rectangle(100,200, new Point(10,20));
+            rect.setColor(Color.magenta);
+            film.addShape(rect);
+
+            Square square = new Square(50, new Point(10,10));
+            square.setColor(Color.green);
+            film.addShape(square);
+
+            Triangle tri = new Triangle(new Point(10,10), new Point(20,20), new Point(30,30));
+            tri.setColor(Color.orange);
+            film.addShape(tri);
+
+            MovableGroup group1 = new MovableGroup();
+            group1.addMovable(tri);
+            group1.addMovable(square);
+
+            film.addGroup(group1);
+
+            MovableGroup group2 = new MovableGroup();
+            group2.addMovable(poly);
+            group2.addMovable(group1);
+
+            film.saveToFile();*/
 			ouvrirFilm();
 		} else {
 			System.exit(0);

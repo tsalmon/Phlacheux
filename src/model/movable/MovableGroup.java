@@ -159,14 +159,14 @@ public class MovableGroup extends Movable{
                 Movable m = (Movable) it.next();
 
                 if (m instanceof Figure){
-                    String shapeName = m.toXML().getAttribute("name").toString();
+                    String shapeName = m.toXML().getAttributeValue("name");
                     Element shapeLink = new Element("shapeLink");
                     shapeLink.setAttribute("name", shapeName);
                     shapelinks.addContent(shapeLink);
                 }
 
                 if (m instanceof MovableGroup){
-                    String groupName = m.toXML().getAttribute("name").toString();
+                    String groupName = m.toXML().getAttributeValue("name");
                     Element groupLink = new Element("grouplink");
                     groupLink.setAttribute("name", groupName);
                     grouplinks.addContent(groupLink);
