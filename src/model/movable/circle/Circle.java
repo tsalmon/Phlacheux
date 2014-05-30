@@ -87,9 +87,9 @@ public class Circle  extends Figure{
 
         el.setAttribute("type", "circle");
 
-        el.setAttribute("centerX", Integer.toString(center.getX()));
-        el.setAttribute("centerY", Integer.toString(center.getY()));
-        el.setAttribute("radius", Integer.toString(radius));
+        el.setAttribute("centerX", Double.toString(center.getX()));
+        el.setAttribute("centerY", Double.toString(center.getY()));
+        el.setAttribute("radius", Double.toString(radius));
 
         return el;
     }

@@ -111,10 +111,10 @@ abstract public class Line extends Figure {
             Element el = super.toXML();
 
             el.setAttribute("type", "line");
-            el.setAttribute("srcX", Integer.toString(point_depart.getX()));
-            el.setAttribute("srcY", Integer.toString(point_depart.getY()));
-            el.setAttribute("dstX", Integer.toString(point_arrivee.getX()));
-            el.setAttribute("dstY", Integer.toString(point_arrivee.getY()));
+            el.setAttribute("srcX", Double.toString(point_depart.getX()));
+            el.setAttribute("srcY", Double.toString(point_depart.getY()));
+            el.setAttribute("dstX", Double.toString(point_arrivee.getX()));
+            el.setAttribute("dstY", Double.toString(point_arrivee.getY()));
 
             return el;
         }

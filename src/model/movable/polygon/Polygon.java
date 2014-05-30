@@ -57,8 +57,8 @@ import org.jdom2.Element;
         while (it.hasNext()){
             Point p = (Point) it.next();
             Element pointElement = new Element("point");
-            pointElement.setAttribute("x", Integer.toString(p.getX()));
-            pointElement.setAttribute("y", Integer.toString(p.getY()));
+            pointElement.setAttribute("x", Double.toString(p.getX()));
+            pointElement.setAttribute("y", Double.toString(p.getY()));
             pointsElement.addContent(pointElement);
         }
 

@@ -159,10 +159,10 @@
 
             el.setAttribute("type", "rectangle");
 
-            el.setAttribute("srcX", Integer.toString(pointhg.getX()));
-            el.setAttribute("srcY", Integer.toString(pointhg.getY()));
-            el.setAttribute("sideH", Integer.toString(width));
-            el.setAttribute("sideV", Integer.toString(length));
+            el.setAttribute("srcX", Double.toString(pointhg.getX()));
+            el.setAttribute("srcY", Double.toString(pointhg.getY()));
+            el.setAttribute("sideH", Double.toString(width));
+            el.setAttribute("sideV", Double.toString(length));
 
             return el;
         }

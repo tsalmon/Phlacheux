@@ -130,14 +130,14 @@ public class Triangle extends Polygon{
 
             el.setAttribute("type", "triangle");
 
-            el.setAttribute("vertex1x", Integer.toString(sommet1.getX()));
-            el.setAttribute("vertex1y", Integer.toString(sommet1.getY()));
+            el.setAttribute("vertex1x", Double.toString(sommet1.getX()));
+            el.setAttribute("vertex1y", Double.toString(sommet1.getY()));
 
-            el.setAttribute("vertex2x", Integer.toString(sommet2.getX()));
-            el.setAttribute("vertex2y", Integer.toString(sommet2.getY());
+            el.setAttribute("vertex2x", Double.toString(sommet2.getX()));
+            el.setAttribute("vertex2y", Double.toString(sommet2.getY()));
 
-            el.setAttribute("vertex3x", Integer.toString(sommet3.getX()));
-            el.setAttribute("vertex3y", Integer.toString(sommet3.getY()));
+            el.setAttribute("vertex3x", Double.toString(sommet3.getX()));
+            el.setAttribute("vertex3y", Double.toString(sommet3.getY()));
 
             return el;
         }

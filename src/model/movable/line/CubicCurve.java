@@ -108,10 +108,10 @@ public class CubicCurve extends Line {
         Element el = super.toXML();
 
         el.setAttribute("type", "cubicLine");
-        el.setAttribute("ctrl1X", Integer.toString(point_controle1.getX()));
-        el.setAttribute("ctrl1Y", Integer.toString(point_controle1.getY()));
-        el.setAttribute("ctrl2X", Integer.toString(point_controle2.getX()));
-        el.setAttribute("ctrl2Y", Integer.toString(point_controle2.getY()));
+        el.setAttribute("ctrl1X", Double.toString(point_controle1.getX()));
+        el.setAttribute("ctrl1Y", Double.toString(point_controle1.getY()));
+        el.setAttribute("ctrl2X", Double.toString(point_controle2.getX()));
+        el.setAttribute("ctrl2Y", Double.toString(point_controle2.getY()));
 
         return el;
     }
