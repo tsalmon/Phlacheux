@@ -4,6 +4,7 @@ package model.animation;
 import model.easing.*;
 import model.movable.Movable;
 import model.movable.Point;
+import org.jdom2.Element;
 
 /**
  *
@@ -112,6 +113,20 @@ public class Translation extends Animation{
                 default:
                     return this.getEasing().easeNone(0, t, this.getPointArrivee().getY()-this.getPointDepart().getY(), this.getFin()-this.getDebut());
             }
+        }
+
+
+        @Override
+        public Element toXML(){
+            Element el = super.toXML();
+
+            el.setAttribute("type", "translation");
+            el.setAttribute("srcX", Double.toString(depart.getX()));
+            el.setAttribute("srcY", Double.toString(depart.getY()));
+            el.setAttribute("dstX", Double.toString(arrivee.getX()));
+            el.setAttribute("dstY", Double.toString(arrivee.getY()));
+
+            return el;
         }
 
         
