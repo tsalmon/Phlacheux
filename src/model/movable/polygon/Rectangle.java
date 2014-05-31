@@ -33,6 +33,7 @@
 
             public Rectangle(double length, double width, Point point_haut_gauche) {
                 super(new ArrayList<Point>());
+
                 this.length = length;
                 this.width = width;
 

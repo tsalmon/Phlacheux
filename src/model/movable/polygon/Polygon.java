@@ -30,19 +30,6 @@ import org.jdom2.Element;
 
         protected Polygon(Element xml){
             super(xml);
-
-            List<Element> pointsElement = xml.getChild("points").getChildren();
-
-            Iterator it = pointsElement.iterator();
-
-            while (it.hasNext()){
-                Element pointElement = (Element) it.next();
-
-                double pX = Double.parseDouble(pointElement.getAttributeValue("x"));
-                double pY = Double.parseDouble(pointElement.getAttributeValue("y"));
-
-                this.addPoint(new Point(pX, pY));
-            }
         }
 
     //          Methodes
@@ -66,9 +53,6 @@ import org.jdom2.Element;
 
     public Element toXML(){
         Element el = super.toXML();
-
-
-
         return el;
     }
 
