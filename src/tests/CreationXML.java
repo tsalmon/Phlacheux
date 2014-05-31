@@ -84,10 +84,19 @@ public class CreationXML {
         film.addGroup(group2);
 
         Translation tr = new Translation("anim1", c, 0,50, new Quad(), EasingType.EASE_IN, new Point(100,100), new Point(200,200));
+        film.addAnimation(tr);
+
         Rotation rot = new Rotation("anim2", square, 0,50,new Sine(), EasingType.EASE_IN, 45);
+        film.addAnimation(rot);
+
         Scaling scal = new Scaling("anim3", tri, 0, 50, 1.5);
+        film.addAnimation(scal);
+
         ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 0, 50, 20);
-        ChangeColor chcol = new ChangeColor("anim5", eqtri, 0, 50, new Circ(), EasingType.EASE_IN, 45);
+        film.addAnimation(cst);
+        
+        ChangeColor chcol = new ChangeColor("anim5", eqtri, 0, 50, new Circ(), EasingType.EASE_IN, 45, new Point(100,100));
+        film.addAnimation(chcol);
 
         film.saveToFile("film1.xml");
 

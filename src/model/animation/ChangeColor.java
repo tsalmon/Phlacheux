@@ -51,6 +51,12 @@ public class ChangeColor extends Animation{
         this.setCenter(centre);
         this.setAngle(angle);
     }
+
+    public ChangeColor(Element xml){
+        super(xml);
+        setCenter(new Point(Double.parseDouble(xml.getAttributeValue("pointX")), Double.parseDouble(xml.getAttributeValue("pointY"))));
+        setAngle(Double.parseDouble(xml.getAttributeValue("angle")));
+    }
     
 
 
