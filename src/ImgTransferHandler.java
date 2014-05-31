@@ -75,10 +75,10 @@ public class ImgTransferHandler extends TransferHandler {
 			int id_fig = (int)t.getTransferData(cdf);
 			dropPanel.init_x_y(x, y);
 			dropPanel.init_a_b(x+50, y+50);
-			System.out.println(id_fig + " (" + x + " " + y + ")");
+			//System.out.println(id_fig + " (" + x + " " + y + ")");
 			dropPanel.data.addMovable(nouvelleFigure(id_fig, x, y));
-			dropPanel.repaint();
 			dropPanel.createNodes();
+			dropPanel.repaint();
 			//System.out.println(dropPanel.data);
 			
 			return true;

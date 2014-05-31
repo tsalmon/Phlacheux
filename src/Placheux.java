@@ -99,7 +99,7 @@ TreeSelectionListener{
 	}
 
 
-   	public void init_hotkey(){
+	public void init_hotkey(){
 		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
 		ouvrir_film.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
 		enregistrer_film.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
@@ -412,8 +412,8 @@ TreeSelectionListener{
 		return new Point(x/x_n, y/y_n);
 	}
 
-	
-	
+
+
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
@@ -432,7 +432,7 @@ TreeSelectionListener{
 			this.data = data;
 			this.liste_figures = liste_figures;
 		}
-		
+
 		private void doDrawing(Graphics g) {
 			if(id_fig == 0){
 				GeneralPath gp = new GeneralPath();
@@ -494,40 +494,46 @@ TreeSelectionListener{
 		}
 
 		public void paintComponent(Graphics g) {
-			Iterator it = data.getMovables().entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry pairs = (Map.Entry)it.next();
-		        //System.out.println(pairs.getKey() + " <=> " + pairs.getValue());
-		        
-		    }
-			
-			/*
 			super.paintComponent(g);
+
+			Graphics2D g2d = (Graphics2D)g;
+
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY);
+
+			g2d.setColor(Color.BLACK); /**  TODO: fill color */
+			
+			Iterator it = data.getMovables().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pairs = (Map.Entry)it.next();
+				Figure f = (Figure)pairs.getValue();
+				g2d.fill(f.getShape());
+				System.out.println(f.getShape());
+			}
+			g2d.dispose();
+			System.out.println("repainted");
+			/*
+			
 
 			if(fig_inc == null){
 				doDrawing(g);				
 			} else {
 
-				Graphics2D g2d = (Graphics2D)g;
-
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-						RenderingHints.VALUE_RENDER_QUALITY);
-
-				g2d.setColor(Color.BLACK); /**  TODO: fill color 
+				
 
 				//doDrawing(g);
 
 
 
-				//for(Figure sh : liste_fig){
-				//	g2d.setColor(Color.BLACK); /** TODO: fill color 
-				//	g2d.fill(sh.getShape());
-				//	g2d.setColor(Color.blue); /** TODO: border color & size 
-				//	g2d.setStroke(new BasicStroke(3));
-				//	g2d.draw(sh.getShape());
-				//}
+				for(Figure sh : liste_fig){
+					g2d.setColor(Color.BLACK); /** TODO: fill color 
+					g2d.fill(sh.getShape());
+					g2d.setColor(Color.blue); /** TODO: border color & size 
+					g2d.setStroke(new BasicStroke(3));
+					g2d.draw(sh.getShape());
+				}
 
 				g2d.setColor(Color.BLACK);  TODO: fill color 
 				//this.doDrawing(g);
@@ -658,10 +664,10 @@ TreeSelectionListener{
 		public void createNodes() {
 			this.top.removeAllChildren();
 			Iterator it = data.getMovables().entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry pairs = (Map.Entry)it.next();
-		        this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
-		    }
+			while (it.hasNext()) {
+				Map.Entry pairs = (Map.Entry)it.next();
+				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
+			}
 		}
 	}
 
