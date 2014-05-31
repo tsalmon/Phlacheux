@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<film backgroundR="255" backgroundG="255" backgroundB="255" width="640" height="480" duration="1000">
+  <shapes>
+    <shape name="figure0" colorR="0" colorG="255" colorB="255" type="circle" centerX="50.0" centerY="40.0" radius="100.0" />
+    <shape name="figure1" colorR="0" colorG="0" colorB="0" srcX="10.0" srcY="20.0" dstX="30.0" dstY="40.0" type="segment" />
+    <shape name="figure2" colorR="255" colorG="255" colorB="0" srcX="10.0" srcY="20.0" dstX="30.0" dstY="40.0" type="quadraticCurve" ctrlX="50.0" ctrlY="60.0" />
+    <shape name="figure3" colorR="0" colorG="0" colorB="255" srcX="10.0" srcY="20.0" dstX="30.0" dstY="40.0" type="cubicCurve" ctrl1X="50.0" ctrl1Y="60.0" ctrl2X="70.0" ctrl2Y="80.0" />
+    <shape name="figure4" colorR="0" colorG="255" colorB="0" type="equilateralTriangle" vertex1x="15.0" vertex1y="15.0" vertex2x="30.0" vertex2y="30.0" vertex3x="9.509618943233418" vertex3y="35.49038105676658" />
+    <shape name="figure5" colorR="128" colorG="128" colorB="128" type="polygonPerso">
+      <points>
+        <point x="10.0" y="10.0" />
+        <point x="20.0" y="20.0" />
+        <point x="30.0" y="30.0" />
+        <point x="40.0" y="40.0" />
+      </points>
+    </shape>
+    <shape name="figure6" colorR="255" colorG="0" colorB="255" type="rectangle" srcX="5.0" srcY="5.0" sideH="100.0" sideV="100.0" />
+    <shape name="figure7" colorR="0" colorG="255" colorB="0" type="square" srcX="10.0" srcY="10.0" sideH="50.0" sideV="50.0" />
+    <shape name="figure8" colorR="255" colorG="200" colorB="0" type="triangle" vertex1x="10.0" vertex1y="10.0" vertex2x="20.0" vertex2y="20.0" vertex3x="30.0" vertex3y="30.0" />
+  </shapes>
+  <groups>
+    <group name="figure9">
+      <grouplinks />
+      <shapelinks>
+        <shapeLink name="figure0" />
+        <shapeLink name="figure1" />
+        <shapeLink name="figure2" />
+        <shapeLink name="figure3" />
+        <shapeLink name="figure4" />
+        <shapeLink name="figure5" />
+        <shapeLink name="figure6" />
+        <shapeLink name="figure7" />
+        <shapeLink name="figure8" />
+      </shapelinks>
+    </group>
+    <group name="figure10">
+      <grouplinks>
+        <grouplink name="figure9" />
+      </grouplinks>
+      <shapelinks>
+        <shapeLink name="figure4" />
+      </shapelinks>
+    </group>
+  </groups>
+  <animations>
+    <animation name="anim1" objectName="figure0" startTime="0.0" endTime="50.0" easing="quad" easingType="easeIn" type="translation" srcX="100.0" srcY="100.0" dstX="200.0" dstY="200.0" />
+    <animation name="anim2" objectName="figure7" startTime="0.0" endTime="50.0" easing="sine" easingType="easeIn" type="rotation" pointX="35.0" pointY="35.0" angle="45.0" />
+    <animation name="anim3" objectName="figure8" startTime="0.0" endTime="50.0" easing="linear" easingType="easeNone" type="scaling" scale="1.5" />
+    <animation name="anim4" objectName="figure6" startTime="0.0" endTime="50.0" easing="linear" easingType="easeNone" type="change_stroke_thickness" thickness="20.0" />
+    <animation name="anim5" objectName="figure4" startTime="0.0" endTime="50.0" easing="circ" easingType="easeIn" type="changeColor" pointX="100.0" pointY="100.0" angle="45.0" />
+  </animations>
+</film>

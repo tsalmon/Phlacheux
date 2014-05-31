@@ -94,7 +94,7 @@ public class CreationXML {
 
         ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 0, 50, 20);
         film.addAnimation(cst);
-        
+
         ChangeColor chcol = new ChangeColor("anim5", eqtri, 0, 50, new Circ(), EasingType.EASE_IN, 45, new Point(100,100));
         film.addAnimation(chcol);
 

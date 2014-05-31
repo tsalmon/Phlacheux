@@ -95,7 +95,8 @@ TreeSelectionListener{
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
 		Document xmlDoc = FilmParser.readFile(animeFile);
-		System.out.println(xmlDoc.toString());
+        Film film = Film.fromFile(animeFile.getPath());
+		System.out.println("Film est bien lu!");
 	}
 
 
