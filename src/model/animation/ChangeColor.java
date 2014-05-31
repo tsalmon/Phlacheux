@@ -28,26 +28,26 @@ public class ChangeColor extends Animation{
     //        Constructeur
     //---------------------------
 
-    public ChangeColor(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle, Point centre) {
+    public ChangeColor(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle, Point centre) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(centre);
         this.setAngle(angle);
     }
 
-    public ChangeColor(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle) {
+    public ChangeColor(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
     public ChangeColor(String name, Movable movable, double debut, double fin, double current_time,  double angle) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
     public ChangeColor(String name, Movable movable, double debut, double fin, double current_time,  double angle, Point centre) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(centre);
         this.setAngle(angle);
     }
