@@ -39,7 +39,9 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         protected Figure(ArrayList<Point> p){
-            points=p;
+            for(Point point : p){
+                this.addPoint(point);
+            }
             this.setColor(Color.BLACK);
         }
 
