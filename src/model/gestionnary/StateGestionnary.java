@@ -1,12 +1,9 @@
 
 package model.gestionnary;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import model.animation.Animation;
@@ -29,7 +26,7 @@ public class StateGestionnary {
     //---------------------------
 
     protected double current_time;
-    protected MovablePool pool;
+    protected HashMap <String, Movable> movables;
     protected HashMap <String, Animation> animations;
     protected LinkedList<Animation> animations_a_venir;
     protected LinkedList<Animation> animations_passees;
@@ -43,6 +40,7 @@ public class StateGestionnary {
     
         public StateGestionnary() {
             this.current_time=0;
+            this.movables = new HashMap<String, Movable>();
             comparator_debut=new Comparator<Animation>() {
                 @Override
                 public int compare(Animation a1, Animation a2) {
@@ -55,7 +53,6 @@ public class StateGestionnary {
                     return a1.getFin() < a2.getFin() ? 1 : a1.getFin() == a2.getFin() ? 0 : -1;
                 }
             };
-            this.pool=MovablePool.getInstance();
         }
     
     
@@ -81,11 +78,11 @@ public class StateGestionnary {
         }
         
         public void addMovable(Movable m){
-            this.pool.storeMovable(m);
+            movables.put(m.getName(), m);
         }
         
-        public void removeMovable(Movable m){
-            this.pool.removeMovable(m.getName());
+        public Movable removeMovable(Movable m){
+            return movables.remove(m);
         }
         
         public void addAnimation(Animation a){
@@ -101,59 +98,23 @@ public class StateGestionnary {
         public Animation removeAnimation(Animation a){
             this.animations_a_venir.remove(a);
             this.animations_passees.remove(a);
-            return this.animations.remove(a.getName());
+            return animations.remove(a);
         }
+
+        public HashMap<String, Movable> getMovables() {
+            return movables;
+        }
+
         public HashMap<String, Animation> getAnimations() {
             return animations;
         }
         
         public Movable getMovable(String name){
-            return this.pool.getMovable(name);
+            return this.movables.get(name);
         }
         
         public Animation getAnimation(String name){
             return this.animations.get(name);
-        }
-        
-        public HashMap <String, Animation> getAnimations(String name){
-            return this.animations;
-        }
-        
-        public HashMap <String, Movable> getMovables(String name){
-            return this.pool.getMovablePool();
-        }
-        
-        /**
-         * Retourne toutes les animations associées à un movables
-         * @param name nom du movable dont on cherche à obtenir les animations
-         * @return une LinkedList contenant toutes les animations associées à ce movable
-         */
-        public LinkedList<Animation> getAnimationsForMovable(String name){
-            Collection<Animation> movables= this.getAnimations().values();
-            Iterator<Animation> it=movables.iterator();
-            LinkedList<Animation> result=new LinkedList<>();
-            while(it.hasNext()){
-                Animation next=it.next();
-                if(next.getMovable().getName() == null ? name == null : next.getMovable().getName().equals(name)){
-                    result.add(next);
-                }
-            }
-            return result;            
-        }
-              
-        /**
-         * Retourne toutes les animations associées à un movables, ainsi que celles associées aux groupes dans lesquels il est inclu
-         * @param name nom du movable dont on cherche à obtenir les animations
-         * @return une LinkedList contenant toutes les animations associées à ce movable
-         */
-        public LinkedList<Animation> getAllAnimationsForMovable(String name){
-            LinkedList<Animation>  result=this.getAnimationsForMovable(name);
-            Movable m = this.getMovable(name);
-            for(ListIterator<MovableGroup> it = m.getGroups().listIterator() ; it.hasNext();){
-                result.addAll(this.getAllAnimationsForMovable(it.next().getName()));
-            }
-            
-            return result;            
         }
 
         
