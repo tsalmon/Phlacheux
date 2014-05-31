@@ -33,8 +33,6 @@ abstract public class Movable implements XMLSerializable{
         protected Movable(Element xml){
             this.name = xml.getAttribute("name").toString();
             MovablePool.getInstance().storeMovable(this);
-
-            //TODO: Add animations
         }
 
     //          Attributs

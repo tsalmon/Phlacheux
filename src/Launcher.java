@@ -1,3 +1,7 @@
+import model.animation.ChangeColor;
+import model.animation.EasingType;
+import model.animation.Translation;
+import model.easing.Quad;
 import model.movable.*;
 import model.movable.Point;
 import model.movable.circle.Circle;
@@ -170,7 +174,7 @@ public class Launcher extends JFrame implements ActionListener{
 					(Integer)width.getValue(), 
 					(Integer)height.getValue());
 		} else if(e.getSource() == XMLfile) {
-            /*
+
             Film film = new Film();
 
             Circle c = new Circle(50, 40, 100);
@@ -220,12 +224,15 @@ public class Launcher extends JFrame implements ActionListener{
 
             film.addGroup(group1);
 
-            MovableGroup group2 = new MovableGroup();
-            group2.addMovable(poly);
-            group2.addMovable(group1);
+//            MovableGroup group2 = new MovableGroup();
+//            group2.addMovable(poly);
+//            group2.addMovable(group1);
 
-            film.saveToFile();*/
-			ouvrirFilm();
+            Translation t = new Translation("anim1", tri, 1, 200, 1, new Quad(), EasingType.EASE_IN_OUT, new Point(0,0), new Point(10,10));
+            film.addAnimation(t);
+            film.saveToFile();
+
+			//ouvrirFilm();
 		} else {
 			System.exit(0);
 		}

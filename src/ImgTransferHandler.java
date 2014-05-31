@@ -26,7 +26,7 @@ public class ImgTransferHandler extends TransferHandler {
 		int x = ts.getDropLocation().getDropPoint().x;
 		int y = ts.getDropLocation().getDropPoint().y;
 		try {
-			int id_fig = (int)t.getTransferData(cdf);
+			int id_fig = (Integer)t.getTransferData(cdf);
 			System.out.println(id_fig + " (" + x + " " + y + ")");
 			return true;
 		} catch(UnsupportedFlavorException ue) {

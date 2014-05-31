@@ -1,5 +1,6 @@
 package model.movable;
 
+import model.animation.Animation;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -19,6 +20,8 @@ public class Film {
 
     ArrayList<MovableGroup> groups = new ArrayList<MovableGroup>();
     ArrayList<Figure> shapes = new ArrayList<Figure>();
+    ArrayList<Animation> animations = new ArrayList<Animation>();
+
 
     public Film(){}
 
@@ -29,13 +32,20 @@ public class Film {
         this.backgroundColor = backgroundColor;
     }
 
+    public Film(Element xml){
+
+    }
+
     public void addShape(Figure f){
         shapes.add(f);
     }
-
     public void addGroup(MovableGroup g){
         groups.add(g);
     }
+    public void addAnimation(Animation a){
+        animations.add(a);
+    }
+
 
     public Document getXML(){
         Document film = new Document();
@@ -56,6 +66,9 @@ public class Film {
             shapesXML.addContent(shapeXML.toXML());
         }
 
+        rootFilm.addContent(shapesXML);
+
+
         Element groupsXML = new Element("groups");
         it = this.groups.iterator();
 
@@ -64,8 +77,17 @@ public class Film {
             groupsXML.addContent(groupXML.toXML());
         }
 
-        rootFilm.addContent(shapesXML);
         rootFilm.addContent(groupsXML);
+
+        Element animationsXML = new Element("animations");
+        it = this.animations.iterator();
+
+        while (it.hasNext()){
+            Animation animationXML = (Animation) it.next();
+            animationsXML.addContent(animationXML.toXML());
+        }
+
+        rootFilm.addContent(animationsXML);
 
         film.setRootElement(rootFilm);
 
