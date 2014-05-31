@@ -71,7 +71,7 @@ public class CreationXML {
         group1.addMovable(cubcurve);
         group1.addMovable(eqtri);
         //TODO::problème de gravity center quand on ajoute un polygon personalisé!
-        //group1.addMovable(poly);
+        group1.addMovable(poly);
         group1.addMovable(rect);
         group1.addMovable(square);
         group1.addMovable(tri);
