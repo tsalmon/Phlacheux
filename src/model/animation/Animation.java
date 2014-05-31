@@ -182,3 +182,4 @@ public abstract class Animation implements XMLSerializable{
                 throw  new Exception("Not an animation");
             }
         }
+}
