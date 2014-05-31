@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Shape;
 
 import model.movable.*;
@@ -75,7 +76,7 @@ public class ImgTransferHandler extends TransferHandler {
 			int id_fig = (Integer)t.getTransferData(cdf);
 			dropPanel.init_x_y(x, y);
 			dropPanel.init_a_b(x+50, y+50);
-			//System.out.println(id_fig + " (" + x + " " + y + ")");
+			System.out.println(id_fig + " (" + x + " " + y + ")");
 			dropPanel.data.addMovable(nouvelleFigure(id_fig, x, y));
 			dropPanel.createNodes();
 			dropPanel.repaint();

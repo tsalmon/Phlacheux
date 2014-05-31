@@ -413,14 +413,13 @@ TreeSelectionListener{
 	}
 
 
-
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
 		Shape figure = null;
-		LinkedList<Integer> diy = new LinkedList<Integer>();
+		ArrayList<FigurePrint> points_fig = new ArrayList<FigurePrint>();		
 		int a, b;
 		int x, y;
 		StateGestionnary data;
@@ -454,14 +453,6 @@ TreeSelectionListener{
 				fig_inc = draw_arrow();
 			} else if(id_fig == 7){
 				fig_inc = this.draw_star();
-			} else if(id_fig == 8){
-				GeneralPath aux = new GeneralPath();
-				aux.moveTo(diy.get(0), diy.get(1));
-				for(int i = 0; i < diy.size(); i+=2){
-					aux.lineTo(diy.get(i), diy.get(i+1));
-				}
-				aux.closePath();
-				fig_inc = aux;
 			} else {
 				return ;
 			}
@@ -495,60 +486,67 @@ TreeSelectionListener{
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-
-			Graphics2D g2d = (Graphics2D)g;
-
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY);
-
-			g2d.setColor(Color.BLACK); /**  TODO: fill color */
-			
-			Iterator it = data.getMovables().entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry pairs = (Map.Entry)it.next();
-				Figure f = (Figure)pairs.getValue();
-				g2d.fill(f.getShape());
-				System.out.println(f.getShape());
-			}
-			g2d.dispose();
-			System.out.println("repainted");
-			/*
-			
-
+			g.setColor(Color.BLACK);
 			if(fig_inc == null){
+				System.out.println("IF");
 				doDrawing(g);				
 			} else {
+				
+				System.out.println("ELSE");
+				Graphics2D g2d = (Graphics2D)g;
+
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+						RenderingHints.VALUE_RENDER_QUALITY);
 
 				
+				g2d.setColor(Color.BLACK); /** TODO: fill color **/
+				g2d.drawRect(a, b, 50, 50);
+				//	doDrawing(g);
 
-				//doDrawing(g);
-
-
-
-				for(Figure sh : liste_fig){
-					g2d.setColor(Color.BLACK); /** TODO: fill color 
+				/*	for(Shape sh : liste_fig){
+					g2d.fill(sh);
+				}
+				 */
+				/*for(Figure sh : liste_fig){
+					g2d.setColor(Color.BLACK); // TODO: fill color
 					g2d.fill(sh.getShape());
-					g2d.setColor(Color.blue); /** TODO: border color & size 
+					g2d.setColor(Color.blue); // TODO: border color & size 
 					g2d.setStroke(new BasicStroke(3));
 					g2d.draw(sh.getShape());
-				}
+				}*/
 
-				g2d.setColor(Color.BLACK);  TODO: fill color 
-				//this.doDrawing(g);
+				Iterator it = data.getMovables().entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry pairs = (Map.Entry)it.next();
+					Figure f = (Figure)pairs.getValue();
+					g2d.fill(f.getShape());
+					Shape s = f.getShape();
+					PathIterator pi = s.getPathIterator(null);
+					while(!pi.isDone()){
+						double[] c = new double[2];
+						int type = pi.currentSegment(c);
+						System.out.println(c[0] + "" + c[1]);
+						pi.next();
+					}
+					System.out.println("=^=");
+				}	
+				
+				/*
+				g2d.setColor(Color.BLACK); // TODO: fill color 
+				this.doDrawing(g);
 				g2d.fill(fig_inc);  
-				g2d.setColor(Color.blue); /** TODO: border color & size 
+				g2d.setColor(Color.blue); // TODO: border color & size 
 				g2d.setStroke(new BasicStroke(3));
-				//g2d.draw(fig_inc);
+				g2d.draw(fig_inc);
 
-				/*if (arrowStart != null && arrowEnd != null) {
+				if (arrowStart != null && arrowEnd != null) {
 					this.draw_arrowTranslation(g2d);
 				}
-
+				*/
 				g2d.dispose();
 			}
-			 */
 		}
 
 		public void init_a_b(int a, int b){
