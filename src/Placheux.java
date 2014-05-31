@@ -419,7 +419,6 @@ TreeSelectionListener{
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
 		Shape figure = null;
-		ArrayList<FigurePrint> points_fig = new ArrayList<FigurePrint>();		
 		int a, b;
 		int x, y;
 		StateGestionnary data;
