@@ -33,7 +33,7 @@ public abstract class Animation implements XMLSerializable{
     //          Constructeur
     //----------------------------
         
-        protected Animation(String name, Movable m, double d, double f, double current_time, Easing e, EasingType et){
+        protected Animation(String name, Movable m, double d, double f, Easing e, EasingType et){
             this.setMovable(m);
             this.setEasing(e);
             this.setDebut(d);
@@ -41,7 +41,6 @@ public abstract class Animation implements XMLSerializable{
             this.setFin(f);
             this.setCurrent(0);
             this.name=name;
-            this.goToTime(current_time);
         }
 
         protected Animation(Element xml){

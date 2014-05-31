@@ -28,26 +28,26 @@ public class Translation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  Point point_depart, Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, easing, easing_type);
+    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Point point_depart, Point point_arrivee) {
+        super(name, movable, debut, fin, easing, easing_type);
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, easing, easing_type);
+    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Point point_arrivee) {
+        super(name, movable, debut, fin, easing, easing_type);
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, new Linear(), EasingType.EASE_NONE );
+    public Translation(String name, Movable movable, double debut, double fin, Point point_arrivee) {
+        super(name, movable, debut, fin, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_depart, Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, new Linear(), EasingType.EASE_NONE );
+    public Translation(String name, Movable movable, double debut, double fin, Point point_depart, Point point_arrivee) {
+        super(name, movable, debut, fin, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }

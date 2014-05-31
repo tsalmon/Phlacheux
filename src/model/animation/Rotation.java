@@ -28,26 +28,26 @@ public class Rotation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle, Point centre) {
-        super(name, movable, debut, fin, current_time, easing, easing_type);
+    public Rotation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle, Point centre) {
+        super(name, movable, debut, fin, easing, easing_type);
         this.setCenter(centre);
         this.setAngle(angle);
     }
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle) {
-        super(name, movable, debut, fin, current_time, easing, easing_type);
+    public Rotation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle) {
+        super(name, movable, debut, fin, easing, easing_type);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle) {
-        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
+    public Rotation(String name, Movable movable, double debut, double fin, double angle) {
+        super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle, Point centre) {
-        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
+    public Rotation(String name, Movable movable, double debut, double fin, double angle, Point centre) {
+        super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(centre);
         this.setAngle(angle);
     }
