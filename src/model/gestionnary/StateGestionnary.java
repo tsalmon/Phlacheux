@@ -80,8 +80,9 @@ public class StateGestionnary {
             }
         }
         
-        public void addMovable(Movable m){
+        public Movable addMovable(Movable m){
             this.pool.storeMovable(m);
+            return m;
         }
         
         public void removeMovable(Movable m){
@@ -96,6 +97,7 @@ public class StateGestionnary {
             if(a.getDebut()<this.current_time){
                 this.addPassee(a);
             }
+            a.goToTime(this.current_time);
         }
         
         public Animation removeAnimation(Animation a){
@@ -119,7 +121,7 @@ public class StateGestionnary {
             return this.animations;
         }
         
-        public HashMap <String, Movable> getMovables(){
+        public HashMap <String, Movable> getMovables( ){
             return this.pool.getMovablePool();
         }
         
@@ -131,7 +133,7 @@ public class StateGestionnary {
         public LinkedList<Animation> getAnimationsForMovable(String name){
             Collection<Animation> movables= this.getAnimations().values();
             Iterator<Animation> it=movables.iterator();
-            LinkedList<Animation> result=new LinkedList<Animation>();
+            LinkedList<Animation> result=new LinkedList<>();
             while(it.hasNext()){
                 Animation next=it.next();
                 if(next.getMovable().getName() == null ? name == null : next.getMovable().getName().equals(name)){
