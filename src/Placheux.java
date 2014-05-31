@@ -1,9 +1,7 @@
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.Point;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -12,8 +10,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.TransferHandler.DropLocation;
-import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
@@ -21,8 +17,10 @@ import javax.swing.tree.TreeSelectionModel;
 import java.util.*;
 
 import XML.FilmParser;
-//import model.*;
-import model.movable.Figure;
+import model.movable.*;
+import model.movable.circle.*;
+import model.gestionnary.*;
+import model.animation.*;
 
 import org.jdom2.Document;
 
@@ -34,6 +32,7 @@ TreeSelectionListener{
 
 	private static final long serialVersionUID = 1L;
 
+	StateGestionnary data = new StateGestionnary();
 	JFrame frame;
 	JMenuBar bar = new JMenuBar();
 	JMenu fichier = new JMenu("Fichier");
@@ -48,9 +47,9 @@ TreeSelectionListener{
 	BufferedImage[] img_icon = new BufferedImage[8]; 
 	DragComponent[] label_img = new DragComponent[8];
 
-	JLabel label1, label2;
-
 	private JTree tree;
+	DefaultMutableTreeNode top =
+			new DefaultMutableTreeNode("Liste des figures");
 
 	JPopupMenu menu = new JPopupMenu();
 	boolean menu_launched = false;
@@ -58,18 +57,13 @@ TreeSelectionListener{
 	boolean rotation_point_mode = false; 
 	boolean	changement_echelle_mode = false;
 	boolean create_figure = false;
-	boolean bezier_mode = false;
+
 	private Point arrowStart;
 	private Point arrowEnd;
 	private PointyThing pointyThing = new PointyThing();
 
-	JButton lecture_pause = new JButton("lecture");
-	JButton stop = new JButton("stop");	
-	JButton rendu = new JButton("rendu");
-
 	JTable tab;
-
-	PanElem view = new PanElem();
+	PanElem view;
 
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
 	int origin_x, origin_y; 
@@ -80,14 +74,16 @@ TreeSelectionListener{
 		this.frame = frame;
 		this.setLayout(new BorderLayout());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-		view.setPreferredSize(new Dimension(width, height));
 
 		init_menu_bar();
 		init_bouton_image();
 		init_bouton_dessin();
 
-		panel_center(width, height);
 		panel_west();
+		view = new PanElem(data, tree, top);
+		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
+		view.setPreferredSize(new Dimension(width, height));
+		panel_center(width, height);
 		panel_south(size);
 
 		init_hotkey();
@@ -101,6 +97,7 @@ TreeSelectionListener{
 		Document xmlDoc = FilmParser.readFile(animeFile);
 		System.out.println(xmlDoc.toString());
 	}
+
 
 	public void init_hotkey(){
 		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
@@ -206,20 +203,17 @@ TreeSelectionListener{
 
 	public void panel_west(){
 		Dimension minimumSize = new Dimension(300, 250);
-
-		DefaultMutableTreeNode top =
-				new DefaultMutableTreeNode("Liste des figures");
-
 		tree = new JTree(top);
 		tree.getSelectionModel().setSelectionMode
 		(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		tree.addTreeSelectionListener(this);
 
+		JScrollPane sp_fig = new JScrollPane(panel_listefigure(minimumSize));
 		JScrollPane sp_tree = new JScrollPane(tree);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setBottomComponent(sp_tree);
-		splitPane.setTopComponent(panel_listefigure(minimumSize));
+		splitPane.setTopComponent(sp_fig);
 
 		sp_tree.setMinimumSize(minimumSize);
 		splitPane.setDividerLocation(100); 
@@ -268,12 +262,10 @@ TreeSelectionListener{
 	}
 
 	public void init_bouton_dessin(){
-		Color[] b = {Color.BLACK, Color.BLUE, Color.GREEN};
 		for(int i = 0; i < img_icon.length; i++){
 			label_img[i] = new DragComponent(img_icon[i], i);
 			label_img[i].repaint();
 		}
-		view.setTransferHandler(new ImgTransferHandler(view));
 	}
 
 	public void init_menu_bar(){
@@ -420,6 +412,8 @@ TreeSelectionListener{
 		return new Point(x/x_n, y/y_n);
 	}
 
+
+
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
@@ -429,13 +423,15 @@ TreeSelectionListener{
 		LinkedList<Integer> diy = new LinkedList<Integer>();
 		int a, b;
 		int x, y;
+		StateGestionnary data;
+		JTree liste_figures;
+		DefaultMutableTreeNode top;
 
-		/*It's might be usefull for drawing stars
-		private double points[][] = { 
-				{ 0, 85 }, { 75, 75 }, { 100, 10 }, { 125, 75 }, 
-				{ 200, 85 }, { 150, 125 }, { 160, 190 }, { 100, 150 }, 
-				{ 40, 190 }, { 50, 125 }, { 0, 85 } 
-		};*/
+		public PanElem(StateGestionnary data, JTree liste_figures, DefaultMutableTreeNode top) {
+			this.top = top;
+			this.data = data;
+			this.liste_figures = liste_figures;
+		}
 
 		private void doDrawing(Graphics g) {
 			if(id_fig == 0){
@@ -499,50 +495,70 @@ TreeSelectionListener{
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
+
+			Graphics2D g2d = (Graphics2D)g;
+
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY);
+
+			g2d.setColor(Color.BLACK); /**  TODO: fill color */
+			
+			Iterator it = data.getMovables().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pairs = (Map.Entry)it.next();
+				Figure f = (Figure)pairs.getValue();
+				g2d.fill(f.getShape());
+				System.out.println(f.getShape());
+			}
+			g2d.dispose();
+			System.out.println("repainted");
+			/*
+			
+
 			if(fig_inc == null){
 				doDrawing(g);				
 			} else {
-				Graphics2D g2d = (Graphics2D)g;
 
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-						RenderingHints.VALUE_RENDER_QUALITY);
+				
 
-				//	g2d.setColor(Color.BLACK); /** TODO: fill color **/
-				//	doDrawing(g);
+				//doDrawing(g);
 
-				/*	for(Shape sh : liste_fig){
-					g2d.fill(sh);
-				}
-				 */
+
+
 				for(Figure sh : liste_fig){
-					g2d.setColor(Color.BLACK); /** TODO: fill color **/
+					g2d.setColor(Color.BLACK); /** TODO: fill color 
 					g2d.fill(sh.getShape());
-					g2d.setColor(Color.blue); /** TODO: border color & size **/
+					g2d.setColor(Color.blue); /** TODO: border color & size 
 					g2d.setStroke(new BasicStroke(3));
 					g2d.draw(sh.getShape());
 				}
 
-				g2d.setColor(Color.BLACK); /** TODO: fill color **/
-				this.doDrawing(g);
+				g2d.setColor(Color.BLACK);  TODO: fill color 
+				//this.doDrawing(g);
 				g2d.fill(fig_inc);  
-				g2d.setColor(Color.blue); /** TODO: border color & size **/
+				g2d.setColor(Color.blue); /** TODO: border color & size 
 				g2d.setStroke(new BasicStroke(3));
-				g2d.draw(fig_inc);
+				//g2d.draw(fig_inc);
 
-				if (arrowStart != null && arrowEnd != null) {
+				/*if (arrowStart != null && arrowEnd != null) {
 					this.draw_arrowTranslation(g2d);
 				}
 
 				g2d.dispose();
-
 			}
+			 */
 		}
 
 		public void init_a_b(int a, int b){
 			this.a = a;
 			this.b = b;
+		}
+
+		public void init_x_y(int x, int y){
+			this.x = x;
+			this.y = y;
 		}
 
 		public Shape draw_circle(){
@@ -641,6 +657,17 @@ TreeSelectionListener{
 			p.lineTo((a+x)/2, b);
 			p.closePath();
 			return p;
+		}
+
+
+
+		public void createNodes() {
+			this.top.removeAllChildren();
+			Iterator it = data.getMovables().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pairs = (Map.Entry)it.next();
+				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
+			}
 		}
 	}
 
