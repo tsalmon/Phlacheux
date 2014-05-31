@@ -34,12 +34,13 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //         Constructeur
     //----------------------------
 
-        protected Figure(){
-            System.out.print("test");
+        protected Figure(){            
+            this.setColor(Color.BLACK);
         }
 
         protected Figure(ArrayList<Point> p){
             points=p;
+            this.setColor(Color.BLACK);
         }
 
         protected Figure(Element xml){
@@ -47,6 +48,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
             int R = Integer.parseInt(xml.getAttribute("colorR").toString());
             int G = Integer.parseInt(xml.getAttribute("colorG").toString());
             int B = Integer.parseInt(xml.getAttribute("colorB").toString());
+            this.setColor(new Color(R,G,B));
         }
         
     //          Accesseurs
