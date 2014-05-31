@@ -28,11 +28,13 @@ abstract public class Movable implements XMLSerializable{
 
         protected Movable(){
             MovablePool.getInstance().storeMovable(this);
+            this.autoGravityCenter();
         }
 
         protected Movable(Element xml){
             this.name = xml.getAttribute("name").toString();
             MovablePool.getInstance().storeMovable(this);
+            this.autoGravityCenter();
 
             //TODO: Add animations
         }
