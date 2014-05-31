@@ -23,4 +23,7 @@ public class Bounce extends Easing {
 		else return easeOut (t*2-d, 0, c, d) * .5f + c*.5f + b;
 	}
 
+    public String toString(){
+        return "bounce";
+    }
 }

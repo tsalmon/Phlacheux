@@ -28,30 +28,39 @@ public class Translation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_depart, Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  Point point_depart, Point point_arrivee) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  Point point_arrivee) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
     public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
+        super(name, movable, debut, fin, current_time, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
     public Translation(String name, Movable movable, double debut, double fin, double current_time, Point point_depart, Point point_arrivee) {
-        super(name, movable, debut, fin, current_time, new Linear(), Easing_Type.EASE_NONE );
+        super(name, movable, debut, fin, current_time, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
-    
+
+    public Translation(Element xml){
+        super(xml);
+        double srcX = Double.parseDouble(xml.getAttributeValue("srcX"));
+        double srcY = Double.parseDouble(xml.getAttributeValue("srcY"));
+        double dstX = Double.parseDouble(xml.getAttributeValue("dstX"));
+        double dstY = Double.parseDouble(xml.getAttributeValue("dstY"));
+        setPointDepart(new Point(srcX, srcY));
+        setPointArrivee(new Point(dstX, dstY));
+    }
 
 
     //          Accesseurs

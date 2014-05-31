@@ -17,4 +17,7 @@ public class Expo extends Easing {
 		return c/2 * (-(double)Math.pow(2, -10 * --t) + 2) + b;
 	}
 
+    public String toString(){
+        return "expo";
+    }
 }

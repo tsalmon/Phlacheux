@@ -3,7 +3,6 @@ package model.animation;
 
 import model.easing.*;
 import model.movable.Movable;
-import model.movable.Point;
 import org.jdom2.Element;
 
 /**
@@ -26,14 +25,19 @@ public class ChangeStrokeThickness extends Animation{
     //        Constructeur
     //---------------------------
 
-    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double thickness_difference) {
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double thickness_difference) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setThickness(thickness_difference);
     }
 
     public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time,  double thickness_difference) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setThickness(thickness_difference);
+    }
+
+    public ChangeStrokeThickness(Element xml){
+        super(xml);
+        setThickness(Double.parseDouble(xml.getAttributeValue("thickness")));
     }
 
     //          Accesseurs
@@ -66,7 +70,7 @@ public class ChangeStrokeThickness extends Animation{
             Element el = super.toXML();
 
             el.setAttribute("type", "change_stroke_thickness");
-            el.setAttribute("thickness_difference", Double.toString(this.getThickness()));
+            el.setAttribute("thickness", Double.toString(this.getThickness()));
 
             return el;
         }
@@ -86,7 +90,5 @@ public class ChangeStrokeThickness extends Animation{
             builder.append("]");
             return builder.toString();
         }
-
-        
 
 }

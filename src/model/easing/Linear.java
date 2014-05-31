@@ -13,5 +13,8 @@ public class Linear extends Easing {
 	public  double easeInOut (double t,double b , double c, double d) {
 		return c*t/d + b;
 	}
-	
+
+    public String toString(){
+        return "linear";
+    }
 }

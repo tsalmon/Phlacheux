@@ -28,30 +28,35 @@ public class Rotation extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle, Point centre) {
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle, Point centre) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(centre);
         this.setAngle(angle);
     }
 
-    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double angle) {
+    public Rotation(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double angle) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
     public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(movable.getGravityCenter());
         this.setAngle(angle);
     }
 
     public Rotation(String name, Movable movable, double debut, double fin, double current_time,  double angle, Point centre) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(centre);
         this.setAngle(angle);
     }
-    
+
+    public Rotation(Element xml){
+        super(xml);
+        setCenter(new Point(Double.parseDouble(xml.getAttributeValue("pointX")), Double.parseDouble(xml.getAttributeValue("pointY"))));
+        setAngle(Double.parseDouble(xml.getAttributeValue("angle")));
+    }
 
 
     //          Accesseurs

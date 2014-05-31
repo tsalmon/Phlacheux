@@ -52,4 +52,7 @@ public class Elastic extends Easing {
 		return a*(double)Math.pow(2,-10*(t-=1)) * (double)Math.sin( (t*d-s)*(2*(double)Math.PI)/p )*.5f + c + b;
 	}
 
+    public String toString(){
+        return "elastic";
+    }
 }

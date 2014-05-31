@@ -15,4 +15,7 @@ public class Circ extends Easing {
 		return c/2 * ((double)Math.sqrt(1 - (t-=2)*t) + 1) + b;
 	}
 
+    public String toString(){
+        return "circ";
+    }
 }

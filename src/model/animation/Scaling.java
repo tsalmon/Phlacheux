@@ -3,7 +3,6 @@ package model.animation;
 
 import model.easing.*;
 import model.movable.Movable;
-import model.movable.Point;
 import org.jdom2.Element;
 
 /**
@@ -26,14 +25,19 @@ public class Scaling extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Scaling(String name, Movable movable, double debut, double fin, double current_time, Easing easing, Easing_Type easing_type,  double scale) {
+    public Scaling(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double scale) {
         super(name, movable, debut, fin, current_time, easing, easing_type);
         this.setScale(scale);
     }
 
     public Scaling(String name, Movable movable, double debut, double fin, double current_time,  double scale) {
-        super(name, movable, debut, fin, current_time, new Linear(),  Easing_Type.EASE_NONE);
+        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
         this.setScale(scale);
+    }
+
+    public Scaling(Element xml){
+        super(xml);
+        setScale(Double.parseDouble(xml.getAttributeValue("scale")));
     }
 
     //          Accesseurs
@@ -51,24 +55,24 @@ public class Scaling extends Animation{
     //----------------------------
 
         
-        public void goToTime(double t){
-            double scale_to_apply=(this.getScaleAt(t)/this.getScaleAt(this.getCurrent()));
-            this.getMovable().scaling(scale_to_apply);
-        }
-        
-        protected double getScaleAt(double t){
-            return this.applyEasing(1, t, this.getScale(), this.getFin()-this.getDebut());
-        }
+    public void goToTime(double t){
+        double scale_to_apply=(this.getScaleAt(t)/this.getScaleAt(this.getCurrent()));
+        this.getMovable().scaling(scale_to_apply);
+    }
 
-        @Override
-        public Element toXML(){
-            Element el = super.toXML();
+    protected double getScaleAt(double t){
+        return this.applyEasing(1, t, this.getScale(), this.getFin()-this.getDebut());
+    }
 
-            el.setAttribute("type", "scalling");
-            el.setAttribute("scale", Double.toString(this.getScale()));
+    @Override
+    public Element toXML(){
+        Element el = super.toXML();
 
-            return el;
-        }
+        el.setAttribute("type", "scaling");
+        el.setAttribute("scale", Double.toString(this.getScale()));
+
+        return el;
+    }
 
     @Override
     public String toString() {

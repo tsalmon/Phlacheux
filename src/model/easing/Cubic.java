@@ -15,4 +15,7 @@ public class Cubic extends Easing {
 		return c/2*((t-=2)*t*t + 2) + b;
 	}
 
+    public String toString(){
+        return "cubic";
+    }
 }

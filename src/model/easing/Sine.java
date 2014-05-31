@@ -13,5 +13,8 @@ public class Sine extends Easing {
 	public  double  easeInOut(double t,double b , double c, double d) {
 		return -c/2 * ((double)Math.cos(Math.PI*t/d) - 1) + b;
 	}
-	
+
+    public String toString(){
+        return "sine";
+    }
 }

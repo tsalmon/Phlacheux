@@ -25,14 +25,14 @@ public abstract class Animation implements XMLSerializable{
         protected double debut;
         protected double fin;  
         protected double current;
-        protected Easing_Type easing_type;
+        protected EasingType easing_type;
         protected String name;
         
     
     //          Constructeur
     //----------------------------
         
-        protected Animation(String name, Movable m, double d, double f, double current_time, Easing e, Easing_Type et){
+        protected Animation(String name, Movable m, double d, double f, double current_time, Easing e, EasingType et){
             this.setMovable(m);
             this.setEasing(e);
             this.setDebut(d);
@@ -40,6 +40,17 @@ public abstract class Animation implements XMLSerializable{
             this.setFin(f);
             this.setCurrent(current_time);
             this.name=name;
+        }
+        protected Animation(Element xml){
+            this.setDebut(Double.parseDouble(xml.getAttributeValue("startTime")));
+            this.setFin(Double.parseDouble(xml.getAttributeValue("endTime")));
+            this.setEasing_type(EasingType.getType(xml.getAttributeValue("easing_type")));
+            try {
+                this.setEasing(Easing.withString(xml.getAttributeValue("easing")));
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
 
     //          Accesseurs
@@ -84,11 +95,11 @@ public abstract class Animation implements XMLSerializable{
             this.fin = fin;
         }
 
-        public Easing_Type getEasing_type() {
+        public EasingType getEasing_type() {
             return easing_type;
         }
 
-        public void setEasing_type(Easing_Type easing_type) {
+        public void setEasing_type(EasingType easing_type) {
             this.easing_type = easing_type;
         }
 
@@ -143,11 +154,30 @@ public abstract class Animation implements XMLSerializable{
 
             el.setAttribute("startTime", Double.toString(debut));
             el.setAttribute("endTime", Double.toString(fin));
-            //TODO::easing STRING!
-            //el.setAttribute("easing", easingString(easing));
+            el.setAttribute("easing", easing.toString());
+            el.setAttribute("easingType", easing_type.toString());
 
             return el;
         }
 
-
-}
+        public static Animation parseXML(Element xml) throws Exception {
+            if (xml.getName().equals("animation")){
+                String type = xml.getAttributeValue("type");
+                if (type.equals("change_stroke_thickness")){
+                    return new ChangeStrokeThickness(xml);
+                }else
+                if (type.equals("rotation")){
+                    return new Rotation(xml);
+                }else
+                if (type.equals("translation")){
+                    return new Translation(xml);
+                }else
+                if (type.equals("scaling")){
+                    return new Scaling(xml);
+                } else {
+                    throw new Exception("Unrecognized animation type");
+                }
+            } else {
+                throw  new Exception("Not an animation");
+            }
+        }
