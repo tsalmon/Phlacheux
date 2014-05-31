@@ -4,6 +4,7 @@ package model.animation;
 import XML.XMLSerializable;
 import model.easing.Easing;
 import model.movable.Movable;
+import model.movable.MovablePool;
 import org.jdom2.Element;
 
 /**
@@ -41,10 +42,14 @@ public abstract class Animation implements XMLSerializable{
             this.setCurrent(0);
             this.name=name;
         }
+
         protected Animation(Element xml){
+            this.setName(xml.getAttributeValue("name"));
             this.setDebut(Double.parseDouble(xml.getAttributeValue("startTime")));
             this.setFin(Double.parseDouble(xml.getAttributeValue("endTime")));
             this.setEasing_type(EasingType.getType(xml.getAttributeValue("easing_type")));
+            String objectName = xml.getAttributeValue("objectName");
+            this.setMovable(MovablePool.getInstance().getMovable(objectName));
             try {
                 this.setEasing(Easing.withString(xml.getAttributeValue("easing")));
             } catch (Exception e){
@@ -152,6 +157,8 @@ public abstract class Animation implements XMLSerializable{
         public Element toXML(){
             Element el = new Element("animation");
 
+            el.setAttribute("name", name);
+            el.setAttribute("objectName", this.movable.getName());
             el.setAttribute("startTime", Double.toString(debut));
             el.setAttribute("endTime", Double.toString(fin));
             el.setAttribute("easing", easing.toString());

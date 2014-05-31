@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class MovablePool {
 
-    private HashMap<String, Movable> movablePool = new HashMap<>();
+    private HashMap<String, Movable> movablePool = new HashMap<String, Movable>();
 
     private static MovablePool instance;
 

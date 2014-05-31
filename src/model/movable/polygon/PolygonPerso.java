@@ -3,6 +3,7 @@ package model.movable.polygon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import model.movable.Point;
 import org.jdom2.Element;
@@ -32,7 +33,20 @@ public class PolygonPerso extends Polygon{
             }
 
         public PolygonPerso(Element xml) {
-        super(xml);
+            super(xml);
+            Element points = xml.getChild("points");
+            List<Element> pointsElement = xml.getChild("points").getChildren();
+
+            Iterator it = pointsElement.iterator();
+
+            while (it.hasNext()){
+                Element pointElement = (Element) it.next();
+
+                double pX = Double.parseDouble(pointElement.getAttributeValue("x"));
+                double pY = Double.parseDouble(pointElement.getAttributeValue("y"));
+
+                this.addPoint(new Point(pX, pY));
+            }
     }
 
 
@@ -61,6 +75,18 @@ public class PolygonPerso extends Polygon{
         Element el = super.toXML();
 
         el.setAttribute("type", "polygonPerso");
+
+        Element pointsElement = new Element("points");
+        Iterator it = points.iterator();
+        while (it.hasNext()){
+            Point p = (Point) it.next();
+            Element pointElement = new Element("point");
+            pointElement.setAttribute("x", Double.toString(p.getX()));
+            pointElement.setAttribute("y", Double.toString(p.getY()));
+            pointsElement.addContent(pointElement);
+        }
+
+        el.addContent(pointsElement);
 
         return el;
     }

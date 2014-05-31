@@ -39,9 +39,9 @@ public class Triangle extends Polygon{
     public Triangle(Element xml){
         super(xml);
 
-        this.sommet1 = new Point(Integer.parseInt(xml.getAttributeValue("vertex1x")), Integer.parseInt(xml.getAttributeValue("vertex1y")));
-        this.sommet2 = new Point(Integer.parseInt(xml.getAttributeValue("vertex2x")), Integer.parseInt(xml.getAttributeValue("vertex2y")));
-        this.sommet3 = new Point(Integer.parseInt(xml.getAttributeValue("vertex3x")), Integer.parseInt(xml.getAttributeValue("vertex3y")));
+        this.sommet1 = new Point(Double.parseDouble(xml.getAttributeValue("vertex1x")), Double.parseDouble(xml.getAttributeValue("vertex1y")));
+        this.sommet2 = new Point(Double.parseDouble(xml.getAttributeValue("vertex2x")), Double.parseDouble(xml.getAttributeValue("vertex2y")));
+        this.sommet3 = new Point(Double.parseDouble(xml.getAttributeValue("vertex3x")), Double.parseDouble(xml.getAttributeValue("vertex3y")));
 
         this.addPoint(this.sommet1);
         this.addPoint(this.sommet2);
