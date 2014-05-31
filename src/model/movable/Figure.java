@@ -208,9 +208,17 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
 		public Shape getShape() {
 			GeneralPath gp = new GeneralPath();
+			System.out.println("getShape IN");
+			boolean start = true;
 			for(Point p : points){
-				
+				if(start){
+					gp.moveTo(p.x, p.y);
+					start = false;
+				} else {
+					gp.lineTo(p.x, p.y);					
+				}
 			}
+			System.out.println("getShape OUT");
 			return gp;
 		}
         
