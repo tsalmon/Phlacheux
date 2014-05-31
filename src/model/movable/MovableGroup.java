@@ -57,6 +57,7 @@ public class MovableGroup extends Movable{
 
             //TODO: load animations!
             List<Element> animations = xml.getChild("animations").getChildren();
+            this.autoGravityCenter();
 
         }
 
