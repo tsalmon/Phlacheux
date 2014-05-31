@@ -65,8 +65,9 @@
             private void addLesPoints(){
                 this.addPoint(this.pointhg);
                 this.addPoint(this.pointbg);
-                this.addPoint(this.pointhd);
+                
                 this.addPoint(this.pointbd);
+                this.addPoint(this.pointhd);
             }        
 
 
