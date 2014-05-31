@@ -38,8 +38,9 @@ public abstract class Animation implements XMLSerializable{
             this.setDebut(d);
             this.setEasing_type(et);
             this.setFin(f);
-            this.setCurrent(current_time);
+            this.setCurrent(0);
             this.name=name;
+            this.goToTime(current_time);
         }
 
     //          Accesseurs

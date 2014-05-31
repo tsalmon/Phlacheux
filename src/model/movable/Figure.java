@@ -1,6 +1,5 @@
 package model.movable;
 import XML.XMLSerializable;
-import org.jdom2.Document;
 import org.jdom2.Element;
 
 import java.awt.Color;
@@ -29,7 +28,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         protected ArrayList<Point> points = new ArrayList<Point>();
         protected Color borderColor;
         private Color color;
-
+        
         
         
     //         Constructeur
@@ -153,6 +152,26 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 point.moveTo(gravity_x+translate_x,gravity_y+translate_y);
             }            
         }
+
+        @Override
+        public void changeColor(Color c) {
+            this.setColor(c);
+        }
+
+        @Override
+        public void changeBorderColor(Color c) {
+            this.setBorderColor(c);
+        }
+
+        @Override
+        public void changeColorFlow(Color c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        
+        
+    //         Methodes
+    //----------------------------
 
         @Override
         public String toString() {

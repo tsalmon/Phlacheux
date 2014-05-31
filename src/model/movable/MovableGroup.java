@@ -1,5 +1,6 @@
 
 package model.movable;
+import java.awt.Color;
 import org.jdom2.Element;
 
 import java.util.ArrayList;
@@ -66,11 +67,13 @@ public class MovableGroup extends Movable{
         public void addMovable(Movable m) {
             this.movables.add(m);
             this.gcResfresh();
+            m.addGroup(this);
         }
 
         public void removeMovable(Movable m){
             this.movables.remove(m);
             this.gcResfresh();
+            m.removeGroup(this);
         }
         
         //  calcul automatique du centre de gravité
@@ -89,7 +92,7 @@ public class MovableGroup extends Movable{
                 this.setGravityCenterPerso(false);
             }
 
-    //          Methodes
+    //          Animations
     //----------------------------
 
         @Override
@@ -133,6 +136,30 @@ public class MovableGroup extends Movable{
                    m.scaling(scale);
                }
            }
+
+        @Override
+        public void changeColor(Color c) {
+               for (Movable m : this.movables){
+                   m.changeColor(c);
+               }
+        }
+
+        @Override
+        public void changeBorderColor(Color c) {
+               for (Movable m : this.movables){
+                   m.changeBorderColor(c);
+               }
+        }
+
+        @Override
+        public void changeColorFlow(Color c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        
+
+    //          Methodes
+    //----------------------------
 
        @Override
        public String toString() {

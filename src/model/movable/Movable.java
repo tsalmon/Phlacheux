@@ -1,6 +1,8 @@
 package model.movable;
 
 import XML.XMLSerializable;
+import java.awt.Color;
+import java.util.ArrayList;
 import model.movable.circle.Circle;
 import model.movable.line.CubicCurve;
 import model.movable.line.QuadraticCurve;
@@ -41,6 +43,7 @@ abstract public class Movable implements XMLSerializable{
         protected Point gravity_center;  
         protected boolean gravity_center_personalised; 
         protected String name;
+        protected ArrayList<MovableGroup> groups=new ArrayList<MovableGroup>();
     
     
     
@@ -84,6 +87,20 @@ abstract public class Movable implements XMLSerializable{
             this.name = name;
         }
 
+        public void addGroup(MovableGroup g) {
+            this.groups.add(g);
+        }
+
+        public void removeGroup(MovableGroup g) {
+            this.groups.remove(g);
+        }
+        
+        public ArrayList<MovableGroup> getGroups(){
+            return this.groups;
+        }
+        abstract protected void autoGravityCenter();
+        
+
         
     //     Transformations
     //----------------------------
@@ -99,8 +116,13 @@ abstract public class Movable implements XMLSerializable{
         abstract public void changeStrokeThickness(double thickness);
 
         abstract public void scaling(double scale);
+        
+        abstract public void changeColor(Color c);
+        
+        abstract public void changeColorFlow(Color c);
 
-        abstract protected void autoGravityCenter();
+        abstract public void changeBorderColor(Color c);
+
 
 
         @Override
