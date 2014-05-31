@@ -34,19 +34,21 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //         Constructeur
     //----------------------------
 
-        protected Figure(){
-            System.out.print("test");
+        protected Figure(){            
+            this.setColor(Color.BLACK);
         }
 
         protected Figure(ArrayList<Point> p){
             points=p;
+            this.setColor(Color.BLACK);
         }
 
         protected Figure(Element xml){
             super(xml);
-            int R = Integer.parseInt(xml.getAttribute("colorR").toString());
-            int G = Integer.parseInt(xml.getAttribute("colorG").toString());
-            int B = Integer.parseInt(xml.getAttribute("colorB").toString());
+            int R = Integer.parseInt(xml.getAttributeValue("colorR"));
+            int G = Integer.parseInt(xml.getAttributeValue("colorR"));
+            int B = Integer.parseInt(xml.getAttributeValue("colorR"));
+            this.setColor(new Color(R,G,B));
         }
         
     //          Accesseurs
@@ -200,15 +202,11 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 el.setAttribute("colorB", Integer.toString(color.getBlue()));
             }
 
-            el.addContent(new Element("animations"));
-            //TODO:add animations!
-
             return el;
         }
 
 		public Shape getShape() {
 			GeneralPath gp = new GeneralPath();
-			System.out.println("getShape IN");
 			boolean start = true;
 			for(Point p : points){
 				if(start){
@@ -218,7 +216,6 @@ abstract public class Figure extends Movable implements XMLSerializable{
 					gp.lineTo(p.x, p.y);					
 				}
 			}
-			System.out.println("getShape OUT");
 			return gp;
 		}
         

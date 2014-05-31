@@ -52,7 +52,7 @@ public class CubicCurve extends Line {
 
             double ctrl2X = Double.parseDouble(xml.getAttributeValue("ctrl2X"));
             double ctrl2Y = Double.parseDouble(xml.getAttributeValue("ctrl2Y"));
-            this.point_controle1 = new Point(ctrl2X, ctrl2Y);
+            this.point_controle2 = new Point(ctrl2X, ctrl2Y);
             this.addPoint(this.point_controle2);
         }
     

@@ -31,7 +31,7 @@ abstract public class Movable implements XMLSerializable{
         }
 
         protected Movable(Element xml){
-            this.name = xml.getAttribute("name").toString();
+            this.name = xml.getAttributeValue("name");
             MovablePool.getInstance().storeMovable(this);
 
             //TODO: Add animations
@@ -98,6 +98,7 @@ abstract public class Movable implements XMLSerializable{
         public ArrayList<MovableGroup> getGroups(){
             return this.groups;
         }
+        
         abstract protected void autoGravityCenter();
         
 

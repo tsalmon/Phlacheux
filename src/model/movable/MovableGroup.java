@@ -55,8 +55,7 @@ public class MovableGroup extends Movable{
                 addMovable(MovablePool.getInstance().getMovable(eName));
             }
 
-            //TODO: load animations!
-            List<Element> animations = xml.getChild("animations").getChildren();
+            this.autoGravityCenter();
 
         }
 
@@ -175,8 +174,6 @@ public class MovableGroup extends Movable{
             Element el = new Element("group");
             el.setAttribute("name", name);
 
-            Element animations = new Element("animations");
-            //TODO: add animations!
             Element grouplinks = new Element("grouplinks");
             Element shapelinks = new Element("shapelinks");
 
@@ -200,7 +197,6 @@ public class MovableGroup extends Movable{
                 }
             }
 
-            el.addContent(animations);
             el.addContent(grouplinks);
             el.addContent(shapelinks);
 

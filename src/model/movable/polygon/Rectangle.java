@@ -33,13 +33,18 @@
 
             public Rectangle(double length, double width, Point point_haut_gauche) {
                 super(new ArrayList<Point>());
+
                 this.length = length;
                 this.width = width;
-                double x=point_haut_gauche.getX(); double y=point_haut_gauche.getY();
-                this.pointhg = point_haut_gauche;
-                this.pointbg = new Point(x,y-width);
+
+                double x=point_haut_gauche.getX();
+                double y=point_haut_gauche.getY();
+
+                this.pointhg = new Point(x, y);
+                this.pointbg = new Point(x,y+width);
                 this.pointhd = new Point(x+length,y);
-                this.pointbd = new Point(x+length,y-width);
+                this.pointbd = new Point(x+length,y+width);
+
                 this.addLesPoints();
             }
 
