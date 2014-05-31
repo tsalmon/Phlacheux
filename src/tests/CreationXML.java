@@ -83,7 +83,7 @@ public class CreationXML {
         group2.addMovable(group1);
         film.addGroup(group2);
 
-//        Translation t = new Translation("anim1", tri, 1, 200, 1, new Quad(), EasingType.EASE_IN_OUT, new model.movable.Point(0,0), new model.movable.Point(10,10));
+//        Translation t = new Translation("anim1", tri, 1, 200, new Quad(), EasingType.EASE_IN_OUT, new model.movable.Point(0,0), new model.movable.Point(10,10));
 //        film.addAnimation(t);
 
 //        Rotation r = new Rotation("anim2", square, 1, 100, 1, new Bounce(), EasingType.EASE_IN, 45);
@@ -100,7 +100,7 @@ public class CreationXML {
 
         film.saveToFile("film1.xml");
 
-        Film f2 = Film.fromFile("/Users/coolermaster/Dropbox/Etudes/Interfaces/projet/phlacheux/film1.xml");
+        Film f2 = Film.fromFile("film1.xml");
         f2.saveToFile("film2.xml");
 
 

@@ -63,6 +63,15 @@ public class Film {
             Movable m = Movable.parseXML((Element) it.next());
             addShape((Figure)m);
         }
+
+        java.util.List<Element> groups = film.getChild("groups").getChildren();
+
+//        it = groups.iterator();
+//
+//        while (it.hasNext()){
+//            Movable m = Movable.parseXML((Element) it.next());
+//            addGroup((MovableGroup)m);
+//        }
     }
 
     public static Film fromFile(String path) {
