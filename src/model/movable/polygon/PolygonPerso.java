@@ -62,6 +62,18 @@ public class PolygonPerso extends Polygon{
 
         el.setAttribute("type", "polygonPerso");
 
+        Element pointsElement = new Element("points");
+        Iterator it = points.iterator();
+        while (it.hasNext()){
+            Point p = (Point) it.next();
+            Element pointElement = new Element("point");
+            pointElement.setAttribute("x", Double.toString(p.getX()));
+            pointElement.setAttribute("y", Double.toString(p.getY()));
+            pointsElement.addContent(pointElement);
+        }
+
+        el.addContent(pointsElement);
+
         return el;
     }
 }

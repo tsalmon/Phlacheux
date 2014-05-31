@@ -3,14 +3,17 @@ package model.movable;
 import model.animation.Animation;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.print.Doc;
 import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+import java.util.List;
 
 public class Film {
     Color backgroundColor = Color.white;
@@ -32,8 +35,53 @@ public class Film {
         this.backgroundColor = backgroundColor;
     }
 
-    public Film(Element xml){
+    public Film(Document xml) throws Exception {
+        Element film = xml.getRootElement();
+        if (!film.getName().equals("film")){
+            throw new Exception("Wrong xml format");
+        }
+        int backgroundR = Integer.parseInt(film.getAttributeValue("backgroundR"));
+        int backgroundG = Integer.parseInt(film.getAttributeValue("backgroundG"));
+        int backgroundB = Integer.parseInt(film.getAttributeValue("backgroundB"));
+        this.backgroundColor = new Color(backgroundR, backgroundG, backgroundB);
 
+        int width = Integer.parseInt(film.getAttributeValue("width"));
+        this.width = width;
+
+        int height = Integer.parseInt(film.getAttributeValue("height"));
+        this.height = height;
+
+        int duration = Integer.parseInt(film.getAttributeValue("duration"));
+        this.duration = duration;
+
+
+        java.util.List<Element> shapes = film.getChild("shapes").getChildren();
+
+        Iterator it = shapes.iterator();
+
+        while (it.hasNext()){
+            Movable m = Movable.parseXML((Element) it.next());
+            addShape((Figure)m);
+        }
+    }
+
+    public static Film fromFile(String path) {
+        try {
+            SAXBuilder parser = new SAXBuilder();
+            FileReader fr = new FileReader(path);
+            Document rDoc = parser.build(fr);
+            System.out.println(rDoc.getRootElement().getName());
+            List<Element> temp = rDoc.getRootElement().getChildren();
+            for (int i = 0; i < temp.size(); ++i) {
+                System.out.println(temp.get(i).getName());
+            }
+            return new Film(rDoc);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
     }
 
     public void addShape(Figure f){
@@ -94,11 +142,11 @@ public class Film {
         return film;
     }
 
-    public void saveToFile(){
+    public void saveToFile(String filename){
         try {
             XMLOutputter outputter = new XMLOutputter();
             outputter.setFormat(Format.getPrettyFormat());
-            FileWriter fw = new FileWriter("film.xml");
+            FileWriter fw = new FileWriter(filename);
             outputter.output(this.getXML(), fw);
             fw.close();
         }
