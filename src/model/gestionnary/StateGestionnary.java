@@ -1,9 +1,12 @@
 
 package model.gestionnary;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import model.animation.Animation;
@@ -26,7 +29,7 @@ public class StateGestionnary {
     //---------------------------
 
     protected double current_time;
-    protected HashMap <String, Movable> movables;
+    protected MovablePool pool;
     protected HashMap <String, Animation> animations;
     protected LinkedList<Animation> animations_a_venir;
     protected LinkedList<Animation> animations_passees;
@@ -40,7 +43,6 @@ public class StateGestionnary {
     
         public StateGestionnary() {
             this.current_time=0;
-            this.movables = new HashMap<String, Movable>();
             comparator_debut=new Comparator<Animation>() {
                 @Override
                 public int compare(Animation a1, Animation a2) {
@@ -53,6 +55,7 @@ public class StateGestionnary {
                     return a1.getFin() < a2.getFin() ? 1 : a1.getFin() == a2.getFin() ? 0 : -1;
                 }
             };
+            this.pool=MovablePool.getInstance();
         }
     
     
@@ -77,18 +80,12 @@ public class StateGestionnary {
             }
         }
         
-<<<<<<< HEAD
         public void addMovable(Movable m){
-            movables.put(m.getName(), m);
-=======
-        public Movable addMovable(Movable m){
             this.pool.storeMovable(m);
-            return m;
->>>>>>> b0046ab30e24fc8b28330744f0f9e75ffa2916d4
         }
         
-        public Movable removeMovable(Movable m){
-            return movables.remove(m);
+        public void removeMovable(Movable m){
+            this.pool.removeMovable(m.getName());
         }
         
         public void addAnimation(Animation a){
@@ -99,32 +96,24 @@ public class StateGestionnary {
             if(a.getDebut()<this.current_time){
                 this.addPassee(a);
             }
-            a.goToTime(this.current_time);
         }
         
         public Animation removeAnimation(Animation a){
             this.animations_a_venir.remove(a);
             this.animations_passees.remove(a);
-            return animations.remove(a);
+            return this.animations.remove(a.getName());
         }
-
-        public HashMap<String, Movable> getMovables() {
-            return movables;
-        }
-
         public HashMap<String, Animation> getAnimations() {
             return animations;
         }
         
         public Movable getMovable(String name){
-            return this.movables.get(name);
+            return this.pool.getMovable(name);
         }
         
         public Animation getAnimation(String name){
             return this.animations.get(name);
         }
-<<<<<<< HEAD
-=======
         
         public HashMap <String, Animation> getAnimations(String name){
             return this.animations;
@@ -166,7 +155,6 @@ public class StateGestionnary {
             
             return result;            
         }
->>>>>>> b0046ab30e24fc8b28330744f0f9e75ffa2916d4
 
         
     //          Methodes
