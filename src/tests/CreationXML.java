@@ -2,6 +2,7 @@ package tests;
 
 import model.animation.*;
 import model.easing.Bounce;
+import model.easing.Circ;
 import model.easing.Quad;
 import model.easing.Sine;
 import model.movable.*;
@@ -70,7 +71,6 @@ public class CreationXML {
         group1.addMovable(q);
         group1.addMovable(cubcurve);
         group1.addMovable(eqtri);
-        //TODO::problème de gravity center quand on ajoute un polygon personalisé!
         group1.addMovable(poly);
         group1.addMovable(rect);
         group1.addMovable(square);
@@ -83,20 +83,11 @@ public class CreationXML {
         group2.addMovable(group1);
         film.addGroup(group2);
 
-//        Translation t = new Translation("anim1", tri, 1, 200, new Quad(), EasingType.EASE_IN_OUT, new model.movable.Point(0,0), new model.movable.Point(10,10));
-//        film.addAnimation(t);
-
-//        Rotation r = new Rotation("anim2", square, 1, 100, 1, new Bounce(), EasingType.EASE_IN, 45);
-//        film.addAnimation(r);
-
-//        Scaling sc = new Scaling("anim3", rect, 1, 50, 1, new Sine(), EasingType.EASE_IN, 1.5);
-//        film.addAnimation(sc);
-//
-//        ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 10, 50, 1, 20);
-//        film.addAnimation(cst);
-
-//        ChangeColor cc = new ChangeColor("anim5", rect, 10, 100, 1, 15);
-//        film.addAnimation(cc);
+        Translation tr = new Translation("anim1", c, 0,50, new Quad(), EasingType.EASE_IN, new Point(100,100), new Point(200,200));
+        Rotation rot = new Rotation("anim2", square, 0,50,new Sine(), EasingType.EASE_IN, 45);
+        Scaling scal = new Scaling("anim3", tri, 0, 50, 1.5);
+        ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 0, 50, 20);
+        ChangeColor chcol = new ChangeColor("anim5", eqtri, 0, 50, new Circ(), EasingType.EASE_IN, 45);
 
         film.saveToFile("film1.xml");
 

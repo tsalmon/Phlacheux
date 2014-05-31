@@ -92,7 +92,7 @@ public class ChangeColor extends Animation{
     public Element toXML(){
         Element el = super.toXML();
 
-        el.setAttribute("type", "rotation");
+        el.setAttribute("type", "changeColor");
         el.setAttribute("pointX", Double.toString(center.getX()));
         el.setAttribute("pointY", Double.toString(center.getY()));
         el.setAttribute("angle", Double.toString(angle));

@@ -132,7 +132,7 @@ public class StateGestionnary {
         public LinkedList<Animation> getAnimationsForMovable(String name){
             Collection<Animation> movables= this.getAnimations().values();
             Iterator<Animation> it=movables.iterator();
-            LinkedList<Animation> result=new LinkedList<>();
+            LinkedList<Animation> result=new LinkedList<Animation>();
             while(it.hasNext()){
                 Animation next=it.next();
                 if(next.getMovable().getName() == null ? name == null : next.getMovable().getName().equals(name)){
