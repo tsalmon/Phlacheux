@@ -1,23 +1,11 @@
 package model.movable;
 
 
-import model.movable.circle.Circle;
-import model.movable.line.CubicCurve;
-import model.movable.line.QuadraticCurve;
-import model.movable.line.Segment;
-import model.movable.polygon.EquilateralTriangle;
-import model.movable.polygon.Rectangle;
-import model.movable.polygon.Square;
-import model.movable.polygon.Triangle;
-import org.jdom2.Document;
-
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 public class MovablePool {
 
-    private Hashtable<String, Movable> movablePool = new Hashtable<String, Movable>();
+    private HashMap<String, Movable> movablePool = new HashMap<>();
 
     private static MovablePool instance;
 
@@ -52,6 +40,11 @@ public class MovablePool {
 
         return potentialKey;
     }
+
+    public HashMap<String, Movable> getMovablePool() {
+        return movablePool;
+    }
+    
 
     public static synchronized MovablePool getInstance(){
         if (instance == null){
