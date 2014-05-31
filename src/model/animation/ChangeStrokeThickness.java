@@ -25,13 +25,13 @@ public class ChangeStrokeThickness extends Animation{
     //        Constructeur
     //---------------------------
 
-    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double thickness_difference) {
-        super(name, movable, debut, fin, current_time, easing, easing_type);
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double thickness_difference) {
+        super(name, movable, debut, fin, easing, easing_type);
         this.setThickness(thickness_difference);
     }
 
-    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double current_time,  double thickness_difference) {
-        super(name, movable, debut, fin, current_time, new Linear(),  EasingType.EASE_NONE);
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin,  double thickness_difference) {
+        super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setThickness(thickness_difference);
     }
 

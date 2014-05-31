@@ -98,6 +98,7 @@ abstract public class Movable implements XMLSerializable{
         public ArrayList<MovableGroup> getGroups(){
             return this.groups;
         }
+        
         abstract protected void autoGravityCenter();
         
 
