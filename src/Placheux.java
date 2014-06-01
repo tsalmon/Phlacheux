@@ -16,11 +16,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 import java.util.*;
 
-import XML.FilmParser;
 import model.movable.*;
-import model.movable.circle.*;
 import model.gestionnary.*;
-import model.animation.*;
 
 import org.jdom2.Document;
 
@@ -94,8 +91,8 @@ TreeSelectionListener{
 
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
-		Document xmlDoc = FilmParser.readFile(animeFile);
-		System.out.println(xmlDoc.toString());
+        Film film = Film.fromFile(animeFile.getPath());
+		System.out.println("Film est bien lu!");
 	}
 
 
@@ -205,7 +202,7 @@ TreeSelectionListener{
 		Dimension minimumSize = new Dimension(300, 250);
 		tree = new JTree(top);
 		tree.getSelectionModel().setSelectionMode
-		(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                (TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		tree.addTreeSelectionListener(this);
 
@@ -244,18 +241,18 @@ TreeSelectionListener{
 
 	public void init_bouton_image(){
 		try {
-			img_icon[0] = ImageIO.read(new File(new File("").getAbsolutePath().concat("/Resources/Vue/square.png")));
-			img_icon[1] = ImageIO.read(new File("Resources/Vue/square.png")); //TODO: trouver une putain d'image
+			img_icon[0] = ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"square.png")));
+			img_icon[1] = ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"square.png"))); //TODO: trouver une putain d'image
 			img_icon[2] = 
-					ImageIO.read(new File("Resources/Vue/circle.png"));
-			img_icon[3] = ImageIO.read(new File("Resources/Vue/cross.png"));
+					ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"circle.png")));
+			img_icon[3] = ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"cross.png")));
 			img_icon[4] = 
-					ImageIO.read(new File("Resources/Vue/triangle_equi.png"));
+					ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"triangle_equi.png")));
 			img_icon[5] = 
-					ImageIO.read(new File("Resources/Vue/triangle_equi.png")); //TODO: trouver une putain d'image
+					ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"triangle_equi.png"))); //TODO: trouver une putain d'image
 			img_icon[6] = 
-					ImageIO.read(new File("Resources/Vue/fleche.png"));
-			img_icon[7] = ImageIO.read(new File("Resources/Vue/star.png"));
+					ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"fleche.png")));
+			img_icon[7] = ImageIO.read(new File(new File("").getAbsolutePath().concat(File.separator+"Resources"+File.separator+"Vue"+File.separator+"star.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -571,7 +568,7 @@ TreeSelectionListener{
 		public Shape draw_cross(){
 			GeneralPath p = new GeneralPath();
 			p.moveTo((3*x + a)/4, b);
-			p.lineTo((3*a + x)/4, b);
+			p.lineTo((3 * a + x) / 4, b);
 			p.lineTo((3*a + x)/4, (3*b + y)/4);
 			p.lineTo(a			, (3*b + y)/4);
 			p.lineTo(a			, (3*y + b)/4);

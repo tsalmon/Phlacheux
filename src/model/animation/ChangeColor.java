@@ -51,6 +51,12 @@ public class ChangeColor extends Animation{
         this.setCenter(centre);
         this.setAngle(angle);
     }
+
+    public ChangeColor(Element xml){
+        super(xml);
+        setCenter(new Point(Double.parseDouble(xml.getAttributeValue("pointX")), Double.parseDouble(xml.getAttributeValue("pointY"))));
+        setAngle(Double.parseDouble(xml.getAttributeValue("angle")));
+    }
     
 
 
@@ -92,7 +98,7 @@ public class ChangeColor extends Animation{
     public Element toXML(){
         Element el = super.toXML();
 
-        el.setAttribute("type", "rotation");
+        el.setAttribute("type", "changeColor");
         el.setAttribute("pointX", Double.toString(center.getX()));
         el.setAttribute("pointY", Double.toString(center.getY()));
         el.setAttribute("angle", Double.toString(angle));

@@ -47,7 +47,7 @@ public abstract class Animation implements XMLSerializable{
             this.setName(xml.getAttributeValue("name"));
             this.setDebut(Double.parseDouble(xml.getAttributeValue("startTime")));
             this.setFin(Double.parseDouble(xml.getAttributeValue("endTime")));
-            this.setEasing_type(EasingType.getType(xml.getAttributeValue("easing_type")));
+            this.setEasing_type(EasingType.getType(xml.getAttributeValue("easingType")));
             String objectName = xml.getAttributeValue("objectName");
             this.setMovable(MovablePool.getInstance().getMovable(objectName));
             try {
@@ -181,7 +181,10 @@ public abstract class Animation implements XMLSerializable{
                 }else
                 if (type.equals("scaling")){
                     return new Scaling(xml);
-                } else {
+                }else
+                if (type.equals("changeColor")){
+                    return new ChangeColor(xml);
+                }else{
                     throw new Exception("Unrecognized animation type");
                 }
             } else {

@@ -48,8 +48,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
         protected Figure(Element xml){
             super(xml);
             int R = Integer.parseInt(xml.getAttributeValue("colorR"));
-            int G = Integer.parseInt(xml.getAttributeValue("colorR"));
-            int B = Integer.parseInt(xml.getAttributeValue("colorR"));
+            int G = Integer.parseInt(xml.getAttributeValue("colorG"));
+            int B = Integer.parseInt(xml.getAttributeValue("colorB"));
             this.setColor(new Color(R,G,B));
         }
         
