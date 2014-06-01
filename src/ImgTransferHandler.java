@@ -32,34 +32,7 @@ public class ImgTransferHandler extends TransferHandler {
 	public boolean canImport(TransferHandler.TransferSupport ts) {
 		if (!ts.isDrop()) return false;
 		return ts.isDataFlavorSupported(cdf);
-	}
-
-	public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
-		ArrayList<PointPlacheux> liste = new ArrayList<PointPlacheux>();
-		
-		PathIterator pi = s.getPathIterator(null);
-
-		while (pi.isDone() == false) {
-		  double[] c = new double[2];
-		  int type = pi.currentSegment(c);
-		  if(type < 2 ) liste.add(new PointPlacheux(c[0],c[1]));
-		  pi.next();
-		}
-		
-		return liste;
-	}
-
-	public Figure addTriangleEqui(){
-		Shape s = dropPanel.draw_equi();
-		ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);		
-		return new EquilateralTriangle(points.get(1), points.get(2));
-	}
-	
-	public Figure addPolygonPerso(Shape s){
-		ArrayList<PointPlacheux> points = 
-				conversionShapeToArrayList(s);
-		return new PolygonPerso(points);
-	}
+	}	
 	
 	public Figure nouvelleFigure(int id_fig, int x, int y){
 		Figure f = null;
@@ -67,12 +40,12 @@ public class ImgTransferHandler extends TransferHandler {
 		case 0: return new Square(50, new PointPlacheux(x, y));
 		case 1: return new Rectangle(100, 50, new PointPlacheux(x, y));
 		case 2: return new Circle(new PointPlacheux(x, y), 50);
-		case 3: return addPolygonPerso(dropPanel.draw_cross());
-		case 4: ;/*TriangleEqui*/ return addTriangleEqui();
-		case 5: ;/*ligne*/ return new Segment(new PointPlacheux(x, y), new PointPlacheux(x+50, y+50));
-		case 6: ;/*Fleche*/ return addPolygonPerso(dropPanel.draw_arrow());
-		case 7: ;/*Star*/ dropPanel.init_a_b(x+10, y+10); 
-							return addPolygonPerso(dropPanel.draw_star());
+		case 3: return dropPanel.addPolygonPerso(dropPanel.draw_cross());
+		case 4: ;return dropPanel.addTriangleEqui();
+		case 5: ; return new Segment(new PointPlacheux(x, y), new PointPlacheux(x+50, y+50));
+		case 6: ; return dropPanel.addPolygonPerso(dropPanel.draw_arrow());
+		case 7: ; dropPanel.init_a_b(x+10, y+10); 
+							return dropPanel.addPolygonPerso(dropPanel.draw_star());
 		}
 		return f;
 	}

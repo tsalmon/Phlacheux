@@ -68,6 +68,9 @@ TreeSelectionListener{
 	JTable tab;
 	PanElem view;
 
+	
+	Figure figure_selected = null;
+	
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
 	int origin_x, origin_y; 
 	Shape fig_inc = new GeneralPath();
@@ -314,38 +317,25 @@ TreeSelectionListener{
 		menu.add(starItem);	
 	}
 
-	public void init_menu_createAnime()
+	public void init_menu_propertyFigure()
 	{
 		System.out.println("MenuAnime");
 		menu.addPopupMenuListener(pListener);
 
-		JMenuItem transItem = new JMenuItem("Translation");
-		transItem.addActionListener(aListener);
-		menu.add(transItem);	
+		JMenuItem faireAnimationFigure = new JMenuItem("Ajouter une animation");
+		faireAnimationFigure.addActionListener(aListener);
+		menu.add(faireAnimationFigure);	
 
-		JMenuItem rotItem = new JMenuItem("Rotation autour un point");
-		rotItem.addActionListener(aListener);
-		menu.add(rotItem);	
+		JMenuItem voirAnimationsFigures = new JMenuItem("Voir les animations");
+		voirAnimationsFigures.addActionListener(aListener);
+		menu.add(voirAnimationsFigures);	
 
-		JMenuItem rotcItem = new JMenuItem("Rotation autour du centre");
-		rotcItem.addActionListener(aListener);
-		menu.add(rotcItem);	
 
-		JMenuItem bzrItem = new JMenuItem("Bezier");
-		bzrItem.addActionListener(aListener);
-		menu.add(bzrItem);
-
-		JMenuItem tailItem = new JMenuItem("Changement d'échelle");
-		tailItem.addActionListener(aListener);
-		menu.add(tailItem);	
-
-		JMenuItem borderItem = new JMenuItem("Changement de bordure");
-		borderItem.addActionListener(aListener);
-		menu.add(borderItem);	
-
-		JMenuItem colorItem = new JMenuItem("Changement de couleur");
-		colorItem.addActionListener(aListener);
-		menu.add(colorItem);	
+		menu.addSeparator();
+		
+		JMenuItem voirProprietesFigures = new JMenuItem("Propriétées");
+		voirProprietesFigures.addActionListener(aListener);
+		menu.add(voirProprietesFigures );
 	}
 
 	public void choix_menu(String choix){
@@ -379,20 +369,12 @@ TreeSelectionListener{
 			create_figure = true;
 		} else if(choix.equals("Do it yourself")) { //b spline
 
-		} else if(choix.equals("Translation")){
-			this.translation_mode = true;
-		} else if(choix.equals("Rotation autour un point")){
-
-		} else if(choix.equals("Rotation autour du centre")){
-
-		} else if(choix.equals("Bezier")){
-
-		} else if(choix.equals("Changement d'échelle")){
-
-		} else if(choix.equals("Changement de bordure")){
-
-		} else if(choix.equals("Changement de couleur")){
-
+		} else if(choix.equals("Voir les animations")){
+			System.out.println("VOIR");
+		} else if(choix.equals("Propriétées")){
+			System.out.println("PROPERTIES");			
+		} else if(choix.equals("Ajouter une animation")){
+			System.out.println("AJOUTER");			
 		}
 	}
 
@@ -661,15 +643,16 @@ TreeSelectionListener{
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
 		}
-		public ArrayList<model.movable.PointPlacheux> conversionShapeToArrayList(Shape s){
-			ArrayList<model.movable.PointPlacheux> liste = new ArrayList<model.movable.PointPlacheux>();
+		
+		public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
+			ArrayList<PointPlacheux> liste = new ArrayList<PointPlacheux>();
 			
 			PathIterator pi = s.getPathIterator(null);
 
 			while (pi.isDone() == false) {
 			  double[] c = new double[2];
 			  int type = pi.currentSegment(c);
-			  if(type < 2 ) liste.add(new model.movable.PointPlacheux(c[0],c[1]));
+			  if(type < 2 ) liste.add(new PointPlacheux(c[0],c[1]));
 			  pi.next();
 			}
 			
@@ -678,7 +661,7 @@ TreeSelectionListener{
 		
 		public Figure addTriangleEqui(){
 			Shape s = view.draw_equi();
-			ArrayList<model.movable.PointPlacheux> points = conversionShapeToArrayList(s);		
+			ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);		
 			return new EquilateralTriangle(points.get(1), points.get(2));
 		}
 		
@@ -688,17 +671,24 @@ TreeSelectionListener{
 			return new PolygonPerso(points);
 		}
 		
+		
 		public Figure nouvelleFigure(int id_fig, int x, int y){
+			System.out.println("("+ a + ", " + b + ");("+ x + ", " + y + ")" );
 			Figure f = null;
 			switch(id_fig){
-			case 0: return new Square(50, new model.movable.PointPlacheux(x, y));
-			case 1: return new Rectangle(100, 50, new model.movable.PointPlacheux(x, y));
-			case 2: return new Circle(new model.movable.PointPlacheux(x, y), 50);
+			//case 0: return new Square(50, new model.movable.Point(x, y));
+			case 2: 				
+				return new Rectangle(Math.abs(x-a), 
+									Math.abs(y-b), 
+									new PointPlacheux((x > a) ? a : x ,
+													(y > b) ? b : y ));
+			case 1: return new Circle(new PointPlacheux(x, y), 50);
 			case 3: return addPolygonPerso(view.draw_cross());
-			case 4: ;/*TriangleEqui*/ return addTriangleEqui();
-			case 5: ;/*ligne*/ return new Segment(new model.movable.PointPlacheux(x, y), new model.movable.PointPlacheux(x+50, y+50));
-			case 6: ;/*Fleche*/ return addPolygonPerso(view.draw_arrow());
-			case 7: ;/*Star*/ view.init_a_b(x+10, y+10); 
+			case 5:  return addTriangleEqui();
+			case 0:  return new Segment(new PointPlacheux(x, y), 
+										new PointPlacheux(x+50, y+50));
+			case 6:  return addPolygonPerso(view.draw_arrow());
+			case 7:  view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
 			}
 			return f;
@@ -715,19 +705,18 @@ TreeSelectionListener{
 			lineTo(15, 0);
 		}
 	}
-
-
 	
 	public void addToModel(){
 		PathIterator pi = fig_inc.getPathIterator(null);
-		ArrayList<model.movable.PointPlacheux> points = new ArrayList<model.movable.PointPlacheux>();
-		
-		while(!pi.isDone()){
+		ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
+		System.out.println(id_fig);
+		data.addMovable(view.nouvelleFigure(id_fig, view.x, view.y));
+		/*while(!pi.isDone()){
 			double[] c = new double[2];
 			int type = pi.currentSegment(c);
-			points.add(new model.movable.PointPlacheux(c[0], c[1]));
+			points.add(new model.movable.Point(c[0], c[1]));
 			pi.next();
-		}
+		}*/
 	}
 	
 	public void setViewatTime(int t){
@@ -735,32 +724,15 @@ TreeSelectionListener{
 	}
 
 	public Figure getFigureSelected(int x, int y){
-		for(Figure sh : liste_fig){
-			PathIterator pi = sh.getShape().getPathIterator(null);
-			LinkedList<Point> points = new LinkedList<Point>();
-			while(pi.isDone() == false){
-				double[] coordinates = new double[6];
-				if(pi.currentSegment(coordinates) > 0){
-					points.add(new Point((int)coordinates[0],
-							(int)coordinates[1]));
-				}
-				pi.next();
+		Iterator it = data.getMovables().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+			Figure f = (Figure)pairs.getValue();
+			
+			if(f.getShape().contains(new Point(x, y))){
+				return f;
 			}
-
-			boolean result = false;
-			for(int i = 0, j = points.size() - 1; 
-					i < points.size(); 
-					j = i++){
-				if ((points.get(i).y > y) != (points.get(j).y > y) &&
-						(x < (points.get(j).x - points.get(i).x) * (y - points.get(i).y) / (points.get(j).y-points.get(i).y) + points.get(i).x)) {
-					System.out.println("ok");
-					result = !result;
-				}
-			}
-			if(result){
-				//return new Figure();
-			}
-		}
+		}	
 		return null;
 	}
 
@@ -793,6 +765,9 @@ TreeSelectionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
+		
+		// BAR DE MENU
 		if(e.getSource() == nouveau_film){
 			System.out.println("nouveau");
 		}
@@ -847,13 +822,13 @@ TreeSelectionListener{
 		if(e.getSource() == view){
 			System.out.println("view");
 			if(clickD(e)){
-				/**/
+				
 
-				Figure f = getFigureSelected(e.getX(), e.getY());
-				if(f == null){ // click on void screen
+				this.figure_selected = getFigureSelected(e.getX(), e.getY());
+				if(figure_selected == null){ // click on void screen
 					init_menu_createFigure();
 				} else {
-					init_menu_createAnime();
+					init_menu_propertyFigure();
 				}
 				menu.show(e.getComponent(), e.getX(), e.getY());
 				menu_launched = true;
@@ -863,6 +838,7 @@ TreeSelectionListener{
 					view.y = e.getY();
 					System.out.println(fig_inc);
 					addToModel();
+					view.createNodes();
 					//data.addMovable(nouvelleFigure());
 					id_fig = -1;
 					create_figure = false;

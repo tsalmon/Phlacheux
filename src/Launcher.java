@@ -10,25 +10,24 @@ import model.movable.line.QuadraticCurve;
 import model.movable.line.Segment;
 import model.movable.polygon.*;
 import model.movable.polygon.Rectangle;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import javax.swing.JFrame;	
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+
 
 public class Launcher extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
