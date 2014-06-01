@@ -115,7 +115,9 @@ public abstract class Animation implements XMLSerializable{
         public void setName(String name) {
             this.name = name;
         }
-
+        
+        public void isAdded(){}
+        public void isRemoved(){}
 
     //          Methodes
     //----------------------------
