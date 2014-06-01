@@ -18,6 +18,73 @@ abstract public class Easing {
             
         }
 
+    public enum EASING {
+        BACK,
+        BOUNCE,
+        CIRC,
+        CUBIC,
+        ELASTIC,
+        EXPO,
+        LINEAR,
+        QUAD,
+        QUART,
+        QUINT,
+        SINE
+    }
+
+    public static Easing getEasing(EASING e) throws Exception {
+        switch (e){
+            case BACK:{
+                return new Back();
+            }
+
+            case BOUNCE:{
+                return new Bounce();
+            }
+
+            case CIRC:{
+                return new Circ();
+            }
+
+            case CUBIC:{
+                return new Cubic();
+            }
+
+            case ELASTIC:{
+                return new Elastic();
+            }
+
+            case EXPO:{
+                return new Expo();
+            }
+
+            case LINEAR:{
+                return new Linear();
+            }
+
+            case QUAD:{
+                return new Quad();
+            }
+
+            case QUART:{
+                return new Quart();
+            }
+
+            case QUINT:{
+                return new Quint();
+            }
+
+            case SINE:{
+                return new Sine();
+            }
+
+            default:{
+                return new Linear();
+            }
+        }
+    }
+
+
     public static Easing withString(String s) throws Exception {
         if (s.equals("back")){
             return new Back();

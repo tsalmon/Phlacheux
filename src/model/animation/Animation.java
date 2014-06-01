@@ -18,6 +18,15 @@ import org.jdom2.Element;
  */
 public abstract class Animation implements XMLSerializable{
 
+    public enum AnimationType {
+        TRANSLATION,
+        SCALING,
+        ROTATION,
+        CHANGE_STROKE_THICKNESS,
+        CHANGE_COLOR,
+        CHANGE_BORDER_COLOR
+    }
+
     //          Attributs
     //---------------------------
 
