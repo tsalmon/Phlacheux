@@ -111,14 +111,14 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
             @Override
             public ArrayList<Movable> getChildren() {
-                ArrayList<Movable> res=new ArrayList<>();
+                ArrayList<Movable> res=new ArrayList<Movable>();
                 res.add(this);
                 return res;
             }
 
             @Override
             public ArrayList<Figure> getAllFigures() {
-                ArrayList<Figure> res=new ArrayList<>();
+                ArrayList<Figure> res=new ArrayList<Figure>();
                 res.add(this);
                 return res;
             }

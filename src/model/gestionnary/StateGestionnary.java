@@ -133,7 +133,7 @@ public class StateGestionnary {
         }
         
         public HashMap <String, Animation> getAnimations(String name){
-            return new HashMap<>(this.animations);
+            return new HashMap<String, Animation>(this.animations);
         }
         
         public HashMap <String, Movable> getMovables( ){
@@ -148,7 +148,7 @@ public class StateGestionnary {
         public LinkedList<Animation> getAnimationsForMovable(String name){
             Collection<Animation> animations= this.getAnimations().values();
             Iterator<Animation> it=animations.iterator();
-            LinkedList<Animation> result=new LinkedList<>();
+            LinkedList<Animation> result=new LinkedList<Animation>();
 
             while(it.hasNext()){
                 Animation next=it.next();
@@ -176,7 +176,7 @@ public class StateGestionnary {
         
         public void addColor(String movable_name, Color color, double t){
             if(this.color.get(movable_name)==null){
-                HashMap<Double, Color> h = new HashMap<>();
+                HashMap<Double, Color> h = new HashMap<Double, Color>();
                 h.put(t, color);
                 this.color.put(movable_name, h);
             }
@@ -187,7 +187,7 @@ public class StateGestionnary {
         
         public void addBorderColor(String movable_name, Color color, double t){
             if(this.border_color.get(movable_name)==null){
-                HashMap<Double, Color> h = new HashMap<>();
+                HashMap<Double, Color> h = new HashMap<Double, Color>();
                 h.put(t, color);
                 this.border_color.put(movable_name, h);
             }
@@ -198,7 +198,7 @@ public class StateGestionnary {
         
         public void addStroke_Thickness(String movable_name, double stroke_thickness, double t){
             if(this.stroke_thickness.get(movable_name)==null){
-                HashMap<Double, Double> h = new HashMap<>();
+                HashMap<Double, Double> h = new HashMap<Double, Double>();
                 h.put(t, stroke_thickness);
                 this.stroke_thickness.put(movable_name, h);
             }

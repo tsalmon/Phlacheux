@@ -77,12 +77,12 @@ public class MovableGroup extends Movable{
         
       @Override
         public ArrayList<Movable> getChildren(){
-            return new ArrayList<>(this.movables);
+            return new ArrayList<Movable>(this.movables);
         }
 
         @Override
         public ArrayList<Figure> getAllFigures() {
-                ArrayList<Figure> result=new ArrayList<>();            
+                ArrayList<Figure> result=new ArrayList<Figure>();
                 for(Movable m : this.getChildren()){
                         result.addAll(m.getAllFigures());
                 }
