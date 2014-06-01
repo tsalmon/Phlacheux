@@ -137,6 +137,14 @@ public class Film {
         this.height = height;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     
 
     public Document getXML(){
