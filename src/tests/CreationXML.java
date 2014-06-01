@@ -28,19 +28,19 @@ public class CreationXML {
         film.addShape(c);
 
         Segment s = new Segment(new model.movable.Point(10,20), new model.movable.Point(30,40));
-        s.setColor(Color.black);
+        s.setColor(Color.cyan);
         film.addShape(s);
 
         QuadraticCurve q = new QuadraticCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60));
-        q.setColor(Color.yellow);
+        q.setColor(Color.cyan);
         film.addShape(q);
 
         CubicCurve cubcurve = new CubicCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60), new model.movable.Point(70,80));
-        cubcurve.setColor(Color.blue);
+        cubcurve.setColor(Color.cyan);
         film.addShape(cubcurve);
 
         EquilateralTriangle eqtri = new EquilateralTriangle(new model.movable.Point(15,15), new model.movable.Point(30,30));
-        eqtri.setColor(Color.green);
+        eqtri.setColor(Color.cyan);
         film.addShape(eqtri);
 
         ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
@@ -50,19 +50,19 @@ public class CreationXML {
         points.add(new model.movable.Point(40,40));
 
         PolygonPerso poly = new PolygonPerso(points);
-        poly.setColor(Color.gray);
+        poly.setColor(Color.cyan);
         film.addShape(poly);
 
         model.movable.polygon.Rectangle rect = new model.movable.polygon.Rectangle(100,100, new model.movable.Point(5,5));
-        rect.setColor(Color.magenta);
+        rect.setColor(Color.cyan);
         film.addShape(rect);
 
         Square square = new Square(50, new model.movable.Point(10,10));
-        square.setColor(Color.green);
+        square.setColor(Color.cyan);
         film.addShape(square);
 
         Triangle tri = new Triangle(new model.movable.Point(10,10), new model.movable.Point(20,20), new model.movable.Point(30,30));
-        tri.setColor(Color.orange);
+        tri.setColor(Color.cyan);
         film.addShape(tri);
 
         MovableGroup group1 = new MovableGroup();
