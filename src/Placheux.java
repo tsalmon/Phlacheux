@@ -715,8 +715,6 @@ TreeSelectionListener{
 			lineTo(15, 0);
 		}
 	}
-
-	
 	
 	public void addToModel(){
 		PathIterator pi = fig_inc.getPathIterator(null);
@@ -730,7 +728,6 @@ TreeSelectionListener{
 			points.add(new model.movable.Point(c[0], c[1]));
 			pi.next();
 		}*/
-		System.out.println(id_fig);
 	}
 	
 	public void setViewatTime(int t){
@@ -738,32 +735,15 @@ TreeSelectionListener{
 	}
 
 	public Figure getFigureSelected(int x, int y){
-		for(Figure sh : liste_fig){
-			PathIterator pi = sh.getShape().getPathIterator(null);
-			LinkedList<Point> points = new LinkedList<Point>();
-			while(pi.isDone() == false){
-				double[] coordinates = new double[6];
-				if(pi.currentSegment(coordinates) > 0){
-					points.add(new Point((int)coordinates[0],
-							(int)coordinates[1]));
-				}
-				pi.next();
+		Iterator it = data.getMovables().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+			Figure f = (Figure)pairs.getValue();
+			
+			if(f.getShape().contains(new Point(x, y))){
+				return f;
 			}
-
-			boolean result = false;
-			for(int i = 0, j = points.size() - 1; 
-					i < points.size(); 
-					j = i++){
-				if ((points.get(i).y > y) != (points.get(j).y > y) &&
-						(x < (points.get(j).x - points.get(i).x) * (y - points.get(i).y) / (points.get(j).y-points.get(i).y) + points.get(i).x)) {
-					System.out.println("ok");
-					result = !result;
-				}
-			}
-			if(result){
-				//return new Figure();
-			}
-		}
+		}	
 		return null;
 	}
 
@@ -850,7 +830,7 @@ TreeSelectionListener{
 		if(e.getSource() == view){
 			System.out.println("view");
 			if(clickD(e)){
-				/**/
+				
 
 				Figure f = getFigureSelected(e.getX(), e.getY());
 				if(f == null){ // click on void screen
