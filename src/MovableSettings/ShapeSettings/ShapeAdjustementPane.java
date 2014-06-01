@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class ShapeAdjustementPane extends JPanel implements ChangeListener {
+public class ShapeAdjustementPane extends JDialog implements ChangeListener {
 
     private static final int maxX = 1000;
     private static final int maxY = 1000;
@@ -103,7 +103,7 @@ public class ShapeAdjustementPane extends JPanel implements ChangeListener {
 
     public ShapeAdjustementPane(final Figure fig){
         this.figure = fig;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         nameField.setText(figure.getName());
         nameField.addActionListener(nameChangeListener);
@@ -224,5 +224,8 @@ public class ShapeAdjustementPane extends JPanel implements ChangeListener {
         }
         add(customShapePanel);
         //add(testButton);
+
+        pack();
+        setVisible(true);
     }
 }
