@@ -20,8 +20,7 @@
         //          Attributs
         //---------------------------
 
-        protected double length;
-        protected double width;
+
         protected PointPlacheux pointhg;
         protected PointPlacheux pointbg;
         protected PointPlacheux pointhd;
@@ -34,8 +33,8 @@
             public Rectangle(double length, double width, PointPlacheux point_haut_gauche) {
                 super(new ArrayList<PointPlacheux>());
 
-                this.length = length;
-                this.width = width;
+                //this.length = length;
+                //this.width = width;
 
                 double x=point_haut_gauche.getX();
                 double y=point_haut_gauche.getY();
@@ -50,8 +49,8 @@
             
             public Rectangle(Element xml){
                 super(xml);
-                this.length = Double.parseDouble(xml.getAttributeValue("sideV").toString());
-                this.width = Double.parseDouble(xml.getAttributeValue("sideH").toString());
+                double length = Double.parseDouble(xml.getAttributeValue("sideV").toString());
+                double width = Double.parseDouble(xml.getAttributeValue("sideH").toString());
                 double x = Double.parseDouble(xml.getAttributeValue("srcX").toString());
                 double y = Double.parseDouble(xml.getAttributeValue("srcY").toString());
 
@@ -68,7 +67,15 @@
                 
                 this.addPoint(this.pointbd);
                 this.addPoint(this.pointhd);
-            }        
+            }
+
+            private void removeAllPoints(){
+                this.removePoint(this.pointhg);
+                this.removePoint(this.pointbg);
+
+                this.removePoint(this.pointbd);
+                this.removePoint(this.pointhd);
+            }
 
 
         //          Accesseurs
@@ -76,25 +83,34 @@
 
 
             public double getLength() {
-                return length;
+                return (this.pointhd.getX()-this.pointhg.getX());
             }
 
             public void setLength(double length) {
-                this.length = length;
+                removeAllPoints();
+                this.pointbd = new PointPlacheux(this.pointbg.getX()+length, this.pointbg.getY());
+                this.pointhd = new PointPlacheux(this.pointhg.getX()+length, this.pointhg.getY());
+                addLesPoints();
             }
 
             public double getWidth() {
-                return width;
+                return (this.pointbg.getY()-this.pointhg.getY());
+
             }
 
             public void setWidth(double width) {
-                this.width = width;
-            }        
+                removeAllPoints();
+                this.pointbd = new PointPlacheux(this.pointhd.getX(), this.pointhd.getY()+width);
+                this.pointbg = new PointPlacheux(this.pointhg.getX(), this.pointhg.getY()+width);
+                addLesPoints();
+            }
+
+            public PointPlacheux getPointhg(){
+                return this.pointhg;
+            }
 
             public void setPointhg(PointPlacheux pointhg) {
-                this.removePoint(this.pointhg);
-                this.removePoint(this.pointhd);
-                this.removePoint(this.pointbg);
+                removeAllPoints();
                 this.pointhg = pointhg;
                 this.pointhd=new PointPlacheux(this.pointhd.getX(),pointhg.getY());
                 this.pointbg=new PointPlacheux(pointhg.getX(),this.pointbg.getY());
@@ -102,9 +118,7 @@
             }
 
             public void setPointbg(PointPlacheux pointbg) {
-                this.removePoint(this.pointbg);
-                this.removePoint(this.pointhg);
-                this.removePoint(this.pointbd);
+                removeAllPoints();
                 this.pointbg = pointbg;
                 this.pointhg=new PointPlacheux(this.pointbg.getX(),this.pointhg.getY());
                 this.pointbd=new PointPlacheux(this.pointbd.getX(),this.pointbg.getY());
@@ -112,9 +126,7 @@
             }
 
             public void setPointhd(PointPlacheux pointhd) {
-                this.removePoint(this.pointhd);
-                this.removePoint(this.pointhg);
-                this.removePoint(this.pointbd);
+                removeAllPoints();
                 this.pointhd = pointhd;
                 this.pointhg=new PointPlacheux(this.pointhg.getX(),this.pointhd.getY());
                 this.pointbd=new PointPlacheux(this.pointhd.getX(),this.pointbd.getY());
@@ -122,9 +134,7 @@
             }
 
             public void setPointbd(PointPlacheux pointbd) {
-                this.removePoint(this.pointbd);
-                this.removePoint(this.pointhd);
-                this.removePoint(this.pointbg);
+                removeAllPoints();
                 this.pointbd = pointbd;
                 this.pointhd=new PointPlacheux(this.pointbd.getX(),this.pointhd.getY());
                 this.pointbg=new PointPlacheux(this.pointbg.getX(),this.pointbd.getY());
@@ -155,8 +165,8 @@
             public String toString() {
                 StringBuilder builder = new StringBuilder();
                 builder.append(super.toString("Rectangle"));
-                builder.append(",\nlength=").append(length);
-                builder.append(", width=").append(width);
+                builder.append(",\nlength=").append(getLength());
+                builder.append(", width=").append(getWidth());
                 builder.append("]");
                 return builder.toString();
             }
@@ -165,8 +175,8 @@
             protected String toString(String name) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(super.toString(name));
-                builder.append(",\nlength=").append(length);
-                builder.append(", width=").append(width);
+                builder.append(",\nlength=").append(getLength());
+                builder.append(", width=").append(getWidth());
                 return builder.toString();
             }
 
@@ -178,8 +188,8 @@
 
             el.setAttribute("srcX", Double.toString(pointhg.getX()));
             el.setAttribute("srcY", Double.toString(pointhg.getY()));
-            el.setAttribute("sideH", Double.toString(width));
-            el.setAttribute("sideV", Double.toString(length));
+            el.setAttribute("sideH", Double.toString(getWidth()));
+            el.setAttribute("sideV", Double.toString(getLength()));
 
             return el;
         }
