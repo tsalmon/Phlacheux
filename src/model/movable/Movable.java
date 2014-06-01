@@ -101,6 +101,10 @@ abstract public class Movable implements XMLSerializable{
         
         abstract protected void autoGravityCenter();
         
+        abstract public ArrayList<Movable> getChildren();
+        
+        abstract public ArrayList<Figure> getAllFigures();
+        
 
         
     //     Transformations

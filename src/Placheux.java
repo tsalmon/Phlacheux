@@ -30,7 +30,7 @@ TreeSelectionListener{
 
 	private static final long serialVersionUID = 1L;
 
-	StateGestionnary data = new StateGestionnary();
+	StateGestionnary data = StateGestionnary.getInstance();
 	JFrame frame;
 	JMenuBar bar = new JMenuBar();
 	JMenu fichier = new JMenu("Fichier");
