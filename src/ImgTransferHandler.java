@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Shape;
 
+import MovableSettings.ShapeSettings.ShapeAdjustementPane;
 import model.movable.*;
 
 import java.awt.datatransfer.DataFlavor;
@@ -59,12 +60,16 @@ public class ImgTransferHandler extends TransferHandler {
 			dropPanel.init_x_y(x, y);
 			dropPanel.init_a_b(x+50, y+50);
 			System.out.println(id_fig + " (" + x + " " + y + ")");
-			dropPanel.data.addMovable(nouvelleFigure(id_fig, x, y));
+            Figure f = nouvelleFigure(id_fig, x, y);
+			dropPanel.data.addMovable(f);
 			dropPanel.createNodes();
 			dropPanel.repaint();
-			//System.out.println(dropPanel.data);
-			
-			return true;
+            new ShapeAdjustementPane(f, dropPanel);
+
+            //System.out.println(dropPanel.data);
+
+
+            return true;
 		} catch(UnsupportedFlavorException ue) {
 			ue.printStackTrace();
 			return false;

@@ -696,7 +696,7 @@ TreeSelectionListener{
 			case 7:  view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
 			}
-			return f;
+            return f;
 		}
 
 	}
@@ -847,7 +847,7 @@ TreeSelectionListener{
 					//data.addMovable(nouvelleFigure());
 					id_fig = -1;
 					create_figure = false;
-				} else if(translation_mode){
+                } else if(translation_mode){
 
 				}
 			}
