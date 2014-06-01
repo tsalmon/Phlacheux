@@ -488,13 +488,13 @@ TreeSelectionListener{
 						RenderingHints.VALUE_RENDER_QUALITY);
 
 				
-				g2d.setColor(Color.BLACK); /** TODO: fill color **/
 
 				Iterator it = data.getMovables().entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry pairs = (Map.Entry)it.next();
 					Figure f = (Figure)pairs.getValue();
-					if(f instanceof Circle){
+                    g2d.setColor(f.getColor());
+                    if(f instanceof Circle){
 						Circle c = (Circle) f;
 						g2d.fill(c.getShape());
 					} else if(f instanceof Segment){
