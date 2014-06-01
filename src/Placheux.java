@@ -691,14 +691,14 @@ TreeSelectionListener{
 		public Figure nouvelleFigure(int id_fig, int x, int y){
 			Figure f = null;
 			switch(id_fig){
-			case 0: return new Square(50, new model.movable.Point(x, y));
-			case 1: return new Rectangle(100, 50, new model.movable.Point(x, y));
-			case 2: return new Circle(new model.movable.Point(x, y), 50);
+			//case 0: return new Square(50, new model.movable.Point(x, y));
+			case 2: return new Rectangle(100, 50, new model.movable.Point(x, y));
+			case 1: return new Circle(new model.movable.Point(x, y), 50);
 			case 3: return addPolygonPerso(view.draw_cross());
-			case 4: ;/*TriangleEqui*/ return addTriangleEqui();
-			case 5: ;/*ligne*/ return new Segment(new model.movable.Point(x, y), new model.movable.Point(x+50, y+50));
-			case 6: ;/*Fleche*/ return addPolygonPerso(view.draw_arrow());
-			case 7: ;/*Star*/ view.init_a_b(x+10, y+10); 
+			case 5:  return addTriangleEqui();
+			case 0:  return new Segment(new model.movable.Point(x, y), new model.movable.Point(x+50, y+50));
+			case 6:  return addPolygonPerso(view.draw_arrow());
+			case 7:  view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
 			}
 			return f;
@@ -716,18 +716,21 @@ TreeSelectionListener{
 		}
 	}
 
-
+	
 	
 	public void addToModel(){
 		PathIterator pi = fig_inc.getPathIterator(null);
 		ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
-		
+		System.out.println(id_fig);
+		data.addMovable(view.nouvelleFigure(id_fig, view.a, view.b));
+		/*
 		while(!pi.isDone()){
 			double[] c = new double[2];
 			int type = pi.currentSegment(c);
 			points.add(new model.movable.Point(c[0], c[1]));
 			pi.next();
-		}
+		}*/
+		System.out.println(id_fig);
 	}
 	
 	public void setViewatTime(int t){
