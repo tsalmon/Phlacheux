@@ -96,10 +96,6 @@ public class Triangle extends Polygon{
         this.setSommet3(new Point(x,y));
     }
     
-    public Point[] getPoints() {
-        return this.points.toArray(new Point[3]);
-    }
-
     public void setSommets(Point p1, Point p2,Point p3) {
         this.setSommet1(p1);
         this.setSommet2(p2);
@@ -129,6 +125,7 @@ public class Triangle extends Polygon{
             return builder.toString();
         }
 
+    @Override
         protected String toString(String name) {
             StringBuilder builder = new StringBuilder();
             builder.append(super.toString(name));

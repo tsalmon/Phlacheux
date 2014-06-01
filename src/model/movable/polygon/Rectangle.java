@@ -147,10 +147,6 @@
                 this.setPointbd(new Point(x,y));
             }
 
-            public Point[] getPoints() {
-                return this.points.toArray(new Point[4]);
-            }
-
 
         //          Methodes
         //----------------------------
@@ -165,6 +161,7 @@
                 return builder.toString();
             }
 
+        @Override
             protected String toString(String name) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(super.toString(name));
