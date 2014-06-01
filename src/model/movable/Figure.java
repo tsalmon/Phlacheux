@@ -30,6 +30,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         protected double strokeThickness = 1;
         protected Color borderColor;
         protected Color color;
+        protected int z_position=1;
         
         protected double initial_strokeThickness=1;
         protected Color initial_borderColor;
@@ -123,6 +124,14 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 ArrayList<Figure> res=new ArrayList<Figure>();
                 res.add(this);
                 return res;
+            }
+
+            public int getZ_position() {
+                return z_position;
+            }
+
+            public void setZ_position(int z_position) {
+                this.z_position = z_position;
             }
 
         

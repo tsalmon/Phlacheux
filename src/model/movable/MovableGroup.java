@@ -109,6 +109,16 @@ public class MovableGroup extends Movable{
                 this.setGravityCenterPerso(false);
             }
 
+            @Override
+            public void setZ_position(int z_position) {
+               for (Movable m : this.movables){
+                   m.setZ_position(z_position);
+               }
+            }
+          
+          
+          
+
     //          Animations
     //----------------------------
 
