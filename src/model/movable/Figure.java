@@ -186,8 +186,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         @Override
-        public void changeStrokeThickness(double thickness_difference) {
-            this.strokeThickness+=thickness_difference;
+        public void changeStrokeThickness(double thickness) {
+            this.strokeThickness+=thickness;
         }
 
         @Override
