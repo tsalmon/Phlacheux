@@ -244,7 +244,7 @@ TreeSelectionListener{
 
 	public void init_bouton_image(){
 		try {
-			img_icon[0] = ImageIO.read(new File("Resources/Vue/square.png"));
+			img_icon[0] = ImageIO.read(new File(new File("").getAbsolutePath().concat("/Resources/Vue/square.png")));
 			img_icon[1] = ImageIO.read(new File("Resources/Vue/square.png")); //TODO: trouver une putain d'image
 			img_icon[2] = 
 					ImageIO.read(new File("Resources/Vue/circle.png"));
