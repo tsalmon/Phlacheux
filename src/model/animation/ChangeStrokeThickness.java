@@ -1,8 +1,16 @@
 
 package model.animation;
 
+import java.awt.Color;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Set;
 import model.easing.*;
+import model.gestionnary.StateGestionnary;
+import model.movable.Figure;
 import model.movable.Movable;
+import model.movable.Point;
 import org.jdom2.Element;
 
 /**
@@ -20,75 +28,109 @@ public class ChangeStrokeThickness extends Animation{
     //          Attributs
     //---------------------------
 
-        protected double thickness_difference;
+        protected double thickness;
+        
         
     //        Constructeur
     //---------------------------
 
-    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double thickness_difference) {
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double thickness) {
         super(name, movable, debut, fin, easing, easing_type);
-        this.setThickness(thickness_difference);
+        this.setThickness(thickness);
+        
     }
-
-    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin,  double thickness_difference) {
+    public ChangeStrokeThickness(String name, Movable movable, double debut, double fin, double thickness) {
         super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
-        this.setThickness(thickness_difference);
+        this.setThickness(thickness);
     }
 
     public ChangeStrokeThickness(Element xml){
         super(xml);
-        setThickness(Double.parseDouble(xml.getAttributeValue("thickness")));
+        this.setThickness(Double.parseDouble(xml.getAttributeValue("thickness")));
     }
-
+    
     //          Accesseurs
     //----------------------------
-    
-        public double getThickness() {
-            return thickness_difference;
-        }
+    public double getThickness() {
+        return this.thickness;
+    }
 
-        public void setThickness(double thickness) {
-            this.thickness_difference = thickness;
-        }
-
+    public void setThickness(double thickness) {
+        this.thickness = thickness;
+    }
     
+    
+
     //          Methodes
     //----------------------------
-
         
+        @Override
+        public void isAdded(){
+            for(Figure f : this.movable.getAllFigures()){
+                StateGestionnary.getInstance().addStroke_Thickness(f.getName(),  this.getThickness(), this.getFin());
+            }
+        }
+
+        @Override
+        public void isRemoved() {
+            for(Figure f : this.movable.getAllFigures()){
+                StateGestionnary.getInstance().removeStroke_Thickness(f.getName(), this.getFin());
+            }
+        }
+        
+        @Override
         public void goToTime(double t){
-            double thickness_to_apply=(this.getThicknessAt(t)-this.getThicknessAt(this.getCurrent()));
-            this.getMovable().scaling(thickness_to_apply);
+            StateGestionnary sg = StateGestionnary.getInstance();
+            for(Figure f : this.movable.getAllFigures()){
+                f.changeStrokeThickness(this.getThicknessAt(t, f));
+            }
         }
         
-        protected double getThicknessAt(double t){
-            return this.applyEasing(1, t, this.getThickness(), this.getFin()-this.getDebut());
+        protected double getThicknessAt(double t, Figure m){
+            StateGestionnary sg=StateGestionnary.getInstance();
+            Set<Double> times = sg.getStrokeThicknessesTimes(m.getName());
+            double from;
+            if(times.isEmpty()){
+                from=m.getInitial_strokeThickness();
+            }
+            else{
+                double max=0;
+                for (double time : times){
+                    if(time>max && time < t){max=time;}
+                }
+                from=sg.getStrokeThickness(m.getName(), max);
+            }
+            return thickness = this.applyEasing(from, t, this.thickness, this.getFin()-this.getDebut());
         }
 
-        @Override
-        public Element toXML(){
-            Element el = super.toXML();
 
-            el.setAttribute("type", "change_stroke_thickness");
-            el.setAttribute("thickness", Double.toString(this.getThickness()));
+    @Override
+    public Element toXML(){
+        Element el = super.toXML();
 
-            return el;
-        }
+        el.setAttribute("type", "changeColor");
+        el.setAttribute("thickness", Double.toString(this.getThickness()));
 
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("ChangeStrokeThickness [");
-            builder.append("thickness_difference=").append(thickness_difference);
-            builder.append(", current=").append(current);
-            builder.append(", debut=").append(debut);
-            builder.append(", easing=").append(easing);
-            builder.append(", easing_type=").append(easing_type);
-            builder.append(", fin=").append(fin);
-            builder.append(", movable=").append(movable);
-            builder.append(", name=").append(name);
-            builder.append("]");
-            return builder.toString();
-        }
+        return el;
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ChangeStrokeThickness [");
+        builder.append("thickness=").append(thickness);
+        builder.append(", current=").append(current);
+        builder.append(", debut=").append(debut);
+        builder.append(", easing=").append(easing);
+        builder.append(", easing_type=").append(easing_type);
+        builder.append(", fin=").append(fin);
+        builder.append(", movable=").append(movable);
+        builder.append(", name=").append(name);
+        builder.append("]");
+        return builder.toString();
+    }
+
+    
+    
+        
 }
