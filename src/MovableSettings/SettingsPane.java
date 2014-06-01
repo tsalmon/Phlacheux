@@ -12,6 +12,7 @@ import model.movable.polygon.Rectangle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SettingsPane extends JFrame{
     public SettingsPane() {
@@ -27,8 +28,14 @@ public class SettingsPane extends JFrame{
         Square square = new Square(50, new PointPlacheux(70,70));
         Triangle tri = new Triangle(new PointPlacheux(10,10), new PointPlacheux(20,20), new PointPlacheux(30,30));
         EquilateralTriangle eqtri = new EquilateralTriangle(new PointPlacheux(10,10), new PointPlacheux(20,20));
+        ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
+        points.add(new PointPlacheux(10,10));
+        points.add(new PointPlacheux(20,20));
+        points.add(new PointPlacheux(30,30));
 
-        ShapeAdjustementPane shapeAdjusment = new ShapeAdjustementPane(eqtri);
+        PolygonPerso poly = new PolygonPerso(points);
+
+        ShapeAdjustementPane shapeAdjusment = new ShapeAdjustementPane(poly);
         AnimationPane animationsAdjustement = new AnimationPane();
 
         settingsPane.setPreferredSize(new Dimension(300, 800));

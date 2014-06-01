@@ -219,6 +219,9 @@ public class ShapeAdjustementPane extends JPanel implements ChangeListener {
         if (figure instanceof Triangle){
             customShapePanel = new TriangleSettings((Triangle)figure);
         }
+        else{
+            customShapePanel = new JPanel();
+        }
         add(customShapePanel);
         //add(testButton);
     }
