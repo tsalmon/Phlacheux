@@ -1,6 +1,5 @@
 package MovableSettings.ShapeSettings;
 
-import javafx.scene.Parent;
 import model.movable.Figure;
 import model.movable.circle.Circle;
 import model.movable.line.CubicCurve;
