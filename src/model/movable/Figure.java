@@ -1,9 +1,11 @@
 package model.movable;
 import XML.XMLSerializable;
+
 import org.jdom2.Element;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.lang.Math.*;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         
     //          Accesseurs
     //----------------------------
-        
+       
         //    Accesseurs publiques
         //----------------------------
         
@@ -207,18 +209,18 @@ abstract public class Figure extends Movable implements XMLSerializable{
             return el;
         }
 
-		public Shape getShape() {
-			GeneralPath gp = new GeneralPath();
-			boolean start = true;
-			for(Point p : points){
-				if(start){
-					gp.moveTo(p.x, p.y);
-					start = false;
-				} else {
-					gp.lineTo(p.x, p.y);					
-				}
-			}
-			return gp;
-		}
+        public Shape getShape() {
+        	GeneralPath gp = new GeneralPath();
+        	boolean start = true;
+        	for(Point p : points){
+        		if(start){
+        			gp.moveTo(p.x, p.y);
+        			start = false;
+        		} else {
+        			gp.lineTo(p.x, p.y);					
+        		}
+        	}
+        	return gp;
+        }
         
 }
