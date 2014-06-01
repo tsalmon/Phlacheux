@@ -78,7 +78,19 @@ abstract public class Figure extends Movable implements XMLSerializable{
             public void setColor(Color color) {
                 this.color = color;
             }
-        
+
+            @Override
+            public ArrayList<Movable> getChildren() {
+                ArrayList<Movable> res=new ArrayList<>();
+                res.add(this);
+                return res;
+            }
+
+            @Override
+            public ArrayList<Movable> getAllDescent() {
+                return this.getChildren();
+            }
+
         
         //    Accesseurs protected
         //----------------------------

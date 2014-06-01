@@ -75,13 +75,27 @@ public class MovableGroup extends Movable{
             m.removeGroup(this);
         }
         
-        public ArrayList<Movable> getMovables(){
-            return new ArrayList(this.movables);
+      @Override
+        public ArrayList<Movable> getChildren(){
+            return new ArrayList<>(this.movables);
         }
-        
+
+        @Override
+        public ArrayList<Movable> getAllDescent() {
+                ArrayList<Movable> result=new ArrayList<>();            
+                for(Movable m : this.getChildren()){
+                        result.addAll(m.getAllDescent());
+                }
+                return result;    
+        }
+
+     
+     
+     
+    
         //  calcul automatique du centre de gravité
 
-     @Override
+          @Override
             protected void autoGravityCenter(){
                 if(this.movables.size()!=0){
                     double sumx=0;

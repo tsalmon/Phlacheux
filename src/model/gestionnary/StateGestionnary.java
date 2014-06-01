@@ -21,6 +21,10 @@ import model.movable.*;
 
 public class StateGestionnary {
 
+    //         Classe Interne
+    //---------------------------
+    
+    
 
     //          Attributs
     //---------------------------
@@ -115,7 +119,7 @@ public class StateGestionnary {
         }
         
         public HashMap <String, Animation> getAnimations(String name){
-            return new HashMap(this.animations);
+            return new HashMap<>(this.animations);
         }
         
         public HashMap <String, Movable> getMovables( ){
