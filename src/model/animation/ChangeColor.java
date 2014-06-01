@@ -1,7 +1,14 @@
 
 package model.animation;
 
+import java.awt.Color;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Set;
 import model.easing.*;
+import model.gestionnary.StateGestionnary;
+import model.movable.Figure;
 import model.movable.Movable;
 import model.movable.Point;
 import org.jdom2.Element;
@@ -21,70 +28,72 @@ public class ChangeColor extends Animation{
     //          Attributs
     //---------------------------
 
-        protected Point center;
-        protected double angle;
+        protected Color color_to;
         
         
     //        Constructeur
     //---------------------------
 
-    public ChangeColor(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle, Point centre) {
+    public ChangeColor(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Color color) {
         super(name, movable, debut, fin, easing, easing_type);
-        this.setCenter(centre);
-        this.setAngle(angle);
+        this.setColor_to(color);
+        
     }
-
-    public ChangeColor(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle) {
-        super(name, movable, debut, fin, easing, easing_type);
-        this.setCenter(movable.getGravityCenter());
-        this.setAngle(angle);
-    }
-
-    public ChangeColor(String name, Movable movable, double debut, double fin, double angle) {
+    public ChangeColor(String name, Movable movable, double debut, double fin, Color color) {
         super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
-        this.setCenter(movable.getGravityCenter());
-        this.setAngle(angle);
+        this.setColor_to(color);
     }
-
-    public ChangeColor(String name, Movable movable, double debut, double fin, double angle, Point centre) {
-        super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
-        this.setCenter(centre);
-        this.setAngle(angle);
-    }
-    
-
 
     //          Accesseurs
     //----------------------------
+    public Color getColor_to() {
+        return color_to;
+    }
+
+    public void setColor_to(Color color_to) {
+        this.color_to = color_to;
+    }
     
-    public Point getCenter() {
-        return center;
-    }
-
-    public void setCenter(Point center) {
-        this.center = center;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
-    public void setAngle(double angle) {
-        this.angle = angle;
-    }
-
+    
 
     //          Methodes
     //----------------------------
         
         @Override
-        public void goToTime(double t){
-            double angle_to_apply=this.getAngleAt(t)-this.getAngleAt(this.getCurrent());
-            this.getMovable().rotation(angle_to_apply, this.getCenter());
+        public void isAdded(){
+            for(Figure f : this.movable.getAllFigures()){
+                StateGestionnary.getInstance().addColor(f.getName(),  this.getColor_to(), this.getDebut());
+            }
+        }
+
+        @Override
+        public void isRemoved() {
+            for(Figure f : this.movable.getAllFigures()){
+                StateGestionnary.getInstance().removeColor(f.getName(), this.getFin());
+            }
         }
         
-        protected double getAngleAt(double t){
-            return this.applyEasing(0, t, this.getAngle(), this.getFin()-this.getDebut());
+        @Override
+        public void goToTime(double t){
+            StateGestionnary sg = StateGestionnary.getInstance();
+            for(Figure f : this.movable.getAllFigures()){
+                f.changeColor(this.getColorAt(t, f));
+            }
+        }
+        
+        protected Color getColorAt(double t, Figure m){
+            StateGestionnary sg=StateGestionnary.getInstance();
+            Set<Double> times = sg.getColorTimes(m.getName());
+            double max=0;
+            for (double time : times){
+                time>max && time < t ? max=time;
+            }
+            Color last= sg.getColor(m.getName(), t);
+            Collections.sort(times);
+            float r = (float)this.applyEasing(last.getRed(), t, this.color_to.getRed(), this.getFin()-this.getDebut());
+            float g = (float)this.applyEasing(last.getGreen(), t, this.color_to.getGreen(), this.getFin()-this.getDebut());
+            float b = (float)this.applyEasing(last.getBlue(), t, this.color_to.getBlue(), this.getFin()-this.getDebut());
+            return new Color(r,g,b);
         }
 
 

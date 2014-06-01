@@ -81,10 +81,10 @@ public class MovableGroup extends Movable{
         }
 
         @Override
-        public ArrayList<Movable> getAllDescent() {
-                ArrayList<Movable> result=new ArrayList<>();            
+        public ArrayList<Figure> getAllFigures() {
+                ArrayList<Figure> result=new ArrayList<>();            
                 for(Movable m : this.getChildren()){
-                        result.addAll(m.getAllDescent());
+                        result.addAll(m.getAllFigures());
                 }
                 return result;    
         }

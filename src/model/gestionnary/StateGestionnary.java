@@ -1,12 +1,17 @@
 package model.gestionnary;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Set;
 import model.animation.Animation;
+import model.animation.ChangeColor;
 import model.movable.*;
 
 /**
@@ -21,11 +26,6 @@ import model.movable.*;
 
 public class StateGestionnary {
 
-    //         Classe Interne
-    //---------------------------
-    
-    
-
     //          Attributs
     //---------------------------
 
@@ -35,6 +35,11 @@ public class StateGestionnary {
     protected LinkedList<Animation> animations_a_venir;
     protected LinkedList<Animation> animations_passees;
     
+    protected HashMap<String,HashMap<Double, Color>> color;
+    protected HashMap<String,HashMap<Double, Color>> border_color;
+    protected HashMap<String,HashMap<Double, Double>> stroke_thickness;
+    
+    private static StateGestionnary instance;
     Comparator <Animation> comparator_debut;
     Comparator <Animation> comparator_fin;
     
@@ -42,7 +47,7 @@ public class StateGestionnary {
     //          Constructeur
     //----------------------------
     
-        public StateGestionnary() {
+        private StateGestionnary() {
             this.current_time=0;
             comparator_debut=new Comparator<Animation>() {
                 @Override
@@ -59,6 +64,13 @@ public class StateGestionnary {
             this.pool=MovablePool.getInstance();
         }
     
+
+        public static synchronized StateGestionnary getInstance(){
+            if (instance == null){
+                instance = new StateGestionnary();
+            }
+            return instance;
+        }
     
     //          Accesseurs
     //----------------------------
@@ -98,12 +110,14 @@ public class StateGestionnary {
             if(a.getDebut()<this.current_time){
                 this.addPassee(a);
             }
+            a.isAdded();
             a.goToTime(this.current_time);
         }
         
         public Animation removeAnimation(Animation a){
             this.animations_a_venir.remove(a);
             this.animations_passees.remove(a);
+            a.isRemoved();
             return this.animations.remove(a.getName());
         }
         public HashMap<String, Animation> getAnimations() {
@@ -132,8 +146,8 @@ public class StateGestionnary {
          * @return une LinkedList contenant toutes les animations associées à ce movable
          */
         public LinkedList<Animation> getAnimationsForMovable(String name){
-            Collection<Animation> movables= this.getAnimations().values();
-            Iterator<Animation> it=movables.iterator();
+            Collection<Animation> animations= this.getAnimations().values();
+            Iterator<Animation> it=animations.iterator();
             LinkedList<Animation> result=new LinkedList<>();
             while(it.hasNext()){
                 Animation next=it.next();
@@ -158,7 +172,87 @@ public class StateGestionnary {
             
             return result;            
         }
-
+        
+        public void addColor(String movable_name, Color color, double t){
+            if(this.color.get(movable_name)==null){
+                HashMap<Double, Color> h = new HashMap<>();
+                h.put(t, color);
+                this.color.put(movable_name, h);
+            }
+            else{
+                this.color.get(movable_name).put(t, color);
+            }
+        }
+        
+        public void addBorderColor(String movable_name, Color color, double t){
+            if(this.border_color.get(movable_name)==null){
+                HashMap<Double, Color> h = new HashMap<>();
+                h.put(t, color);
+                this.border_color.put(movable_name, h);
+            }
+            else{
+                this.border_color.get(movable_name).put(t, color);
+            }
+        }
+        
+        public void addStroke_Thickness(String movable_name, double stroke_thickness, double t){
+            if(this.stroke_thickness.get(movable_name)==null){
+                HashMap<Double, Double> h = new HashMap<>();
+                h.put(t, stroke_thickness);
+                this.stroke_thickness.put(movable_name, h);
+            }
+            else{
+                this.stroke_thickness.get(movable_name).put(t, stroke_thickness);
+            }
+        }
+        
+        public void removeColor(String movable_name, double t){
+            this.color.get(movable_name).remove(t);
+        }
+        
+        public void removeBorderColor(String movable_name, double t){
+            this.border_color.get(movable_name).remove(t);
+        }
+        
+        public void removeStroke_Thickness(String movable_name, double t){
+            this.stroke_thickness.get(movable_name).remove(t);
+        }
+        
+        public Color getColor(String movable_name, double t){
+            return this.color.get(movable_name).get(t);
+        }
+        
+        public Color getBorderColor(String movable_name, double t){
+            return this.border_color.get(movable_name).get(t);
+        }
+        
+        public double getStrokeThickness(String movable_name, double t){
+            return this.stroke_thickness.get(movable_name).get(t);
+        }        
+        
+        public void removeColor(String movable_name){
+            this.color.remove(movable_name);
+        }
+        
+        public void removeBorderColor(String movable_name, Color color, double t){
+            this.border_color.remove(movable_name);
+        }
+        
+        public void removeStroke_Thickness(String movable_name, double stroke_thickness, double t){
+            this.stroke_thickness.remove(movable_name);
+        }
+        
+        public Set<Double> getColorTimes(String movable_name){
+            return this.color.get(movable_name).keySet();
+        }
+        
+        public Set<Double> getBorderColorsTimes(String movable_name){
+            return this.border_color.get(movable_name).keySet();
+        }
+        
+        public Set<Double> getStrokeThicknessesTimes(String movable_name){
+            return this.stroke_thickness.get(movable_name).keySet();
+        }
         
     //          Methodes
     //----------------------------

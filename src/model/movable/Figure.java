@@ -24,10 +24,14 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //          Attributs
     //---------------------------
 
-        protected double strokeThickness = 1;
         protected ArrayList<Point> points = new ArrayList<Point>();
+        protected double strokeThickness = 1;
         protected Color borderColor;
         protected Color color;
+        
+        protected double initial_strokeThickness=1;
+        protected Color initial_borderColor;
+        protected Color initial_color;
         
         
         
@@ -36,6 +40,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         protected Figure(){            
             this.setColor(Color.BLACK);
+            this.setBorderColor(Color.BLACK);
         }
 
         protected Figure(ArrayList<Point> p){
@@ -43,6 +48,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 this.addPoint(point);
             }
             this.setColor(Color.BLACK);
+            this.setBorderColor(Color.BLACK);
         }
 
         protected Figure(Element xml){
@@ -51,6 +57,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
             int G = Integer.parseInt(xml.getAttributeValue("colorR"));
             int B = Integer.parseInt(xml.getAttributeValue("colorR"));
             this.setColor(new Color(R,G,B));
+            this.setBorderColor(Color.BLACK);
         }
         
     //          Accesseurs
@@ -62,6 +69,11 @@ abstract public class Figure extends Movable implements XMLSerializable{
             public double getStrokeThickness(){
                 return this.strokeThickness;
             }
+            
+            public void setStrokeThickness(double stroke_thickness){
+                this.strokeThickness = stroke_thickness;
+                this.initial_strokeThickness = stroke_thickness;
+            }
 
             public Color getBorderColor() {
                 return borderColor;
@@ -69,6 +81,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
             public void setBorderColor(Color borderColor) {
                 this.borderColor = borderColor;
+                this.initial_borderColor = borderColor;
             }
 
             public Color getColor() {
@@ -77,6 +90,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
             public void setColor(Color color) {
                 this.color = color;
+                this.initial_color = color;
             }
 
             @Override
@@ -87,8 +101,10 @@ abstract public class Figure extends Movable implements XMLSerializable{
             }
 
             @Override
-            public ArrayList<Movable> getAllDescent() {
-                return this.getChildren();
+            public ArrayList<Figure> getAllFigures() {
+                ArrayList<Figure> res=new ArrayList<>();
+                res.add(this);
+                return res;
             }
 
         

@@ -103,7 +103,7 @@ abstract public class Movable implements XMLSerializable{
         
         abstract public ArrayList<Movable> getChildren();
         
-        abstract public ArrayList<Movable> getAllDescent();
+        abstract public ArrayList<Figure> getAllFigures();
         
 
         
