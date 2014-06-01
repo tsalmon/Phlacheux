@@ -22,7 +22,7 @@ import org.jdom2.Element;
  * Projet Interface Graphique, Paris 7, Master 1, 2013-2014
  *
  */
-public class ChangeColor extends Animation{
+public class ChangeBorderColor extends Animation{
 
 
     //          Attributs
@@ -34,17 +34,17 @@ public class ChangeColor extends Animation{
     //        Constructeur
     //---------------------------
 
-    public ChangeColor(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Color color) {
+    public ChangeBorderColor(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Color color) {
         super(name, movable, debut, fin, easing, easing_type);
         this.setColor_to(color);
         
     }
-    public ChangeColor(String name, Movable movable, double debut, double fin, Color color) {
+    public ChangeBorderColor(String name, Movable movable, double debut, double fin, Color color) {
         super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setColor_to(color);
     }
 
-    public ChangeColor(Element xml){
+    public ChangeBorderColor(Element xml){
         super(xml);
         this.setColor_to(new Color(Float.parseFloat(xml.getAttributeValue("color_R")),Float.parseFloat(xml.getAttributeValue("color_G")), Float.parseFloat(xml.getAttributeValue("color_B"))));
     }
@@ -67,14 +67,14 @@ public class ChangeColor extends Animation{
         @Override
         public void isAdded(){
             for(Figure f : this.movable.getAllFigures()){
-                StateGestionnary.getInstance().addColor(f.getName(),  this.getColor_to(), this.getFin());
+                StateGestionnary.getInstance().addBorderColor(f.getName(),  this.getColor_to(), this.getFin());
             }
         }
 
         @Override
         public void isRemoved() {
             for(Figure f : this.movable.getAllFigures()){
-                StateGestionnary.getInstance().removeColor(f.getName(), this.getFin());
+                StateGestionnary.getInstance().removeBorderColor(f.getName(), this.getFin());
             }
         }
         
@@ -82,23 +82,23 @@ public class ChangeColor extends Animation{
         public void goToTime(double t){
             StateGestionnary sg = StateGestionnary.getInstance();
             for(Figure f : this.movable.getAllFigures()){
-                f.changeColor(this.getColorAt(t, f));
+                f.changeBorderColor(this.getColorAt(t, f));
             }
         }
         
         protected Color getColorAt(double t, Figure m){
             StateGestionnary sg=StateGestionnary.getInstance();
-            Set<Double> times = sg.getColorTimes(m.getName());
+            Set<Double> times = sg.getBorderColorsTimes(m.getName());
             Color from;
             if(times.isEmpty()){
-                from=m.getInitial_color();
+                from=m.getInitial_borderColor();
             }
             else{
                 double max=0;
                 for (double time : times){
                     if(time>max && time < t){max=time;}
                 }
-                from=sg.getColor(m.getName(), max);
+                from=sg.getBorderColor(m.getName(), max);
             }
             float r = (float)this.applyEasing(from.getRed(), t, this.color_to.getRed(), this.getFin()-this.getDebut());
             float g = (float)this.applyEasing(from.getGreen(), t, this.color_to.getGreen(), this.getFin()-this.getDebut());
@@ -111,7 +111,7 @@ public class ChangeColor extends Animation{
     public Element toXML(){
         Element el = super.toXML();
 
-        el.setAttribute("type", "changeColor");
+        el.setAttribute("type", "changeBorderColor");
         el.setAttribute("color_R", Float.toString(this.getColor_to().getRed()));
         el.setAttribute("color_G", Float.toString(this.getColor_to().getGreen()));
         el.setAttribute("color_B", Float.toString(this.getColor_to().getBlue()));
@@ -122,7 +122,7 @@ public class ChangeColor extends Animation{
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ChangeColor [");
+        builder.append("ChangeBorderColor [");
         builder.append("color_to=").append(color_to);
         builder.append(", current=").append(current);
         builder.append(", debut=").append(debut);
