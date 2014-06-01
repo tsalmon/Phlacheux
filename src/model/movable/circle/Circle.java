@@ -1,8 +1,12 @@
 
 package model.movable.circle;
 
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+
 import model.movable.Figure;
 import model.movable.Point;
+
 import org.jdom2.Element;
 
 /**
@@ -91,6 +95,11 @@ public class Circle  extends Figure{
         return builder.toString();
     }
 
+    @Override
+    public Shape getShape(){
+		Ellipse2D p = new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, radius, radius);
+		return p;
+    }
 
     @Override
     public Element toXML() {

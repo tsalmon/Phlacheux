@@ -17,6 +17,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.util.*;
 
 import model.movable.*;
+import model.movable.circle.Circle;
 import model.gestionnary.*;
 
 import org.jdom2.Document;
@@ -498,7 +499,6 @@ TreeSelectionListener{
 
 				
 				g2d.setColor(Color.BLACK); /** TODO: fill color **/
-				g2d.drawRect(a, b, 50, 50);
 				//	doDrawing(g);
 
 				/*	for(Shape sh : liste_fig){
@@ -517,16 +517,19 @@ TreeSelectionListener{
 				while (it.hasNext()) {
 					Map.Entry pairs = (Map.Entry)it.next();
 					Figure f = (Figure)pairs.getValue();
-					g2d.fill(f.getShape());
-					Shape s = f.getShape();
+					if(f instanceof Circle){
+						Circle c = (Circle) f;
+						g2d.fill(c.getShape());
+					} else {
+						g2d.fill(f.getShape());						
+					}
+					/*Shape s = f.getShape();
 					PathIterator pi = s.getPathIterator(null);
 					while(!pi.isDone()){
 						double[] c = new double[2];
 						int type = pi.currentSegment(c);
-						System.out.println(c[0] + "" + c[1]);
 						pi.next();
-					}
-					System.out.println("=^=");
+					}*/
 				}	
 				
 				/*
