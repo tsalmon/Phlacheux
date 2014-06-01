@@ -108,11 +108,6 @@ public class Triangle extends Polygon{
         this.setSommet3(x3,y3);
     }
 
-    
-    //          Methodes
-    //----------------------------
-
-    
 
     //          Methodes
     //----------------------------
