@@ -19,7 +19,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import model.animation.ChangeBorderColor;
+import model.animation.ChangeColor;
+import model.animation.ChangeStrokeThickness;
 import model.animation.EasingType;
+import model.animation.Rotation;
+import model.animation.Scaling;
 import model.animation.Translation;
 import model.easing.Back;
 import model.easing.Bounce;
@@ -111,11 +116,13 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	}
 
 	public void init_animeSelect(){
+
 		anim_select.addItem("Translation");
 		anim_select.addItem("Rotation");
 		anim_select.addItem("Echelle");
 		anim_select.addItem("Couleur de fond");
-		anim_select.addItem("Bordure");
+		anim_select.addItem("Couleur de Bordure");
+		anim_select.addItem("Taille de Bordure");
 		anim_select.setSelectedIndex(0);
 	}
 
@@ -215,17 +222,23 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 		this.panel_animation.add(panel_size);		
 	}
 
-	public void panel_bordure(){
+	public void panel_bordureColor(){
 		init_textfield(1);
-		this.panel_animation.setLayout(new BoxLayout(this.panel_animation, BoxLayout.Y_AXIS));
 		btn_color.setText("Couleur de bordure");
+
+		JPanel panel_size = new JPanel();
+		panel_size.add(new JLabel("Couleur de fin"));
+		panel_size.add(btn_color);
+		this.panel_animation.add(panel_size);
+	}
+
+	public void panel_bordureSize(){
+		init_textfield(1);
 
 		JPanel panel_size = new JPanel();
 		panel_size.add(new JLabel("Taille de fin"));
 		panel_size.add(champs[0]);
 		this.panel_animation.add(panel_size);
-
-		this.panel_animation.add(btn_color);
 	}
 
 	public void init_panel_anime(int id_anim){
@@ -234,7 +247,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 		case 1: panel_rotation();break;
 		case 2: panel_echelle();break;
 		case 3: panel_background();break;
-		case 4: panel_bordure();
+		case 4: panel_bordureColor(); break;
+		case 5: panel_bordureSize();
 		}
 	}
 
@@ -252,28 +266,75 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 		case 1: ajoutRotation(); break;
 		case 2: ajoutEchelle(); break;
 		case 3: ajoutBackground(); break;
-		case 4: ajoutBordure();
+		case 4: ajoutBordureColor(); break;
+		case 5: ajoutBordureSize();
 		}
 	}
 
-	private void ajoutBordure() {
-		// TODO Auto-generated method stub
-
+	private void ajoutBordureColor() {
+	/*String name, 
+	 * Movable movable, 
+	 * double debut, 
+	 * double fin, 
+	 * Easing easing, 
+	 * EasingType easing_type,  
+	 * Color color) {
+	 */
+		ChangeBorderColor c = new ChangeBorderColor(this.nom_animation.getText(),
+				this.figure,
+				(double)this.debutAnimation.getValue(),
+				(double)this.finAnimation.getValue(),
+				fonctionEasing(this.easing_select.getSelectedIndex()),
+				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
+				this.btn_color.getForeground());
+		StateGestionnary.getInstance().addAnimation(c);
+	
 	}
 
+	private void ajoutBordureSize() {
+		ChangeStrokeThickness c = new ChangeStrokeThickness(this.nom_animation.getText(),
+				this.figure,
+				(double)this.debutAnimation.getValue(),
+				(double)this.finAnimation.getValue(),
+				fonctionEasing(this.easing_select.getSelectedIndex()),
+				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
+				this.champs_valeurs[0]);
+		StateGestionnary.getInstance().addAnimation(c);
+		
+	}
+	
 	private void ajoutBackground() {
-		// TODO Auto-generated method stub
-
+		ChangeColor c = new ChangeColor(this.nom_animation.getText(),
+				this.figure,
+				(double)this.debutAnimation.getValue(),
+				(double)this.finAnimation.getValue(),
+				fonctionEasing(this.easing_select.getSelectedIndex()),
+				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
+				this.btn_color.getForeground());
+		StateGestionnary.getInstance().addAnimation(c);
 	}
 
 	private void ajoutEchelle() {
-		// TODO Auto-generated method stub
-
+		Scaling s = new Scaling(this.nom_animation.getText(),
+				this.figure,
+				(double)this.debutAnimation.getValue(),
+				(double)this.finAnimation.getValue(),
+				fonctionEasing(this.easing_select.getSelectedIndex()),
+				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
+				(double)this.champs_valeurs[0]);
+		StateGestionnary.getInstance().addAnimation(s);		
 	}
 
 	private void ajoutRotation() {
-		// TODO Auto-generated method stub
-
+		Rotation r = new Rotation(this.nom_animation.getText(),
+				this.figure,
+				(double)this.debutAnimation.getValue(),
+				(double)this.finAnimation.getValue(),
+				fonctionEasing(this.easing_select.getSelectedIndex()),
+				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
+				this.champs_valeurs[2],
+				new PointPlacheux(this.champs_valeurs[0], this.champs_valeurs[1]));
+		StateGestionnary.getInstance().addAnimation(r);
 	}
 
 	private void ajoutTranslation() {
@@ -285,6 +346,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				new PointPlacheux(this.champs_valeurs[0], this.champs_valeurs[1]),
 				new PointPlacheux(this.champs_valeurs[2], this.champs_valeurs[4]));
+		StateGestionnary.getInstance().addAnimation(t);
 	}
 
 	private EasingType fonctionEasingType(int selectedIndex) {
