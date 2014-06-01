@@ -33,6 +33,7 @@ public enum EasingType {
         throw new RuntimeException("unknown type");
     }
 
+    @Override
     public String toString(){
       return name;
     }      

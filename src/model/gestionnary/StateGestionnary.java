@@ -1,6 +1,9 @@
 package model.gestionnary;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +14,6 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Set;
 import model.animation.Animation;
-import model.animation.ChangeColor;
 import model.movable.*;
 
 /**
@@ -42,6 +44,7 @@ public class StateGestionnary {
     private static StateGestionnary instance;
     Comparator <Animation> comparator_debut;
     Comparator <Animation> comparator_fin;
+    Comparator <Figure> comparator_z_order;
     
 
     //          Constructeur
@@ -59,6 +62,12 @@ public class StateGestionnary {
                 @Override
                 public int compare(Animation a1, Animation a2) {
                     return a1.getFin() < a2.getFin() ? 1 : a1.getFin() == a2.getFin() ? 0 : -1;
+                }
+            };
+            comparator_z_order=new Comparator<Figure>() {
+                @Override
+                public int compare(Figure f1, Figure f2) {
+                    return f1.getZ_position() < f2.getZ_position() ? 1 : f1.getZ_position() == f2.getZ_position() ? 0 : -1;
                 }
             };
             this.pool=MovablePool.getInstance();
@@ -133,7 +142,7 @@ public class StateGestionnary {
         }
         
         public HashMap <String, Animation> getAnimations(String name){
-            return new HashMap<String, Animation>(this.animations);
+            return new HashMap<>(this.animations);
         }
         
         public HashMap <String, Movable> getMovables( ){
@@ -146,9 +155,9 @@ public class StateGestionnary {
          * @return une LinkedList contenant toutes les animations associées à ce movable
          */
         public LinkedList<Animation> getAnimationsForMovable(String name){
-            Collection<Animation> animations= this.getAnimations().values();
-            Iterator<Animation> it=animations.iterator();
-            LinkedList<Animation> result=new LinkedList<Animation>();
+            Collection<Animation> anims= this.getAnimations().values();
+            Iterator<Animation> it=anims.iterator();
+            LinkedList<Animation> result=new LinkedList<>();
 
             while(it.hasNext()){
                 Animation next=it.next();
@@ -176,7 +185,7 @@ public class StateGestionnary {
         
         public void addColor(String movable_name, Color color, double t){
             if(this.color.get(movable_name)==null){
-                HashMap<Double, Color> h = new HashMap<Double, Color>();
+                HashMap<Double, Color> h = new HashMap<>();
                 h.put(t, color);
                 this.color.put(movable_name, h);
             }
@@ -187,7 +196,7 @@ public class StateGestionnary {
         
         public void addBorderColor(String movable_name, Color color, double t){
             if(this.border_color.get(movable_name)==null){
-                HashMap<Double, Color> h = new HashMap<Double, Color>();
+                HashMap<Double, Color> h = new HashMap<>();
                 h.put(t, color);
                 this.border_color.put(movable_name, h);
             }
@@ -198,7 +207,7 @@ public class StateGestionnary {
         
         public void addStroke_Thickness(String movable_name, double stroke_thickness, double t){
             if(this.stroke_thickness.get(movable_name)==null){
-                HashMap<Double, Double> h = new HashMap<Double, Double>();
+                HashMap<Double, Double> h = new HashMap<>();
                 h.put(t, stroke_thickness);
                 this.stroke_thickness.put(movable_name, h);
             }
@@ -289,6 +298,38 @@ public class StateGestionnary {
                         this.addAVenir(next);
                 }
             }            
+        }
+        
+        public ArrayList<BufferedImage> BufferedImageCreator( int framerate, Film film){
+            double t = 0;
+            ArrayList<BufferedImage> result=new ArrayList<>();
+            while (t<=film.getDuration()){
+                this.goToTime(t);
+                HashMap<String, Movable> movables= this.getMovables();
+                ArrayList<Figure> figures = new ArrayList<>();
+                for(Movable m : movables.values()){
+                    for(Figure f : m.getAllFigures()){
+                        if(!figures.contains(f)){
+                            figures.add(f);
+                        }
+                    }
+                }
+                Collections.sort(figures, this.comparator_z_order);
+                BufferedImage image=new BufferedImage(film.getWidth(), film.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+                Graphics2D graphics = image.createGraphics();
+                graphics.setPaint (film.getBackgroundColor());
+                graphics.fillRect ( 0, 0, image.getWidth(), image.getHeight() );
+                for(ListIterator<Figure> li = figures.listIterator(); li.hasNext();){                    
+                    Figure next = li.next();
+                    graphics.setColor(next.getColor());
+                    graphics.fill(next.getShape());
+                    graphics.setColor(next.getBorderColor());
+                    graphics.setStroke(new BasicStroke(Math.round(next.getStrokeThickness())));
+                    graphics.draw(next.getShape());
+                }                                
+                result.add(image);
+            }
+            return result;
         }
         
 }

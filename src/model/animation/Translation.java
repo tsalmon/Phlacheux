@@ -87,6 +87,7 @@ public class Translation extends Animation{
     //          Methodes
     //----------------------------
         
+        @Override
         public void goToTime(double t){
             double dx_to_apply=this.getDXAt(t)-this.getDXAt(this.getCurrent());
             double dy_to_apply=this.getDYAt(t)-this.getDYAt(this.getCurrent());
