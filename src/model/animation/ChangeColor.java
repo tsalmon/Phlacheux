@@ -44,6 +44,10 @@ public class ChangeColor extends Animation{
         this.setColor_to(color);
     }
 
+    public ChangeColor(Element xml){
+        super(xml);
+        this.setColor_to(new Color(Float.parseFloat(xml.getAttributeValue("color_R")),Float.parseFloat(xml.getAttributeValue("color_G")), Float.parseFloat(xml.getAttributeValue("color_B"))));
+    }
     //          Accesseurs
     //----------------------------
     public Color getColor_to() {
@@ -84,15 +88,20 @@ public class ChangeColor extends Animation{
         protected Color getColorAt(double t, Figure m){
             StateGestionnary sg=StateGestionnary.getInstance();
             Set<Double> times = sg.getColorTimes(m.getName());
-            double max=0;
-            for (double time : times){
-                time>max && time < t ? max=time;
+            Color from;
+            if(times.isEmpty()){
+                from=m.getInitial_color();
             }
-            Color last= sg.getColor(m.getName(), t);
-            Collections.sort(times);
-            float r = (float)this.applyEasing(last.getRed(), t, this.color_to.getRed(), this.getFin()-this.getDebut());
-            float g = (float)this.applyEasing(last.getGreen(), t, this.color_to.getGreen(), this.getFin()-this.getDebut());
-            float b = (float)this.applyEasing(last.getBlue(), t, this.color_to.getBlue(), this.getFin()-this.getDebut());
+            else{
+                double max=0;
+                for (double time : times){
+                    if(time>max && time < t){max=time;}
+                }
+                from=sg.getColor(m.getName(), max);
+            }
+            float r = (float)this.applyEasing(from.getRed(), t, this.color_to.getRed(), this.getFin()-this.getDebut());
+            float g = (float)this.applyEasing(from.getGreen(), t, this.color_to.getGreen(), this.getFin()-this.getDebut());
+            float b = (float)this.applyEasing(from.getBlue(), t, this.color_to.getBlue(), this.getFin()-this.getDebut());
             return new Color(r,g,b);
         }
 
@@ -101,10 +110,10 @@ public class ChangeColor extends Animation{
     public Element toXML(){
         Element el = super.toXML();
 
-        el.setAttribute("type", "rotation");
-        el.setAttribute("pointX", Double.toString(center.getX()));
-        el.setAttribute("pointY", Double.toString(center.getY()));
-        el.setAttribute("angle", Double.toString(angle));
+        el.setAttribute("type", "changeColor");
+        el.setAttribute("color_R", Float.toString(this.getColor_to().getRed()));
+        el.setAttribute("color_G", Float.toString(this.getColor_to().getGreen()));
+        el.setAttribute("color_B", Float.toString(this.getColor_to().getBlue()));
 
         return el;
     }
@@ -112,9 +121,8 @@ public class ChangeColor extends Animation{
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Rotation [");
-        builder.append("angle=").append(angle);
-        builder.append(", center=").append(center);
+        builder.append("ChangeColor [");
+        builder.append("color_to=").append(color_to);
         builder.append(", current=").append(current);
         builder.append(", debut=").append(debut);
         builder.append(", easing=").append(easing);
@@ -125,6 +133,7 @@ public class ChangeColor extends Animation{
         builder.append("]");
         return builder.toString();
     }
-
+    
+    
         
 }

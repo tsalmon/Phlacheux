@@ -25,12 +25,12 @@ public class Scaling extends Animation{
     //        Constructeur
     //---------------------------
 
-    public Scaling(String name, Movable movable, double debut, double fin, double current_time, Easing easing, EasingType easing_type,  double scale) {
+    public Scaling(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type, double scale) {
         super(name, movable, debut, fin, easing, easing_type);
         this.setScale(scale);
     }
 
-    public Scaling(String name, Movable movable, double debut, double fin, double current_time,  double scale) {
+    public Scaling(String name, Movable movable, double debut, double fin, double scale) {
         super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setScale(scale);
     }
