@@ -62,8 +62,9 @@ public class ImgTransferHandler extends TransferHandler {
 		case 3: return addPolygonPerso(dropPanel.draw_cross());
 		case 4: ;/*TriangleEqui*/
 		case 5: ;/*TriangleIso*/
-		case 6: ;/*Fleche*/
-		case 7: ;/*Star*/
+		case 6: ;/*Fleche*/ return addPolygonPerso(dropPanel.draw_arrow());
+		case 7: ;/*Star*/ dropPanel.init_a_b(x+10, y+10); 
+							return addPolygonPerso(dropPanel.draw_star());
 		}
 		return f;
 	}
