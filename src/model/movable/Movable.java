@@ -40,7 +40,7 @@ abstract public class Movable implements XMLSerializable{
     //          Attributs
     //---------------------------
 
-        protected Point gravity_center;  
+        protected PointPlacheux gravity_center;  
         protected boolean gravity_center_personalised; 
         protected String name;
         protected ArrayList<MovableGroup> groups=new ArrayList<MovableGroup>();
@@ -50,7 +50,7 @@ abstract public class Movable implements XMLSerializable{
     //          Accesseurs
     //----------------------------
     
-        public Point getGravityCenter(){
+        public PointPlacheux getGravityCenter(){
             return this.gravity_center;
         }
         public boolean getGravityCenterPerso(){
@@ -60,9 +60,9 @@ abstract public class Movable implements XMLSerializable{
         public void setGravityCenterPerso(boolean b){
             this.gravity_center_personalised=b;
         }
-        //set avec un Point (/!\ PASSAGE PAR REFERENCE, 
+        //set avec un PointPlacheux (/!\ PASSAGE PAR REFERENCE, 
         //uniquement si on veut qu'il se deplace avec ce point)
-        public void setGravityCenter(Point p){
+        public void setGravityCenter(PointPlacheux p){
             this.gravity_center=p;
             this.setGravityCenterPerso(true);
         }
@@ -112,11 +112,11 @@ abstract public class Movable implements XMLSerializable{
         
         abstract public void rotation(double angle);
 
-        abstract public void rotation(double angle, Point p);
+        abstract public void rotation(double angle, PointPlacheux p);
 
         abstract public void translation(double x_from, double y_from, double x_to, double y_to);
 
-        abstract public void translation(Point from, Point to);
+        abstract public void translation(PointPlacheux from, PointPlacheux to);
 
         abstract public void changeStrokeThickness(double thickness);
 

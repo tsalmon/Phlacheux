@@ -1,7 +1,7 @@
 
 package model.movable.line;
 
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -19,11 +19,11 @@ public class Segment extends Line{
     //          Constructeur
     //---------------------------
 
-        public Segment(Point point1, Point point2) {
+        public Segment(PointPlacheux point1, PointPlacheux point2) {
             super(point1, point2);
         }
 
-        public Segment(Point point1, Point point2, double strokeThickness) {
+        public Segment(PointPlacheux point1, PointPlacheux point2, double strokeThickness) {
             super(point1, point2, strokeThickness);
         }
 

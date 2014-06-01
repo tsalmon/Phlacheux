@@ -2,7 +2,7 @@
 package model.movable.line;
 
 import model.movable.Figure;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 import java.util.Iterator;
@@ -22,21 +22,21 @@ abstract public class Line extends Figure {
     //          Attributs
     //---------------------------
 
-        protected Point point_depart;
-        protected Point point_arrivee;
+        protected PointPlacheux point_depart;
+        protected PointPlacheux point_arrivee;
 
         
     //          Constructeur
     //----------------------------
         
-        public Line(Point depart, Point arrivee) {
+        public Line(PointPlacheux depart, PointPlacheux arrivee) {
             this.point_depart = depart;
             this.point_arrivee = arrivee;
             this.addPoint(depart);
             this.addPoint(arrivee);
         }
         
-        public Line(Point depart, Point arrivee, double strokeThickness) {
+        public Line(PointPlacheux depart, PointPlacheux arrivee, double strokeThickness) {
             this.point_depart = depart;
             this.point_arrivee = arrivee;
             this.addPoint(depart);
@@ -51,8 +51,8 @@ abstract public class Line extends Figure {
             double dstX = Double.parseDouble(xml.getAttributeValue("dstX"));
             double dstY = Double.parseDouble(xml.getAttributeValue("dstY"));
 
-            this.point_depart = new Point(srcX, srcY);
-            this.point_arrivee = new Point(dstX, dstY);
+            this.point_depart = new PointPlacheux(srcX, srcY);
+            this.point_arrivee = new PointPlacheux(dstX, dstY);
             this.addPoint(this.point_depart);
             this.addPoint(this.point_arrivee);
         }
@@ -63,40 +63,40 @@ abstract public class Line extends Figure {
     //----------------------------
 
 
-        public Point getPointDepart() {
+        public PointPlacheux getPointDepart() {
             return point_depart;
         }
 
-        public Point getPointArrivee() {
+        public PointPlacheux getPointArrivee() {
             return point_arrivee;
         }
 
-        public void setPointDepart(Point p) {
+        public void setPointDepart(PointPlacheux p) {
             this.removePoint(this.getPointDepart());
             this.addPoint(p);
             this.point_depart = p;
         }
 
         public void setPointDepart(double x, double y) {
-            this.setPointDepart(new Point(x,y));
+            this.setPointDepart(new PointPlacheux(x,y));
         }
 
-        public void setPointArrivee(Point p) {
+        public void setPointArrivee(PointPlacheux p) {
             this.removePoint(this.getPointArrivee());
             this.addPoint(p);
             this.point_arrivee = p;
         }
 
         public void setPointArrivee(double x, double y) {
-            this.setPointArrivee(new Point(x,y));
+            this.setPointArrivee(new PointPlacheux(x,y));
         }
 
-        public Point[] getPointsTerminaison() {
-            Point[] res={this.getPointDepart(), this.getPointArrivee()};
+        public PointPlacheux[] getPointsTerminaison() {
+            PointPlacheux[] res={this.getPointDepart(), this.getPointArrivee()};
             return res;
         }
 
-        public void setPointsTerminaison(Point depart, Point arrivee) {
+        public void setPointsTerminaison(PointPlacheux depart, PointPlacheux arrivee) {
             this.setPointDepart(depart);
             this.setPointArrivee(arrivee);
         }

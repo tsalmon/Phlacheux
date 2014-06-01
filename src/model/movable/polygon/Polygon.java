@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.movable.Figure;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -24,7 +24,7 @@ import org.jdom2.Element;
     //          Constructeur
     //----------------------------
 
-        protected Polygon(ArrayList<Point> points) {
+        protected Polygon(ArrayList<PointPlacheux> points) {
             super(points);
         }
 

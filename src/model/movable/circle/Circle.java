@@ -5,7 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import model.movable.Figure;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 
 import org.jdom2.Element;
 
@@ -23,7 +23,7 @@ public class Circle  extends Figure{
 
     //          Attributs
     //---------------------------
-        protected Point center;
+        protected PointPlacheux center;
         protected double radius;
 
     
@@ -31,14 +31,14 @@ public class Circle  extends Figure{
     //----------------------------
 
 
-        public Circle(Point c, double radius) {
+        public Circle(PointPlacheux c, double radius) {
             this.center = c;
             this.addPoint(c);
             this.radius = radius;
         }
         
         public Circle(double x_center, double y_center, double radius) {
-            this.center = new Point(x_center,y_center);
+            this.center = new PointPlacheux(x_center,y_center);
             this.addPoint(this.center);
             this.radius = radius;
         }
@@ -49,7 +49,7 @@ public class Circle  extends Figure{
             double centerX = Double.parseDouble(xml.getAttributeValue("centerX"));
             double centerY = Double.parseDouble(xml.getAttributeValue("centerY"));
             double radius  = Double.parseDouble(xml.getAttributeValue("radius"));
-            this.center = new Point(centerX, centerY);
+            this.center = new PointPlacheux(centerX, centerY);
             this.addPoint(this.center);
             this.radius = radius;
         }
@@ -59,18 +59,18 @@ public class Circle  extends Figure{
     //----------------------------
 
 
-        public Point getCenter() {
+        public PointPlacheux getCenter() {
             return center;
         }
 
-        public void setCenter(Point center) {
+        public void setCenter(PointPlacheux center) {
             this.removePoint(this.center);
             this.center = center;
             this.addPoint(this.center);
         }
         
         public void setCenter(double x_center, double y_center) {
-            this.setCenter(new Point(x_center,y_center));
+            this.setCenter(new PointPlacheux(x_center,y_center));
         }
 
         public double getRadius() {

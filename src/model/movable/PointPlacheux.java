@@ -13,7 +13,7 @@ import java.lang.Math.*;
  */
 
 
-public class Point {
+public class PointPlacheux {
 
     //          Attributs
     //---------------------------
@@ -24,7 +24,7 @@ public class Point {
     //         Constructeur
     //----------------------------
         
-        public Point(double abs, double ord){
+        public PointPlacheux(double abs, double ord){
             x=abs;
             y=ord;
         }
@@ -57,13 +57,13 @@ public class Point {
     //----------------------------
         
         // angle en degres
-        public void rotateAroundDegres(double angle, Point p){
+        public void rotateAroundDegres(double angle, PointPlacheux p){
             double angle_rad=(Math.PI*(angle))/180;
             this.rotateAroundRadian(angle_rad, p);
         }
         
         // angle en radiants
-        public void rotateAroundRadian(double angle, Point p){
+        public void rotateAroundRadian(double angle, PointPlacheux p){
                 double dep_x=this.getX()-p.getX();
                 double dep_y=this.getY()-p.getY();    
                 double new_x=( dep_x * Math.cos(angle) ) - (dep_y * Math.sin(angle))+p.getX();
@@ -72,7 +72,7 @@ public class Point {
                 this.setY(new_y);
         }
 
-        public void translation(Point from, Point to) {
+        public void translation(PointPlacheux from, PointPlacheux to) {
             this.setX(this.getX()+to.getX()-from.getX());
             this.setY(this.getY()+to.getY()-from.getY());
         }

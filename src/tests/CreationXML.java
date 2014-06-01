@@ -6,7 +6,7 @@ import model.easing.Circ;
 import model.easing.Quad;
 import model.easing.Sine;
 import model.movable.*;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import model.movable.circle.Circle;
 import model.movable.line.CubicCurve;
 import model.movable.line.QuadraticCurve;
@@ -27,41 +27,41 @@ public class CreationXML {
         c.setColor(Color.cyan);
         film.addShape(c);
 
-        Segment s = new Segment(new model.movable.Point(10,20), new model.movable.Point(30,40));
+        Segment s = new Segment(new model.movable.PointPlacheux(10,20), new model.movable.PointPlacheux(30,40));
         s.setColor(Color.cyan);
         film.addShape(s);
 
-        QuadraticCurve q = new QuadraticCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60));
+        QuadraticCurve q = new QuadraticCurve(new model.movable.PointPlacheux(10,20), new model.movable.PointPlacheux(30,40), new model.movable.PointPlacheux(50,60));
         q.setColor(Color.cyan);
         film.addShape(q);
 
-        CubicCurve cubcurve = new CubicCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60), new model.movable.Point(70,80));
+        CubicCurve cubcurve = new CubicCurve(new model.movable.PointPlacheux(10,20), new model.movable.PointPlacheux(30,40), new model.movable.PointPlacheux(50,60), new model.movable.PointPlacheux(70,80));
         cubcurve.setColor(Color.cyan);
         film.addShape(cubcurve);
 
-        EquilateralTriangle eqtri = new EquilateralTriangle(new model.movable.Point(15,15), new model.movable.Point(30,30));
+        EquilateralTriangle eqtri = new EquilateralTriangle(new model.movable.PointPlacheux(15,15), new model.movable.PointPlacheux(30,30));
         eqtri.setColor(Color.cyan);
         film.addShape(eqtri);
 
-        ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
-        points.add(new model.movable.Point(10,10));
-        points.add(new model.movable.Point(20,20));
-        points.add(new model.movable.Point(30,30));
-        points.add(new model.movable.Point(40,40));
+        ArrayList<model.movable.PointPlacheux> points = new ArrayList<model.movable.PointPlacheux>();
+        points.add(new model.movable.PointPlacheux(10,10));
+        points.add(new model.movable.PointPlacheux(20,20));
+        points.add(new model.movable.PointPlacheux(30,30));
+        points.add(new model.movable.PointPlacheux(40,40));
 
         PolygonPerso poly = new PolygonPerso(points);
         poly.setColor(Color.cyan);
         film.addShape(poly);
 
-        model.movable.polygon.Rectangle rect = new model.movable.polygon.Rectangle(100,100, new model.movable.Point(5,5));
+        model.movable.polygon.Rectangle rect = new model.movable.polygon.Rectangle(100,100, new model.movable.PointPlacheux(5,5));
         rect.setColor(Color.cyan);
         film.addShape(rect);
 
-        Square square = new Square(50, new model.movable.Point(10,10));
+        Square square = new Square(50, new model.movable.PointPlacheux(10,10));
         square.setColor(Color.cyan);
         film.addShape(square);
 
-        Triangle tri = new Triangle(new model.movable.Point(10,10), new model.movable.Point(20,20), new model.movable.Point(30,30));
+        Triangle tri = new Triangle(new model.movable.PointPlacheux(10,10), new model.movable.PointPlacheux(20,20), new model.movable.PointPlacheux(30,30));
         tri.setColor(Color.cyan);
         film.addShape(tri);
 
@@ -83,7 +83,7 @@ public class CreationXML {
         group2.addMovable(group1);
         film.addGroup(group2);
 
-        Translation tr = new Translation("anim1", c, 0,50, new Quad(), EasingType.EASE_IN, new Point(100,100), new Point(200,200));
+        Translation tr = new Translation("anim1", c, 0,50, new Quad(), EasingType.EASE_IN, new PointPlacheux(100,100), new PointPlacheux(200,200));
         film.addAnimation(tr);
 
         Rotation rot = new Rotation("anim2", square, 0,50,new Sine(), EasingType.EASE_IN, 45);

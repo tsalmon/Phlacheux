@@ -2,7 +2,7 @@
 package model.movable.polygon;
 
 import java.util.ArrayList;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -20,7 +20,7 @@ public class EquilateralTriangle extends Triangle {
     //          Constructeur
     //----------------------------
     
-    public EquilateralTriangle(Point p1, Point p2) {
+    public EquilateralTriangle(PointPlacheux p1, PointPlacheux p2) {
         super(p1,p2,p2);
         super.setSommet3(this.getLast(this.getSommet1(),this.getSommet2(),true));
     }
@@ -36,17 +36,17 @@ public class EquilateralTriangle extends Triangle {
     //----------------------------
 
 
-    public void setSommet1(Point p) {
+    public void setSommet1(PointPlacheux p) {
         super.setSommet1(p);
         super.setSommet3(this.getLast(this.getSommet1(),this.getSommet2(),true));
     }
     
-    public void setSommet2(Point p) {
+    public void setSommet2(PointPlacheux p) {
         super.setSommet2(p);
         super.setSommet3(this.getLast(this.getSommet1(),this.getSommet2(),true));
     }
     
-    public void setSommet3(Point p) {
+    public void setSommet3(PointPlacheux p) {
         super.setSommet3(p);
         super.setSommet2(this.getLast(this.getSommet1(),this.getSommet3(),false));
     }
@@ -54,7 +54,7 @@ public class EquilateralTriangle extends Triangle {
     //          Methodes
     //----------------------------
     
-        private Point getLast(Point p1, Point p2,boolean up){
+        private PointPlacheux getLast(PointPlacheux p1, PointPlacheux p2,boolean up){
             
             double dx=p2.getX()-p1.getX();
             double dy=p2.getY()-p1.getY();
@@ -67,7 +67,7 @@ public class EquilateralTriangle extends Triangle {
             
             double o = (up) ? 1 : 1;
             
-             Point res=new Point(
+             PointPlacheux res=new PointPlacheux(
                     Math.cos((o*Math.PI/3)+angle)*d+p1.getX(), 
                     Math.sin((o*Math.PI/3)+angle)*d+p1.getY());
              

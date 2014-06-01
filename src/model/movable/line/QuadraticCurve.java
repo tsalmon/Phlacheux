@@ -1,7 +1,7 @@
 
 package model.movable.line;
 
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -19,18 +19,18 @@ public class QuadraticCurve extends Line {
     //          Attributs
     //---------------------------
 
-        Point point_controle;
+        PointPlacheux point_controle;
 
     //          Constructeur
     //---------------------------
 
-        public QuadraticCurve(Point depart, Point arrivee, Point controle) {
+        public QuadraticCurve(PointPlacheux depart, PointPlacheux arrivee, PointPlacheux controle) {
             super(depart, arrivee);
             this.point_controle = controle;
             this.addPoint(controle);
         }
 
-        public QuadraticCurve(Point depart, Point arrivee, Point controle, double strokeThickness) {
+        public QuadraticCurve(PointPlacheux depart, PointPlacheux arrivee, PointPlacheux controle, double strokeThickness) {
             super(depart, arrivee, strokeThickness);
             this.point_controle = controle;
             this.addPoint(controle);
@@ -42,7 +42,7 @@ public class QuadraticCurve extends Line {
             double ctrlX = Double.parseDouble(xml.getAttributeValue("ctrlX"));
             double ctrlY = Double.parseDouble(xml.getAttributeValue("ctrlY"));
 
-            this.point_controle = new Point(ctrlX, ctrlY);
+            this.point_controle = new PointPlacheux(ctrlX, ctrlY);
             this.addPoint(this.point_controle);
         }
     
@@ -50,17 +50,17 @@ public class QuadraticCurve extends Line {
     //----------------------------
 
 
-        public Point getPointControle() {
+        public PointPlacheux getPointControle() {
             return point_controle;
         }
-        public void setPointControle(Point p) {
+        public void setPointControle(PointPlacheux p) {
             this.removePoint(this.getPointControle());
             this.addPoint(p);
             this.point_controle = p;
         }
 
         public void setPointControle(double x, double y) {
-            this.setPointControle(new Point(x,y));
+            this.setPointControle(new PointPlacheux(x,y));
         }
 
     //          Methodes
