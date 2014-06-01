@@ -46,6 +46,12 @@ public class ImgTransferHandler extends TransferHandler {
 		
 		return liste;
 	}
+
+	public Figure addTriangleEqui(){
+		Shape s = dropPanel.draw_equi();
+		ArrayList<Point> points = conversionShapeToArrayList(s);		
+		return new EquilateralTriangle(points.get(1), points.get(2));
+	}
 	
 	public Figure addPolygonPerso(Shape s){
 		ArrayList<Point> points = 
@@ -60,8 +66,8 @@ public class ImgTransferHandler extends TransferHandler {
 		case 1: return new Rectangle(100, 50, new Point(x, y));
 		case 2: return new Circle(new Point(x, y), 50);
 		case 3: return addPolygonPerso(dropPanel.draw_cross());
-		case 4: ;/*TriangleEqui*/
-		case 5: ;/*TriangleIso*/
+		case 4: ;/*TriangleEqui*/ return addTriangleEqui();
+		case 5: ;/*ligne*/ 
 		case 6: ;/*Fleche*/ return addPolygonPerso(dropPanel.draw_arrow());
 		case 7: ;/*Star*/ dropPanel.init_a_b(x+10, y+10); 
 							return addPolygonPerso(dropPanel.draw_star());
