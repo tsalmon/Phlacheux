@@ -42,7 +42,7 @@ public class MovablePool {
     }
 
     public HashMap<String, Movable> getMovablePool() {
-        return movablePool;
+        return new HashMap(this.movablePool);
     }
     
 

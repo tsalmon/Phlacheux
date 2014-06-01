@@ -115,11 +115,11 @@ public class StateGestionnary {
         }
         
         public HashMap <String, Animation> getAnimations(String name){
-            return this.animations;
+            return new HashMap(this.animations);
         }
         
         public HashMap <String, Movable> getMovables( ){
-            return this.pool.getMovablePool();
+            return this.pool.getMovables();
         }
         
         /**

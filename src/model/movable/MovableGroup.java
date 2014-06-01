@@ -75,6 +75,10 @@ public class MovableGroup extends Movable{
             m.removeGroup(this);
         }
         
+        public ArrayList<Movable> getMovables(){
+            return new ArrayList(this.movables);
+        }
+        
         //  calcul automatique du centre de gravité
 
      @Override

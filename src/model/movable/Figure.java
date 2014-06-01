@@ -27,7 +27,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         protected double strokeThickness = 1;
         protected ArrayList<Point> points = new ArrayList<Point>();
         protected Color borderColor;
-        private Color color;
+        protected Color color;
         
         
         
