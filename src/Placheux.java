@@ -1,7 +1,6 @@
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 import java.awt.*;
-import java.awt.Point;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -67,12 +66,11 @@ TreeSelectionListener{
 
 	JTable tab;
 	PanElem view;
-
 	
 	Figure figure_selected = null;
 	
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
-	int origin_x, origin_y; 
+	int origin_x, origin_y, current_time = 0; 
 	Shape fig_inc = new GeneralPath();
 	int id_fig = -1; 
 
@@ -374,7 +372,12 @@ TreeSelectionListener{
 		} else if(choix.equals("Propriétées")){
 			System.out.println("PROPERTIES");			
 		} else if(choix.equals("Ajouter une animation")){
-			System.out.println("AJOUTER");			
+			new PanneauNouvelleAnimation(this.frame, 
+										this.data, 
+										this.current_time, 
+										100, 
+										(view.x + view.a)/2, 
+										(view.y + view.b)/2);
 		}
 	}
 
