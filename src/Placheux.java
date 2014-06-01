@@ -661,6 +661,7 @@ TreeSelectionListener{
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
 		}
+		
 		public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
 			ArrayList<PointPlacheux> liste = new ArrayList<PointPlacheux>();
 			
@@ -688,15 +689,22 @@ TreeSelectionListener{
 			return new PolygonPerso(points);
 		}
 		
+		
 		public Figure nouvelleFigure(int id_fig, int x, int y){
+			System.out.println("("+ a + ", " + b + ");("+ x + ", " + y + ")" );
 			Figure f = null;
 			switch(id_fig){
 			//case 0: return new Square(50, new model.movable.Point(x, y));
-			case 2: return new Rectangle(100, 50, new PointPlacheux(x, y));
+			case 2: 				
+				return new Rectangle(Math.abs(x-a), 
+									Math.abs(y-b), 
+									new PointPlacheux((x > a) ? a : x ,
+													(y > b) ? b : y ));
 			case 1: return new Circle(new PointPlacheux(x, y), 50);
 			case 3: return addPolygonPerso(view.draw_cross());
 			case 5:  return addTriangleEqui();
-			case 0:  return new Segment(new PointPlacheux(x, y), new PointPlacheux(x+50, y+50));
+			case 0:  return new Segment(new PointPlacheux(x, y), 
+										new PointPlacheux(x+50, y+50));
 			case 6:  return addPolygonPerso(view.draw_arrow());
 			case 7:  view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
@@ -720,9 +728,8 @@ TreeSelectionListener{
 		PathIterator pi = fig_inc.getPathIterator(null);
 		ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
 		System.out.println(id_fig);
-		data.addMovable(view.nouvelleFigure(id_fig, view.a, view.b));
-		/*
-		while(!pi.isDone()){
+		data.addMovable(view.nouvelleFigure(id_fig, view.x, view.y));
+		/*while(!pi.isDone()){
 			double[] c = new double[2];
 			int type = pi.currentSegment(c);
 			points.add(new model.movable.Point(c[0], c[1]));
@@ -846,6 +853,7 @@ TreeSelectionListener{
 					view.y = e.getY();
 					System.out.println(fig_inc);
 					addToModel();
+					view.createNodes();
 					//data.addMovable(nouvelleFigure());
 					id_fig = -1;
 					create_figure = false;
