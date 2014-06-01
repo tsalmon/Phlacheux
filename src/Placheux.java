@@ -18,6 +18,11 @@ import java.util.*;
 
 import model.movable.*;
 import model.movable.circle.Circle;
+import model.movable.line.Segment;
+import model.movable.polygon.EquilateralTriangle;
+import model.movable.polygon.PolygonPerso;
+import model.movable.polygon.Rectangle;
+import model.movable.polygon.Square;
 import model.gestionnary.*;
 
 import org.jdom2.Document;
@@ -416,7 +421,6 @@ TreeSelectionListener{
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
 		final Color couleurFond = Color.black;
-		Shape figure = null;
 		int a, b;
 		int x, y;
 		StateGestionnary data;
@@ -455,8 +459,8 @@ TreeSelectionListener{
 			}
 		}
 
+		/*
 		public void draw_arrowTranslation(Graphics2D g2d){
-			System.out.println("print arrow");
 			double rotation = 0f;
 			if (arrowEnd != null) {
 				int x = arrowStart.x;
@@ -480,16 +484,14 @@ TreeSelectionListener{
 			g2d.fill(shape);
 			g2d.draw(shape);			
 		}
-
+		*/
+	
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.setColor(Color.BLACK);
 			if(fig_inc == null){
-				System.out.println("IF");
 				doDrawing(g);				
 			} else {
-				
-				System.out.println("ELSE");
 				Graphics2D g2d = (Graphics2D)g;
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -499,19 +501,6 @@ TreeSelectionListener{
 
 				
 				g2d.setColor(Color.BLACK); /** TODO: fill color **/
-				//	doDrawing(g);
-
-				/*	for(Shape sh : liste_fig){
-					g2d.fill(sh);
-				}
-				 */
-				/*for(Figure sh : liste_fig){
-					g2d.setColor(Color.BLACK); // TODO: fill color
-					g2d.fill(sh.getShape());
-					g2d.setColor(Color.blue); // TODO: border color & size 
-					g2d.setStroke(new BasicStroke(3));
-					g2d.draw(sh.getShape());
-				}*/
 
 				Iterator it = data.getMovables().entrySet().iterator();
 				while (it.hasNext()) {
@@ -520,7 +509,13 @@ TreeSelectionListener{
 					if(f instanceof Circle){
 						Circle c = (Circle) f;
 						g2d.fill(c.getShape());
-					} else {
+					} else if(f instanceof Segment){
+						Segment s = (Segment) f;
+						g2d.drawLine((int)s.getPointDepart().getX(), 
+									(int)s.getPointDepart().getY(), 
+									(int)s.getPointArrivee().getX(),
+									(int)s.getPointArrivee().getY());
+					}else {
 						g2d.fill(f.getShape());						
 					}
 					/*Shape s = f.getShape();
@@ -532,7 +527,7 @@ TreeSelectionListener{
 					}*/
 				}	
 				
-				/*
+				
 				g2d.setColor(Color.BLACK); // TODO: fill color 
 				this.doDrawing(g);
 				g2d.fill(fig_inc);  
@@ -540,10 +535,12 @@ TreeSelectionListener{
 				g2d.setStroke(new BasicStroke(3));
 				g2d.draw(fig_inc);
 
+				/*
 				if (arrowStart != null && arrowEnd != null) {
 					this.draw_arrowTranslation(g2d);
 				}
 				*/
+				
 				g2d.dispose();
 			}
 		}
@@ -643,7 +640,7 @@ TreeSelectionListener{
 			return p;
 		}
 
-		public Shape draw_arrow(){			
+		public Shape draw_arrow(){
 			GeneralPath p = new GeneralPath();
 			p.moveTo(a		, (b+y)/2);
 			p.lineTo((a+x)/2, y);
@@ -656,8 +653,6 @@ TreeSelectionListener{
 			return p;
 		}
 
-
-
 		public void createNodes() {
 			this.top.removeAllChildren();
 			Iterator it = data.getMovables().entrySet().iterator();
@@ -666,6 +661,49 @@ TreeSelectionListener{
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
 		}
+		public ArrayList<model.movable.Point> conversionShapeToArrayList(Shape s){
+			ArrayList<model.movable.Point> liste = new ArrayList<model.movable.Point>();
+			
+			PathIterator pi = s.getPathIterator(null);
+
+			while (pi.isDone() == false) {
+			  double[] c = new double[2];
+			  int type = pi.currentSegment(c);
+			  if(type < 2 ) liste.add(new model.movable.Point(c[0],c[1]));
+			  pi.next();
+			}
+			
+			return liste;
+		}
+		
+		public Figure addTriangleEqui(){
+			Shape s = view.draw_equi();
+			ArrayList<model.movable.Point> points = conversionShapeToArrayList(s);		
+			return new EquilateralTriangle(points.get(1), points.get(2));
+		}
+		
+		public Figure addPolygonPerso(Shape s){
+			ArrayList<model.movable.Point> points = 
+					conversionShapeToArrayList(s);
+			return new PolygonPerso(points);
+		}
+		
+		public Figure nouvelleFigure(int id_fig, int x, int y){
+			Figure f = null;
+			switch(id_fig){
+			case 0: return new Square(50, new model.movable.Point(x, y));
+			case 1: return new Rectangle(100, 50, new model.movable.Point(x, y));
+			case 2: return new Circle(new model.movable.Point(x, y), 50);
+			case 3: return addPolygonPerso(view.draw_cross());
+			case 4: ;/*TriangleEqui*/ return addTriangleEqui();
+			case 5: ;/*ligne*/ return new Segment(new model.movable.Point(x, y), new model.movable.Point(x+50, y+50));
+			case 6: ;/*Fleche*/ return addPolygonPerso(view.draw_arrow());
+			case 7: ;/*Star*/ view.init_a_b(x+10, y+10); 
+								return addPolygonPerso(view.draw_star());
+			}
+			return f;
+		}
+
 	}
 
 	public class PointyThing extends Path2D.Float {
@@ -678,6 +716,20 @@ TreeSelectionListener{
 		}
 	}
 
+
+	
+	public void addToModel(){
+		PathIterator pi = fig_inc.getPathIterator(null);
+		ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
+		
+		while(!pi.isDone()){
+			double[] c = new double[2];
+			int type = pi.currentSegment(c);
+			points.add(new model.movable.Point(c[0], c[1]));
+			pi.next();
+		}
+	}
+	
 	public void setViewatTime(int t){
 		System.out.println("setViewatTime : " + t);
 	}
@@ -809,8 +861,9 @@ TreeSelectionListener{
 				if(create_figure){
 					view.x = e.getX();
 					view.y = e.getY();
-					//liste_fig.add(
-					//new Figure(fig_inc, Color.blue, 5, Color.BLACK));
+					System.out.println(fig_inc);
+					addToModel();
+					//data.addMovable(nouvelleFigure());
 					id_fig = -1;
 					create_figure = false;
 				} else if(translation_mode){
