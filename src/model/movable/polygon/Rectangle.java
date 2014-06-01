@@ -47,7 +47,7 @@
 
                 this.addLesPoints();
             }
-
+            
             public Rectangle(Element xml){
                 super(xml);
                 this.length = Double.parseDouble(xml.getAttributeValue("sideV").toString());
