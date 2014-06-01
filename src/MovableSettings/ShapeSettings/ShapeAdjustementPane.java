@@ -1,5 +1,6 @@
 package MovableSettings.ShapeSettings;
 
+import javafx.scene.Parent;
 import model.movable.Figure;
 import model.movable.circle.Circle;
 import model.movable.line.CubicCurve;
@@ -25,6 +26,7 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
     private static final int maxThickness = 100;
 
     private Figure figure;
+    private JPanel parent;
     private static JColorChooser сolorChooser = new JColorChooser();
 
 
@@ -51,6 +53,7 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
             chooseColor();
             colorButton.setBackground(сolorChooser.getColor());
             figure.setColor(сolorChooser.getColor());
+            parent.repaint();
         }
     };
 
@@ -60,6 +63,7 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
             chooseColor();
             borderColorButton.setBackground(сolorChooser.getColor());
             figure.setBorderColor(сolorChooser.getColor());
+            parent.repaint();
         }
     };
 
@@ -67,12 +71,14 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             figure.setName(nameField.getText());
+            parent.repaint();
         }
     };
 
     @Override
     public void stateChanged(ChangeEvent changeEvent) {
         figure.setStrokeThickness((double)getShapeBorderThickness());
+        parent.repaint();
     }
 
     public String getShapeName(){
@@ -101,8 +107,9 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
     }
 
 
-    public ShapeAdjustementPane(final Figure fig){
+    public ShapeAdjustementPane(final Figure fig, JPanel parent){
         this.figure = fig;
+        this.parent = parent;
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         nameField.setText(figure.getName());
@@ -196,28 +203,28 @@ public class ShapeAdjustementPane extends JDialog implements ChangeListener {
         });
 
         if (figure instanceof Circle){
-            customShapePanel = new CircleSettings((Circle)figure);
+            customShapePanel = new CircleSettings((Circle)figure, parent);
         } else
         if (figure instanceof Segment){
-            customShapePanel = new SegmentSettings((Segment)figure);
+            customShapePanel = new SegmentSettings((Segment)figure, parent);
         } else
         if (figure instanceof QuadraticCurve){
-            customShapePanel = new QuadraticCurveSettings((QuadraticCurve)figure);
+            customShapePanel = new QuadraticCurveSettings((QuadraticCurve)figure, parent);
         } else
         if (figure instanceof CubicCurve){
-            customShapePanel = new CubicCurveSettings((CubicCurve)figure);
+            customShapePanel = new CubicCurveSettings((CubicCurve)figure, parent);
         }else
         if (figure instanceof Square){
-            customShapePanel = new SquareSettings((Square)figure);
+            customShapePanel = new SquareSettings((Square)figure, parent);
         }else
         if (figure instanceof model.movable.polygon.Rectangle){
-            customShapePanel = new RectangleSettings((Rectangle)figure);
+            customShapePanel = new RectangleSettings((Rectangle)figure, parent);
         }else
         if (figure instanceof EquilateralTriangle){
-            customShapePanel = new EquilateralTriangleSettings((EquilateralTriangle)figure);
+            customShapePanel = new EquilateralTriangleSettings((EquilateralTriangle)figure, parent);
         }else
         if (figure instanceof Triangle){
-            customShapePanel = new TriangleSettings((Triangle)figure);
+            customShapePanel = new TriangleSettings((Triangle)figure, parent);
         }
         else{
             customShapePanel = new JPanel();

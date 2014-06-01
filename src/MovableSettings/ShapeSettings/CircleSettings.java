@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 public class CircleSettings extends JPanel implements ChangeListener{
 
     private Circle circle;
+    private JPanel parent;
     JLabel xLabel = new JLabel("X");
     JSpinner xPointSpinner;
 
@@ -41,13 +42,14 @@ public class CircleSettings extends JPanel implements ChangeListener{
     public void stateChanged(ChangeEvent changeEvent) {
         circle.setCenter((double)getCenterX(), (double)getCenterY());
         circle.setRadius((double)getRadius());
+        parent.repaint();
     }
 
-    public CircleSettings(Circle c){
+    public CircleSettings(Circle c, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         circle = c;
-
+        this.parent = parent;
         xPointSpinner = new JSpinner(new SpinnerNumberModel(c.getCenter().getX(), 0, 1000, 1));
         xPointSpinner.addChangeListener(this);
         yPointSpinner = new JSpinner(new SpinnerNumberModel(c.getCenter().getY(), 0, 1000, 1));

@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 public class EquilateralTriangleSettings extends JPanel implements ChangeListener {
 
     private EquilateralTriangle triangle;
+    private JPanel parent;
 
     protected JLabel x1Label = new JLabel("X1");
     protected JSpinner x1PointSpinner;
@@ -53,12 +54,14 @@ public class EquilateralTriangleSettings extends JPanel implements ChangeListene
     public void stateChanged(ChangeEvent changeEvent) {
         triangle.setSommet1(new PointPlacheux(getX1(), getY1()));
         triangle.setSommet2(new PointPlacheux(getX2(), getY2()));
+        parent.repaint();
     }
 
-    public EquilateralTriangleSettings(EquilateralTriangle t) {
+    public EquilateralTriangleSettings(EquilateralTriangle t, JPanel parent) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.triangle = t;
+        this.parent = parent;
 
         x1PointSpinner = new JSpinner(new SpinnerNumberModel(t.getSommet1().getX(), 0, 1000, 1));
         x1PointSpinner.addChangeListener(this);

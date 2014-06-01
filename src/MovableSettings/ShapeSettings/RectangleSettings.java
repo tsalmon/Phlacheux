@@ -9,6 +9,8 @@ import javax.swing.event.ChangeListener;
 
 public class RectangleSettings  extends JPanel implements ChangeListener {
     private Rectangle rect;
+    private JPanel parent;
+
     JLabel xLabel = new JLabel("X");
     JSpinner xPointSpinner;
 
@@ -41,12 +43,14 @@ public class RectangleSettings  extends JPanel implements ChangeListener {
         rect.setPointhg(getPointX(), getPointY());
         rect.setWidth(getRectWidth());
         rect.setLength(getRectLength());
+        parent.repaint();
     }
 
-    public RectangleSettings(Rectangle r){
+    public RectangleSettings(Rectangle r, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         rect = r;
+        this.parent = parent;
 
         xPointSpinner = new JSpinner(new SpinnerNumberModel(r.getPointhg().getX(), 0, 1000, 1));
         xPointSpinner.addChangeListener(this);

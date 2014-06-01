@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 public class QuadraticCurveSettings extends JPanel implements ChangeListener {
     private QuadraticCurve curve;
+    private JPanel parent;
 
     protected JLabel x1Label = new JLabel("X1");
     protected JSpinner x1PointSpinner;
@@ -67,12 +68,14 @@ public class QuadraticCurveSettings extends JPanel implements ChangeListener {
         curve.setPointDepart(getX1(), getY1());
         curve.setPointArrivee(getX2(), getY2());
         curve.setPointControle(getCtrlX(), getCtrlY());
+        parent.repaint();
     }
 
-    public QuadraticCurveSettings(QuadraticCurve q){
+    public QuadraticCurveSettings(QuadraticCurve q, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.curve = q;
+        this.parent = parent;
 
         x1PointSpinner = new JSpinner(new SpinnerNumberModel(q.getPointDepart().getX(), 0, 1000, 1));
         x1PointSpinner.addChangeListener(this);
