@@ -35,11 +35,11 @@ public class SettingsPane extends JFrame{
 
         PolygonPerso poly = new PolygonPerso(points);
 
-        ShapeAdjustementPane shapeAdjusment = new ShapeAdjustementPane(poly);
+        //ShapeAdjustementPane shapeAdjusment = new ShapeAdjustementPane(poly, this);
         AnimationPane animationsAdjustement = new AnimationPane();
 
         settingsPane.setPreferredSize(new Dimension(300, 800));
-        settingsPane.addTab("Réglages", shapeAdjusment);
+        //settingsPane.addTab("Réglages", shapeAdjusment);
         settingsPane.addTab("Animations", animationsAdjustement);
 
     }

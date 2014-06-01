@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 public class CubicCurveSettings extends JPanel implements ChangeListener {
     private CubicCurve curve;
+    private JPanel parent;
 
     protected JLabel x1Label = new JLabel("X1");
     protected JSpinner x1PointSpinner;
@@ -82,12 +83,14 @@ public class CubicCurveSettings extends JPanel implements ChangeListener {
         curve.setPointArrivee(getX2(), getY2());
         curve.setPointControle1(getCtrl1X(), getCtrl1Y());
         curve.setPointControle2(getCtrl2X(), getCtrl2Y());
+        parent.repaint();
     }
 
-    public CubicCurveSettings(CubicCurve c){
+    public CubicCurveSettings(CubicCurve c, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.curve = c;
+        this.parent = parent;
 
         x1PointSpinner = new JSpinner(new SpinnerNumberModel(c.getPointDepart().getX(), 0, 1000, 1));
         x1PointSpinner.addChangeListener(this);

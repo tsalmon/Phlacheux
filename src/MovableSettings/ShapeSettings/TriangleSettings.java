@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 public class TriangleSettings extends JPanel implements ChangeListener {
     private Triangle triangle;
+    private JPanel parent;
 
     protected JLabel x1Label = new JLabel("X1");
     protected JSpinner x1PointSpinner;
@@ -68,12 +69,14 @@ public class TriangleSettings extends JPanel implements ChangeListener {
         triangle.setSommet1(getX1(), getY1());
         triangle.setSommet2(getX2(), getY2());
         triangle.setSommet3(getX3(), getY3());
+        parent.repaint();
     }
 
-    public TriangleSettings(Triangle t) {
+    public TriangleSettings(Triangle t, JPanel parent) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.triangle = t;
+        this.parent = parent;
 
         x1PointSpinner = new JSpinner(new SpinnerNumberModel(t.getSommet1().getX(), 0, 1000, 1));
         x1PointSpinner.addChangeListener(this);

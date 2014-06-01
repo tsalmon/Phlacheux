@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 public class SegmentSettings extends JPanel implements ChangeListener {
 
     private Segment segment;
+    private JPanel parent;
 
     protected JLabel x1Label = new JLabel("X1");
     protected JSpinner x1PointSpinner;
@@ -53,11 +54,12 @@ public class SegmentSettings extends JPanel implements ChangeListener {
     public void stateChanged(ChangeEvent changeEvent) {
         segment.setPointDepart(getX1(), getY1());
         segment.setPointArrivee(getX2(), getY2());
+        parent.repaint();
     }
 
-    public SegmentSettings(Segment s){
+    public SegmentSettings(Segment s, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+        this.parent = parent;
         this.segment = s;
 
         x1PointSpinner = new JSpinner(new SpinnerNumberModel(s.getPointDepart().getX(), 0, 1000, 1));

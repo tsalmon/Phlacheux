@@ -371,8 +371,8 @@ TreeSelectionListener{
 		} else if(choix.equals("Voir les animations")){
 			System.out.println("VOIR");
 		} else if(choix.equals("Propriétées")){
-            new ShapeAdjustementPane(this.figure_selected);
-			System.out.println("PROPERTIES");			
+            new ShapeAdjustementPane(this.figure_selected, this);
+			//System.out.println("PROPERTIES");
 		} else if(choix.equals("Ajouter une animation")){
 			new PanneauNouvelleAnimation(this.frame, 
 										this.figure_selected,

@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 public class SquareSettings  extends JPanel implements ChangeListener {
     private Square square;
+    private JPanel parent;
 
     JLabel xLabel = new JLabel("X");
     JSpinner xPointSpinner;
@@ -36,12 +37,14 @@ public class SquareSettings  extends JPanel implements ChangeListener {
     public void stateChanged(ChangeEvent changeEvent) {
         square.setPointhg(getPointX(), getPointY());
         square.setSideLength(getSideLength());
+        parent.repaint();
     }
 
-    public SquareSettings(final Square s){
+    public SquareSettings(final Square s, JPanel parent){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         square = s;
+        this.parent = parent;
 
         xPointSpinner = new JSpinner(new SpinnerNumberModel(s.getPointhg().getX(), 0, 1000, 1));
         xPointSpinner.addChangeListener(this);
