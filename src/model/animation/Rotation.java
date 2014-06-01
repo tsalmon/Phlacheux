@@ -3,7 +3,7 @@ package model.animation;
 
 import model.easing.*;
 import model.movable.Movable;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -21,14 +21,14 @@ public class Rotation extends Animation{
     //          Attributs
     //---------------------------
 
-        protected Point center;
+        protected PointPlacheux center;
         protected double angle;
         
         
     //        Constructeur
     //---------------------------
 
-    public Rotation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle, Point centre) {
+    public Rotation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  double angle, PointPlacheux centre) {
         super(name, movable, debut, fin, easing, easing_type);
         this.setCenter(centre);
         this.setAngle(angle);
@@ -46,7 +46,7 @@ public class Rotation extends Animation{
         this.setAngle(angle);
     }
 
-    public Rotation(String name, Movable movable, double debut, double fin, double angle, Point centre) {
+    public Rotation(String name, Movable movable, double debut, double fin, double angle, PointPlacheux centre) {
         super(name, movable, debut, fin, new Linear(),  EasingType.EASE_NONE);
         this.setCenter(centre);
         this.setAngle(angle);
@@ -54,7 +54,7 @@ public class Rotation extends Animation{
 
     public Rotation(Element xml){
         super(xml);
-        setCenter(new Point(Double.parseDouble(xml.getAttributeValue("pointX")), Double.parseDouble(xml.getAttributeValue("pointY"))));
+        setCenter(new PointPlacheux(Double.parseDouble(xml.getAttributeValue("pointX")), Double.parseDouble(xml.getAttributeValue("pointY"))));
         setAngle(Double.parseDouble(xml.getAttributeValue("angle")));
     }
 
@@ -62,11 +62,11 @@ public class Rotation extends Animation{
     //          Accesseurs
     //----------------------------
     
-    public Point getCenter() {
+    public PointPlacheux getCenter() {
         return center;
     }
 
-    public void setCenter(Point center) {
+    public void setCenter(PointPlacheux center) {
         this.center = center;
     }
 

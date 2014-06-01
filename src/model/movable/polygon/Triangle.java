@@ -2,7 +2,7 @@
 package model.movable.polygon;
 
 import java.util.ArrayList;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -19,15 +19,15 @@ public class Triangle extends Polygon{
 
     //          Attributs
     //---------------------------
-    protected Point sommet1;
-    protected Point sommet2;
-    protected Point sommet3;
+    protected PointPlacheux sommet1;
+    protected PointPlacheux sommet2;
+    protected PointPlacheux sommet3;
 
     //          Constructeur
     //----------------------------
     
-    public Triangle(Point p1, Point p2, Point p3) {
-        super(new ArrayList<Point>());
+    public Triangle(PointPlacheux p1, PointPlacheux p2, PointPlacheux p3) {
+        super(new ArrayList<PointPlacheux>());
         this.sommet1 = p1;
         this.sommet2 = p2;
         this.sommet3 = p3;
@@ -39,9 +39,9 @@ public class Triangle extends Polygon{
     public Triangle(Element xml){
         super(xml);
 
-        this.sommet1 = new Point(Double.parseDouble(xml.getAttributeValue("vertex1x")), Double.parseDouble(xml.getAttributeValue("vertex1y")));
-        this.sommet2 = new Point(Double.parseDouble(xml.getAttributeValue("vertex2x")), Double.parseDouble(xml.getAttributeValue("vertex2y")));
-        this.sommet3 = new Point(Double.parseDouble(xml.getAttributeValue("vertex3x")), Double.parseDouble(xml.getAttributeValue("vertex3y")));
+        this.sommet1 = new PointPlacheux(Double.parseDouble(xml.getAttributeValue("vertex1x")), Double.parseDouble(xml.getAttributeValue("vertex1y")));
+        this.sommet2 = new PointPlacheux(Double.parseDouble(xml.getAttributeValue("vertex2x")), Double.parseDouble(xml.getAttributeValue("vertex2y")));
+        this.sommet3 = new PointPlacheux(Double.parseDouble(xml.getAttributeValue("vertex3x")), Double.parseDouble(xml.getAttributeValue("vertex3y")));
 
         this.addPoint(this.sommet1);
         this.addPoint(this.sommet2);
@@ -54,49 +54,49 @@ public class Triangle extends Polygon{
 
 
 
-    public Point getSommet1() {
+    public PointPlacheux getSommet1() {
         return this.sommet1;
     }
 
-    public void setSommet1(Point p) {
+    public void setSommet1(PointPlacheux p) {
         this.removePoint(this.sommet1);
         this.sommet1 = p;
         this.addPoint(this.sommet1);
     }
     
     public void setSommet1(double x, double y) {
-        this.setSommet1(new Point(x,y));
+        this.setSommet1(new PointPlacheux(x,y));
     }
 
-    public Point getSommet2() {
+    public PointPlacheux getSommet2() {
         return this.sommet2;
     }
 
-    public void setSommet2(Point p) {
+    public void setSommet2(PointPlacheux p) {
         this.removePoint(this.sommet2);
         this.sommet2 = p;
         this.addPoint(this.sommet2);
     }
     
     public void setSommet2(double x, double y) {
-        this.setSommet2(new Point(x,y));
+        this.setSommet2(new PointPlacheux(x,y));
     }
 
-    public Point getSommet3() {
+    public PointPlacheux getSommet3() {
         return this.sommet3;
     }
 
-    public void setSommet3(Point p) {
+    public void setSommet3(PointPlacheux p) {
         this.removePoint(this.sommet3);
         this.sommet3 = p;
         this.addPoint(this.sommet3);
     }
     
     public void setSommet3(double x, double y) {
-        this.setSommet3(new Point(x,y));
+        this.setSommet3(new PointPlacheux(x,y));
     }
     
-    public void setSommets(Point p1, Point p2,Point p3) {
+    public void setSommets(PointPlacheux p1, PointPlacheux p2,PointPlacheux p3) {
         this.setSommet1(p1);
         this.setSommet2(p2);
         this.setSommet3(p3);

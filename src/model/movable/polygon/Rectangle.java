@@ -2,7 +2,7 @@
     package model.movable.polygon;
 
     import java.util.ArrayList;
-    import model.movable.Point;
+    import model.movable.PointPlacheux;
     import org.jdom2.Element;
 
     /**
@@ -22,17 +22,17 @@
 
         protected double length;
         protected double width;
-        protected Point pointhg;
-        protected Point pointbg;
-        protected Point pointhd;
-        protected Point pointbd;
+        protected PointPlacheux pointhg;
+        protected PointPlacheux pointbg;
+        protected PointPlacheux pointhd;
+        protected PointPlacheux pointbd;
 
 
         //       Constructeurs
         //----------------------------
 
-            public Rectangle(double length, double width, Point point_haut_gauche) {
-                super(new ArrayList<Point>());
+            public Rectangle(double length, double width, PointPlacheux point_haut_gauche) {
+                super(new ArrayList<PointPlacheux>());
 
                 this.length = length;
                 this.width = width;
@@ -40,10 +40,10 @@
                 double x=point_haut_gauche.getX();
                 double y=point_haut_gauche.getY();
 
-                this.pointhg = new Point(x, y);
-                this.pointbg = new Point(x,y+width);
-                this.pointhd = new Point(x+length,y);
-                this.pointbd = new Point(x+length,y+width);
+                this.pointhg = new PointPlacheux(x, y);
+                this.pointbg = new PointPlacheux(x,y+width);
+                this.pointhd = new PointPlacheux(x+length,y);
+                this.pointbd = new PointPlacheux(x+length,y+width);
 
                 this.addLesPoints();
             }
@@ -55,10 +55,10 @@
                 double x = Double.parseDouble(xml.getAttributeValue("srcX").toString());
                 double y = Double.parseDouble(xml.getAttributeValue("srcY").toString());
 
-                this.pointhg = new Point(x,y);
-                this.pointbg = new Point(x,y-width);
-                this.pointhd = new Point(x+length,y);
-                this.pointbd = new Point(x+length,y-width);
+                this.pointhg = new PointPlacheux(x,y);
+                this.pointbg = new PointPlacheux(x,y-width);
+                this.pointhd = new PointPlacheux(x+length,y);
+                this.pointbd = new PointPlacheux(x+length,y-width);
                 this.addLesPoints();
             }
 
@@ -91,60 +91,60 @@
                 this.width = width;
             }        
 
-            public void setPointhg(Point pointhg) {
+            public void setPointhg(PointPlacheux pointhg) {
                 this.removePoint(this.pointhg);
                 this.removePoint(this.pointhd);
                 this.removePoint(this.pointbg);
                 this.pointhg = pointhg;
-                this.pointhd=new Point(this.pointhd.getX(),pointhg.getY());
-                this.pointbg=new Point(pointhg.getX(),this.pointbg.getY());
+                this.pointhd=new PointPlacheux(this.pointhd.getX(),pointhg.getY());
+                this.pointbg=new PointPlacheux(pointhg.getX(),this.pointbg.getY());
                 this.addLesPoints();
             }
 
-            public void setPointbg(Point pointbg) {
+            public void setPointbg(PointPlacheux pointbg) {
                 this.removePoint(this.pointbg);
                 this.removePoint(this.pointhg);
                 this.removePoint(this.pointbd);
                 this.pointbg = pointbg;
-                this.pointhg=new Point(this.pointbg.getX(),this.pointhg.getY());
-                this.pointbd=new Point(this.pointbd.getX(),this.pointbg.getY());
+                this.pointhg=new PointPlacheux(this.pointbg.getX(),this.pointhg.getY());
+                this.pointbd=new PointPlacheux(this.pointbd.getX(),this.pointbg.getY());
                 this.addLesPoints();
             }
 
-            public void setPointhd(Point pointhd) {
+            public void setPointhd(PointPlacheux pointhd) {
                 this.removePoint(this.pointhd);
                 this.removePoint(this.pointhg);
                 this.removePoint(this.pointbd);
                 this.pointhd = pointhd;
-                this.pointhg=new Point(this.pointhg.getX(),this.pointhd.getY());
-                this.pointbd=new Point(this.pointhd.getX(),this.pointbd.getY());
+                this.pointhg=new PointPlacheux(this.pointhg.getX(),this.pointhd.getY());
+                this.pointbd=new PointPlacheux(this.pointhd.getX(),this.pointbd.getY());
                 this.addLesPoints();
             }
 
-            public void setPointbd(Point pointbd) {
+            public void setPointbd(PointPlacheux pointbd) {
                 this.removePoint(this.pointbd);
                 this.removePoint(this.pointhd);
                 this.removePoint(this.pointbg);
                 this.pointbd = pointbd;
-                this.pointhd=new Point(this.pointbd.getX(),this.pointhd.getY());
-                this.pointbg=new Point(this.pointbg.getX(),this.pointbd.getY());
+                this.pointhd=new PointPlacheux(this.pointbd.getX(),this.pointhd.getY());
+                this.pointbg=new PointPlacheux(this.pointbg.getX(),this.pointbd.getY());
                 this.addLesPoints();
             }
 
             public void setPointhg(double x, double y) {
-                this.setPointhg(new Point(x,y));
+                this.setPointhg(new PointPlacheux(x,y));
             }
 
             public void setPointbg(double x, double y) {
-                this.setPointbg(new Point(x,y));
+                this.setPointbg(new PointPlacheux(x,y));
             }
 
             public void setPointhd(double x, double y) {
-                this.setPointhd(new Point(x,y));
+                this.setPointhd(new PointPlacheux(x,y));
             }
 
             public void setPointbd(double x, double y) {
-                this.setPointbd(new Point(x,y));
+                this.setPointbd(new PointPlacheux(x,y));
             }
 
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -28,7 +28,7 @@ public class PolygonPerso extends Polygon{
     //          Constructeur
     //----------------------------
 
-        public PolygonPerso(ArrayList<Point> points) {
+        public PolygonPerso(ArrayList<PointPlacheux> points) {
                 super(points);
             }
 
@@ -45,7 +45,7 @@ public class PolygonPerso extends Polygon{
                 double pX = Double.parseDouble(pointElement.getAttributeValue("x"));
                 double pY = Double.parseDouble(pointElement.getAttributeValue("y"));
 
-                this.addPoint(new Point(pX, pY));
+                this.addPoint(new PointPlacheux(pX, pY));
             }
     }
 
@@ -56,16 +56,16 @@ public class PolygonPerso extends Polygon{
         
         
         @Override
-        public void addPoint(Point p){
+        public void addPoint(PointPlacheux p){
             super.addPoint(p);
         }
 
         @Override
-        public void removePoint(Point p){
+        public void removePoint(PointPlacheux p){
             super.removePoint(p);
         }
 
-        public ArrayList<Point> getPoints(){
+        public ArrayList<PointPlacheux> getPoints(){
             return this.points;
         }
 
@@ -79,7 +79,7 @@ public class PolygonPerso extends Polygon{
         Element pointsElement = new Element("points");
         Iterator it = points.iterator();
         while (it.hasNext()){
-            Point p = (Point) it.next();
+            PointPlacheux p = (PointPlacheux) it.next();
             Element pointElement = new Element("point");
             pointElement.setAttribute("x", Double.toString(p.getX()));
             pointElement.setAttribute("y", Double.toString(p.getY()));

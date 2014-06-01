@@ -661,15 +661,15 @@ TreeSelectionListener{
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
 		}
-		public ArrayList<model.movable.Point> conversionShapeToArrayList(Shape s){
-			ArrayList<model.movable.Point> liste = new ArrayList<model.movable.Point>();
+		public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
+			ArrayList<PointPlacheux> liste = new ArrayList<PointPlacheux>();
 			
 			PathIterator pi = s.getPathIterator(null);
 
 			while (pi.isDone() == false) {
 			  double[] c = new double[2];
 			  int type = pi.currentSegment(c);
-			  if(type < 2 ) liste.add(new model.movable.Point(c[0],c[1]));
+			  if(type < 2 ) liste.add(new PointPlacheux(c[0],c[1]));
 			  pi.next();
 			}
 			
@@ -678,12 +678,12 @@ TreeSelectionListener{
 		
 		public Figure addTriangleEqui(){
 			Shape s = view.draw_equi();
-			ArrayList<model.movable.Point> points = conversionShapeToArrayList(s);		
+			ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);		
 			return new EquilateralTriangle(points.get(1), points.get(2));
 		}
 		
 		public Figure addPolygonPerso(Shape s){
-			ArrayList<model.movable.Point> points = 
+			ArrayList<model.movable.PointPlacheux> points = 
 					conversionShapeToArrayList(s);
 			return new PolygonPerso(points);
 		}
@@ -692,11 +692,11 @@ TreeSelectionListener{
 			Figure f = null;
 			switch(id_fig){
 			//case 0: return new Square(50, new model.movable.Point(x, y));
-			case 2: return new Rectangle(100, 50, new model.movable.Point(x, y));
-			case 1: return new Circle(new model.movable.Point(x, y), 50);
+			case 2: return new Rectangle(100, 50, new PointPlacheux(x, y));
+			case 1: return new Circle(new PointPlacheux(x, y), 50);
 			case 3: return addPolygonPerso(view.draw_cross());
 			case 5:  return addTriangleEqui();
-			case 0:  return new Segment(new model.movable.Point(x, y), new model.movable.Point(x+50, y+50));
+			case 0:  return new Segment(new PointPlacheux(x, y), new PointPlacheux(x+50, y+50));
 			case 6:  return addPolygonPerso(view.draw_arrow());
 			case 7:  view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
@@ -720,7 +720,7 @@ TreeSelectionListener{
 	
 	public void addToModel(){
 		PathIterator pi = fig_inc.getPathIterator(null);
-		ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
+		ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
 		System.out.println(id_fig);
 		data.addMovable(view.nouvelleFigure(id_fig, view.a, view.b));
 		/*

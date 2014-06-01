@@ -3,7 +3,7 @@ package model.animation;
 
 import model.easing.*;
 import model.movable.Movable;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -21,32 +21,32 @@ public class Translation extends Animation{
     //          Attributs
     //---------------------------
 
-        protected Point depart;
-        protected Point arrivee;
+        protected PointPlacheux depart;
+        protected PointPlacheux arrivee;
         
         
     //        Constructeur
     //---------------------------
 
-    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Point point_depart, Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  PointPlacheux point_depart, PointPlacheux point_arrivee) {
         super(name, movable, debut, fin, easing, easing_type);
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, Easing easing, EasingType easing_type,  PointPlacheux point_arrivee) {
         super(name, movable, debut, fin, easing, easing_type);
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, PointPlacheux point_arrivee) {
         super(name, movable, debut, fin, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(movable.getGravityCenter());
         this.setPointArrivee(point_arrivee);
     }
 
-    public Translation(String name, Movable movable, double debut, double fin, Point point_depart, Point point_arrivee) {
+    public Translation(String name, Movable movable, double debut, double fin, PointPlacheux point_depart, PointPlacheux point_arrivee) {
         super(name, movable, debut, fin, new Linear(), EasingType.EASE_NONE );
         this.setPointDepart(point_depart);
         this.setPointArrivee(point_arrivee);
@@ -58,27 +58,27 @@ public class Translation extends Animation{
         double srcY = Double.parseDouble(xml.getAttributeValue("srcY"));
         double dstX = Double.parseDouble(xml.getAttributeValue("dstX"));
         double dstY = Double.parseDouble(xml.getAttributeValue("dstY"));
-        setPointDepart(new Point(srcX, srcY));
-        setPointArrivee(new Point(dstX, dstY));
+        setPointDepart(new PointPlacheux(srcX, srcY));
+        setPointArrivee(new PointPlacheux(dstX, dstY));
     }
 
 
     //          Accesseurs
     //----------------------------
         
-        public Point getPointDepart(){
+        public PointPlacheux getPointDepart(){
          return depart;
         }
 
-        public void setPointDepart(Point depart) {
+        public void setPointDepart(PointPlacheux depart) {
             this.depart = depart;
         }
 
-        public Point getPointArrivee() {
+        public PointPlacheux getPointArrivee() {
             return arrivee;
         }
 
-        public void setPointArrivee(Point arrivee) {
+        public void setPointArrivee(PointPlacheux arrivee) {
             this.arrivee = arrivee;
         }
     
@@ -90,8 +90,8 @@ public class Translation extends Animation{
         public void goToTime(double t){
             double dx_to_apply=this.getDXAt(t)-this.getDXAt(this.getCurrent());
             double dy_to_apply=this.getDYAt(t)-this.getDYAt(this.getCurrent());
-            Point depart_translation=this.getMovable().getGravityCenter();
-            this.getMovable().translation(depart_translation,new Point(dx_to_apply, dy_to_apply));
+            PointPlacheux depart_translation=this.getMovable().getGravityCenter();
+            this.getMovable().translation(depart_translation,new PointPlacheux(dx_to_apply, dy_to_apply));
         }
         
         protected double getDXAt(double t){

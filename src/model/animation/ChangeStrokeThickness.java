@@ -10,7 +10,7 @@ import model.easing.*;
 import model.gestionnary.StateGestionnary;
 import model.movable.Figure;
 import model.movable.Movable;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**

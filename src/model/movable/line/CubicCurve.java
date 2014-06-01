@@ -1,7 +1,7 @@
 
 package model.movable.line;
 
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -19,13 +19,13 @@ public class CubicCurve extends Line {
     //          Attributs
     //---------------------------
 
-        Point point_controle1;
-        Point point_controle2;
+        PointPlacheux point_controle1;
+        PointPlacheux point_controle2;
 
     //          Constructeur
     //---------------------------
 
-        public CubicCurve(Point depart, Point arrivee, Point controle1, Point controle2) {
+        public CubicCurve(PointPlacheux depart, PointPlacheux arrivee, PointPlacheux controle1, PointPlacheux controle2) {
             super(depart, arrivee);
             this.point_controle1 = controle1;
             this.addPoint(controle1);
@@ -33,7 +33,7 @@ public class CubicCurve extends Line {
             this.addPoint(controle2);
         }
 
-        public CubicCurve(Point depart, Point arrivee, Point controle1, Point controle2, double strokeThickness) {
+        public CubicCurve(PointPlacheux depart, PointPlacheux arrivee, PointPlacheux controle1, PointPlacheux controle2, double strokeThickness) {
             super(depart, arrivee, strokeThickness);
             this.point_controle1 = controle1;
             this.addPoint(controle1);
@@ -46,13 +46,13 @@ public class CubicCurve extends Line {
 
             double ctrl1X = Double.parseDouble(xml.getAttributeValue("ctrl1X"));
             double ctrl1Y = Double.parseDouble(xml.getAttributeValue("ctrl1Y"));
-            this.point_controle1 = new Point(ctrl1X, ctrl1Y);
+            this.point_controle1 = new PointPlacheux(ctrl1X, ctrl1Y);
             this.addPoint(this.point_controle1);
 
 
             double ctrl2X = Double.parseDouble(xml.getAttributeValue("ctrl2X"));
             double ctrl2Y = Double.parseDouble(xml.getAttributeValue("ctrl2Y"));
-            this.point_controle2 = new Point(ctrl2X, ctrl2Y);
+            this.point_controle2 = new PointPlacheux(ctrl2X, ctrl2Y);
             this.addPoint(this.point_controle2);
         }
     
@@ -60,40 +60,40 @@ public class CubicCurve extends Line {
     //----------------------------
 
 
-        public Point getPointControle1() {
+        public PointPlacheux getPointControle1() {
             return point_controle1;
         }
         
-        public void setPointControle1(Point p) {
+        public void setPointControle1(PointPlacheux p) {
             this.removePoint(this.getPointControle1());
             this.addPoint(p);
             this.point_controle1 = p;
         }
 
         public void setPointControle1(double x, double y) {
-            this.setPointControle1(new Point(x,y));
+            this.setPointControle1(new PointPlacheux(x,y));
         }
 
-        public Point getPointControle2() {
+        public PointPlacheux getPointControle2() {
             return point_controle2;
         }
         
-        public void setPointControle2(Point p) {
+        public void setPointControle2(PointPlacheux p) {
             this.removePoint(this.getPointControle2());
             this.addPoint(p);
             this.point_controle2 = p;
         }
 
         public void setPointControle2(double x, double y) {
-            this.setPointControle2(new Point(x,y));
+            this.setPointControle2(new PointPlacheux(x,y));
         }
 
-        public Point[] getPointsControle() {
-            Point[] res={this.getPointControle1(), this.getPointControle2()};
+        public PointPlacheux[] getPointsControle() {
+            PointPlacheux[] res={this.getPointControle1(), this.getPointControle2()};
             return res;
         }
 
-        public void setPointsControle(Point depart, Point arrivee) {
+        public void setPointsControle(PointPlacheux depart, PointPlacheux arrivee) {
             this.setPointControle1(depart);
             this.setPointControle2(arrivee);
         }

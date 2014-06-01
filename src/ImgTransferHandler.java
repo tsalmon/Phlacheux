@@ -34,16 +34,15 @@ public class ImgTransferHandler extends TransferHandler {
 		return ts.isDataFlavorSupported(cdf);
 	}	
 	
-	
 	public Figure nouvelleFigure(int id_fig, int x, int y){
 		Figure f = null;
 		switch(id_fig){
-		case 0: return new Square(50, new Point(x, y));
-		case 1: return new Rectangle(100, 50, new Point(x, y));
-		case 2: return new Circle(new Point(x, y), 50);
+		case 0: return new Square(50, new PointPlacheux(x, y));
+		case 1: return new Rectangle(100, 50, new PointPlacheux(x, y));
+		case 2: return new Circle(new PointPlacheux(x, y), 50);
 		case 3: return dropPanel.addPolygonPerso(dropPanel.draw_cross());
 		case 4: ;return dropPanel.addTriangleEqui();
-		case 5: ; return new Segment(new Point(x, y), new Point(x+50, y+50));
+		case 5: ; return new Segment(new PointPlacheux(x, y), new PointPlacheux(x+50, y+50));
 		case 6: ; return dropPanel.addPolygonPerso(dropPanel.draw_arrow());
 		case 7: ; dropPanel.init_a_b(x+10, y+10); 
 							return dropPanel.addPolygonPerso(dropPanel.draw_star());
@@ -60,7 +59,7 @@ public class ImgTransferHandler extends TransferHandler {
 			dropPanel.init_x_y(x, y);
 			dropPanel.init_a_b(x+50, y+50);
 			System.out.println(id_fig + " (" + x + " " + y + ")");
-			dropPanel.data.addMovable(dropPanel.nouvelleFigure(id_fig, x, y));
+			dropPanel.data.addMovable(nouvelleFigure(id_fig, x, y));
 			dropPanel.createNodes();
 			dropPanel.repaint();
 			//System.out.println(dropPanel.data);

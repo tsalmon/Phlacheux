@@ -3,7 +3,7 @@ import model.easing.Bounce;
 import model.easing.Quad;
 import model.easing.Sine;
 import model.movable.*;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import model.movable.circle.Circle;
 import model.movable.line.CubicCurve;
 import model.movable.line.QuadraticCurve;

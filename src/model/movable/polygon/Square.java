@@ -2,7 +2,7 @@
 package model.movable.polygon;
 
 import java.util.ArrayList;
-import model.movable.Point;
+import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
@@ -20,7 +20,7 @@ public class Square extends Rectangle{
     //       Constructeurs
     //----------------------------
     
-        public Square(double length, Point point_haut_gauche) {
+        public Square(double length, PointPlacheux point_haut_gauche) {
             super(length, length, point_haut_gauche);
         }
 

@@ -104,7 +104,7 @@ public class MovableGroup extends Movable{
                         sumx+=m.getGravityCenter().getX();
                         sumy+=m.getGravityCenter().getY();
                     }
-                    this.setGravityCenter(new Point(sumx/(movables.size()),sumy/movables.size()));
+                    this.setGravityCenter(new PointPlacheux(sumx/(movables.size()),sumy/movables.size()));
                 }
                 this.setGravityCenterPerso(false);
             }
@@ -113,7 +113,7 @@ public class MovableGroup extends Movable{
     //----------------------------
 
         @Override
-           public void rotation(double angle, Point p){
+           public void rotation(double angle, PointPlacheux p){
                for (Movable m : this.movables){
                    m.rotation(angle,p);
                }
@@ -127,7 +127,7 @@ public class MovableGroup extends Movable{
            }
 
         @Override
-           public void translation(Point from, Point to){
+           public void translation(PointPlacheux from, PointPlacheux to){
                for (Movable m : this.movables){
                    m.translation(from,to);
                }

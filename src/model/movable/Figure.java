@@ -26,7 +26,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //          Attributs
     //---------------------------
 
-        protected ArrayList<Point> points = new ArrayList<Point>();
+        protected ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
         protected double strokeThickness = 1;
         protected Color borderColor;
         protected Color color;
@@ -45,8 +45,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
             this.setBorderColor(Color.BLACK);
         }
 
-        protected Figure(ArrayList<Point> p){
-            for(Point point : p){
+        protected Figure(ArrayList<PointPlacheux> p){
+            for(PointPlacheux point : p){
                 this.addPoint(point);
             }
             this.setColor(Color.BLACK);
@@ -95,7 +95,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 this.initial_color = color;
             }
 
-            public ArrayList<Point> getPoints() {
+            public ArrayList<PointPlacheux> getPoints() {
                 return points;
             }
 
@@ -129,12 +129,12 @@ abstract public class Figure extends Movable implements XMLSerializable{
         //    Accesseurs protected
         //----------------------------
         
-            protected void addPoint(Point p){
+            protected void addPoint(PointPlacheux p){
                 this.points.add(p);
                 this.gcResfresh();
             }
 
-            protected void removePoint(Point p){
+            protected void removePoint(PointPlacheux p){
                 this.points.remove(p);
                 this.gcResfresh();
             }
@@ -145,11 +145,11 @@ abstract public class Figure extends Movable implements XMLSerializable{
             public void autoGravityCenter(){
                 double sumx=0;
                 double sumy=0;
-                for(Point p : points){
+                for(PointPlacheux p : points){
                     sumx+=p.getX();
                     sumy+=p.getY();
                 }
-                this.setGravityCenter(new Point(sumx/(points.size()),sumy/points.size()));
+                this.setGravityCenter(new PointPlacheux(sumx/(points.size()),sumy/points.size()));
                 this.setGravityCenterPerso(false);
             }            
         
@@ -158,9 +158,9 @@ abstract public class Figure extends Movable implements XMLSerializable{
     //----------------------------
 
         @Override
-        public void rotation(double angle, Point p){
+        public void rotation(double angle, PointPlacheux p){
             double angle_rad=(Math.PI*(angle))/180;
-            for(Point point : points){
+            for(PointPlacheux point : points){
                 point.rotateAroundRadian(angle_rad, p);
             }
             this.getGravityCenter().rotateAroundRadian(angle, p);
@@ -172,8 +172,8 @@ abstract public class Figure extends Movable implements XMLSerializable{
         }
 
         @Override
-        public void translation(Point from, Point to) {
-            for(Point point : points){
+        public void translation(PointPlacheux from, PointPlacheux to) {
+            for(PointPlacheux point : points){
                 point.translation(from, to);
             }            
             this.getGravityCenter().translation(from, to);
@@ -181,7 +181,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         @Override
         public void translation(double x_from, double y_from, double x_to, double y_to){
-            for(Point point : points){
+            for(PointPlacheux point : points){
                 point.translation(x_from, y_from, x_to, y_to);
             }            
             this.getGravityCenter().translation(x_from, y_from, x_to, y_to);
@@ -196,7 +196,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         public void scaling(double scale){
             double gravity_x=this.getGravityCenter().getX();
             double gravity_y=this.getGravityCenter().getY();
-            for(Point point : points){
+            for(PointPlacheux point : points){
                 double translate_x=(point.getX()-gravity_x)*scale;
                 double translate_y=(point.getY()-gravity_y)*scale;
                 point.moveTo(gravity_x+translate_x,gravity_y+translate_y);
@@ -256,7 +256,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         public Shape getShape() {
         	GeneralPath gp = new GeneralPath();
         	boolean start = true;
-        	for(Point p : points){
+        	for(PointPlacheux p : points){
         		if(start){
         			gp.moveTo(p.x, p.y);
         			start = false;
