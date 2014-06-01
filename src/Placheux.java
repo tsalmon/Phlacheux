@@ -16,11 +16,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 import java.util.*;
 
-import XML.FilmParser;
 import model.movable.*;
-import model.movable.circle.*;
 import model.gestionnary.*;
-import model.animation.*;
 
 import org.jdom2.Document;
 
@@ -94,8 +91,8 @@ TreeSelectionListener{
 
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
-		Document xmlDoc = FilmParser.readFile(animeFile);
-		System.out.println(xmlDoc.toString());
+        Film film = Film.fromFile(animeFile.getPath());
+		System.out.println("Film est bien lu!");
 	}
 
 
@@ -205,7 +202,7 @@ TreeSelectionListener{
 		Dimension minimumSize = new Dimension(300, 250);
 		tree = new JTree(top);
 		tree.getSelectionModel().setSelectionMode
-		(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                (TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		tree.addTreeSelectionListener(this);
 
@@ -571,7 +568,7 @@ TreeSelectionListener{
 		public Shape draw_cross(){
 			GeneralPath p = new GeneralPath();
 			p.moveTo((3*x + a)/4, b);
-			p.lineTo((3*a + x)/4, b);
+			p.lineTo((3 * a + x) / 4, b);
 			p.lineTo((3*a + x)/4, (3*b + y)/4);
 			p.lineTo(a			, (3*b + y)/4);
 			p.lineTo(a			, (3*y + b)/4);

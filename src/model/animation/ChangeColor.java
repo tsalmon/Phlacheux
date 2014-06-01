@@ -48,6 +48,7 @@ public class ChangeColor extends Animation{
         super(xml);
         this.setColor_to(new Color(Float.parseFloat(xml.getAttributeValue("color_R")),Float.parseFloat(xml.getAttributeValue("color_G")), Float.parseFloat(xml.getAttributeValue("color_B"))));
     }
+    
     //          Accesseurs
     //----------------------------
     public Color getColor_to() {

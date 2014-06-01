@@ -174,8 +174,7 @@ public class Launcher extends JFrame implements ActionListener{
 					(Integer)width.getValue(), 
 					(Integer)height.getValue());
 		} else if(e.getSource() == XMLfile) {
-
-			//ouvrirFilm();
+			ouvrirFilm();
 		} else {
 			System.exit(0);
 		}

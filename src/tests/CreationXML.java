@@ -2,6 +2,7 @@ package tests;
 
 import model.animation.*;
 import model.easing.Bounce;
+import model.easing.Circ;
 import model.easing.Quad;
 import model.easing.Sine;
 import model.movable.*;
@@ -27,19 +28,19 @@ public class CreationXML {
         film.addShape(c);
 
         Segment s = new Segment(new model.movable.Point(10,20), new model.movable.Point(30,40));
-        s.setColor(Color.black);
+        s.setColor(Color.cyan);
         film.addShape(s);
 
         QuadraticCurve q = new QuadraticCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60));
-        q.setColor(Color.yellow);
+        q.setColor(Color.cyan);
         film.addShape(q);
 
         CubicCurve cubcurve = new CubicCurve(new model.movable.Point(10,20), new model.movable.Point(30,40), new model.movable.Point(50,60), new model.movable.Point(70,80));
-        cubcurve.setColor(Color.blue);
+        cubcurve.setColor(Color.cyan);
         film.addShape(cubcurve);
 
         EquilateralTriangle eqtri = new EquilateralTriangle(new model.movable.Point(15,15), new model.movable.Point(30,30));
-        eqtri.setColor(Color.green);
+        eqtri.setColor(Color.cyan);
         film.addShape(eqtri);
 
         ArrayList<model.movable.Point> points = new ArrayList<model.movable.Point>();
@@ -49,19 +50,19 @@ public class CreationXML {
         points.add(new model.movable.Point(40,40));
 
         PolygonPerso poly = new PolygonPerso(points);
-        poly.setColor(Color.gray);
+        poly.setColor(Color.cyan);
         film.addShape(poly);
 
         model.movable.polygon.Rectangle rect = new model.movable.polygon.Rectangle(100,100, new model.movable.Point(5,5));
-        rect.setColor(Color.magenta);
+        rect.setColor(Color.cyan);
         film.addShape(rect);
 
         Square square = new Square(50, new model.movable.Point(10,10));
-        square.setColor(Color.green);
+        square.setColor(Color.cyan);
         film.addShape(square);
 
         Triangle tri = new Triangle(new model.movable.Point(10,10), new model.movable.Point(20,20), new model.movable.Point(30,30));
-        tri.setColor(Color.orange);
+        tri.setColor(Color.cyan);
         film.addShape(tri);
 
         MovableGroup group1 = new MovableGroup();
@@ -70,7 +71,6 @@ public class CreationXML {
         group1.addMovable(q);
         group1.addMovable(cubcurve);
         group1.addMovable(eqtri);
-        //TODO::problème de gravity center quand on ajoute un polygon personalisé!
         group1.addMovable(poly);
         group1.addMovable(rect);
         group1.addMovable(square);
@@ -83,20 +83,20 @@ public class CreationXML {
         group2.addMovable(group1);
         film.addGroup(group2);
 
-//        Translation t = new Translation("anim1", tri, 1, 200, new Quad(), EasingType.EASE_IN_OUT, new model.movable.Point(0,0), new model.movable.Point(10,10));
-//        film.addAnimation(t);
+        Translation tr = new Translation("anim1", c, 0,50, new Quad(), EasingType.EASE_IN, new Point(100,100), new Point(200,200));
+        film.addAnimation(tr);
 
-//        Rotation r = new Rotation("anim2", square, 1, 100, 1, new Bounce(), EasingType.EASE_IN, 45);
-//        film.addAnimation(r);
+        Rotation rot = new Rotation("anim2", square, 0,50,new Sine(), EasingType.EASE_IN, 45);
+        film.addAnimation(rot);
 
-//        Scaling sc = new Scaling("anim3", rect, 1, 50, 1, new Sine(), EasingType.EASE_IN, 1.5);
-//        film.addAnimation(sc);
-//
-//        ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 10, 50, 1, 20);
-//        film.addAnimation(cst);
+        Scaling scal = new Scaling("anim3", tri, 0, 50, 1.5);
+        film.addAnimation(scal);
 
-//        ChangeColor cc = new ChangeColor("anim5", rect, 10, 100, 1, 15);
-//        film.addAnimation(cc);
+        ChangeStrokeThickness cst = new ChangeStrokeThickness("anim4", rect, 0, 50, 20);
+        film.addAnimation(cst);
+
+        ChangeColor chcol = new ChangeColor("anim5", eqtri, 0, 50, new Circ(), EasingType.EASE_IN, 45, new Point(100,100));
+        film.addAnimation(chcol);
 
         film.saveToFile("film1.xml");
 
