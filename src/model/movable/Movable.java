@@ -103,9 +103,9 @@ abstract public class Movable implements XMLSerializable{
         
         abstract public ArrayList<Movable> getChildren();
         
-        abstract public ArrayList<Figure> getAllFigures();
-        
+        abstract public ArrayList<Figure> getAllFigures();        
 
+        abstract public void setZ_position(int z_position);
         
     //     Transformations
     //----------------------------
