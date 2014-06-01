@@ -15,6 +15,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import java.util.*;
 
+import MovableSettings.ShapeSettings.ShapeAdjustementPane;
 import model.movable.*;
 import model.movable.circle.Circle;
 import model.movable.line.Segment;
@@ -370,6 +371,7 @@ TreeSelectionListener{
 		} else if(choix.equals("Voir les animations")){
 			System.out.println("VOIR");
 		} else if(choix.equals("Propriétées")){
+            new ShapeAdjustementPane(this.figure_selected);
 			System.out.println("PROPERTIES");			
 		} else if(choix.equals("Ajouter une animation")){
 			new PanneauNouvelleAnimation(this.frame, 
