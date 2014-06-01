@@ -15,6 +15,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import java.util.*;
 
+import MovableSettings.ShapeSettings.ShapeAdjustementPane;
 import model.movable.*;
 import model.movable.circle.Circle;
 import model.movable.line.Segment;
@@ -370,6 +371,7 @@ TreeSelectionListener{
 		} else if(choix.equals("Voir les animations")){
 			System.out.println("VOIR");
 		} else if(choix.equals("Propriétées")){
+            new ShapeAdjustementPane(this.figure_selected);
 			System.out.println("PROPERTIES");			
 		} else if(choix.equals("Ajouter une animation")){
 			new PanneauNouvelleAnimation(this.frame, 
@@ -485,13 +487,13 @@ TreeSelectionListener{
 						RenderingHints.VALUE_RENDER_QUALITY);
 
 				
-				g2d.setColor(Color.BLACK); /** TODO: fill color **/
 
 				Iterator it = data.getMovables().entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry pairs = (Map.Entry)it.next();
 					Figure f = (Figure)pairs.getValue();
-					if(f instanceof Circle){
+                    g2d.setColor(f.getColor());
+                    if(f instanceof Circle){
 						Circle c = (Circle) f;
 						g2d.fill(c.getShape());
 					} else if(f instanceof Segment){
