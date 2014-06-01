@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import javax.swing.TransferHandler;
 
 import model.movable.circle.Circle;
+import model.movable.line.Line;
+import model.movable.line.Segment;
 import model.movable.polygon.*;
 
 
@@ -67,7 +69,7 @@ public class ImgTransferHandler extends TransferHandler {
 		case 2: return new Circle(new Point(x, y), 50);
 		case 3: return addPolygonPerso(dropPanel.draw_cross());
 		case 4: ;/*TriangleEqui*/ return addTriangleEqui();
-		case 5: ;/*ligne*/ 
+		case 5: ;/*ligne*/ return new Segment(new Point(x, y), new Point(x+50, y+50));
 		case 6: ;/*Fleche*/ return addPolygonPerso(dropPanel.draw_arrow());
 		case 7: ;/*Star*/ dropPanel.init_a_b(x+10, y+10); 
 							return addPolygonPerso(dropPanel.draw_star());
