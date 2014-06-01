@@ -375,6 +375,7 @@ TreeSelectionListener{
 			//System.out.println("PROPERTIES");
 		} else if(choix.equals("Ajouter une animation")){
 			new PanneauNouvelleAnimation(this.frame, 
+										this.figure_selected,
 										this.data, 
 										this.current_time, 
 										100, 

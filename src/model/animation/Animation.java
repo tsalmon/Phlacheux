@@ -181,22 +181,19 @@ public abstract class Animation implements XMLSerializable{
         public static Animation parseXML(Element xml) throws Exception {
             if (xml.getName().equals("animation")){
                 String type = xml.getAttributeValue("type");
-                if (type.equals("change_stroke_thickness")){
-                    return new ChangeStrokeThickness(xml);
-                }else
-                if (type.equals("rotation")){
-                    return new Rotation(xml);
-                }else
-                if (type.equals("translation")){
-                    return new Translation(xml);
-                }else
-                if (type.equals("scaling")){
-                    return new Scaling(xml);
-                }else
-                if (type.equals("changeColor")){
-                    return new ChangeColor(xml);
-                }else{
-                    throw new Exception("Unrecognized animation type");
+                switch (type) {
+                    case "change_stroke_thickness":
+                        return new ChangeStrokeThickness(xml);
+                    case "rotation":
+                        return new Rotation(xml);
+                    case "translation":
+                        return new Translation(xml);
+                    case "scaling":
+                        return new Scaling(xml);
+                    case "changeColor":
+                        return new ChangeColor(xml);
+                    default:
+                        throw new Exception("Unrecognized animation type");
                 }
             } else {
                 throw  new Exception("Not an animation");

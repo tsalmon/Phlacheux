@@ -1,16 +1,11 @@
 
 package model.animation;
 
-import java.awt.Color;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Set;
 import model.easing.*;
 import model.gestionnary.StateGestionnary;
 import model.movable.Figure;
 import model.movable.Movable;
-import model.movable.PointPlacheux;
 import org.jdom2.Element;
 
 /**
