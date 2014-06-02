@@ -363,6 +363,7 @@ public class StateGestionnary {
                 }                                
                 result.add(image);
                 t+=1000/framerate;
+                System.out.println(t);
             }
             return result;
         }
