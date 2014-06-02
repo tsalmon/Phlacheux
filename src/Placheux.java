@@ -48,6 +48,7 @@ TreeSelectionListener{
 	JMenuItem enregistrer_sous_film = new JMenuItem("Enregistrer Sous");
 	JMenuItem visionneuse_film = new JMenuItem("Appeller la visionneuse");
 	JMenuItem rendu_film = new JMenuItem("Faire un rendu");
+	JMenuItem config_film = new JMenuItem("Propriétées du film");
 	JMenuItem quitter_film = new JMenuItem("Quitter");
 
 	BufferedImage[] img_icon = new BufferedImage[8]; 
@@ -115,7 +116,7 @@ TreeSelectionListener{
 		enregistrer_sous_film.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
 		visionneuse_film.setAccelerator(KeyStroke.getKeyStroke('V', CTRL_DOWN_MASK));
 		rendu_film.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
-		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));		
+		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
 	}
 
 	public void init_listeners(){
@@ -128,6 +129,7 @@ TreeSelectionListener{
 		enregistrer_film.addActionListener(this);
 		enregistrer_sous_film.addActionListener(this);
 		visionneuse_film.addActionListener(this);
+		config_film.addActionListener(this);
 		rendu_film.addActionListener(this);
 		quitter_film.addActionListener(this);
 	}
@@ -288,6 +290,8 @@ TreeSelectionListener{
 		fichier.add(visionneuse_film);
 		fichier.add(rendu_film);
 		fichier.addSeparator();
+		fichier.add(config_film);
+		fichier.addSeparator();
 		fichier.add(quitter_film);
 		bar.add(fichier);
 		bar.add(figure);
@@ -390,26 +394,6 @@ TreeSelectionListener{
 										(view.y + view.b)/2);
 		}
 	}
-
-	public Point getCentroid(Shape s) {
-		PathIterator pi = s.getPathIterator(null);
-		LinkedList<Point> points = new LinkedList<Point>();
-		int x = 0, x_n = 0, y = 0, y_n = 0;
-		while(pi.isDone() == false){
-			double[] coordinates = new double[6];
-			if(pi.currentSegment(coordinates) > 0){
-				points.add(new Point((int)coordinates[0],
-						(int)coordinates[1]));
-				x += coordinates[0];
-				x_n++;
-				y += coordinates[1];
-				y_n++;
-			}
-			pi.next();
-		}		
-		return new Point(x/x_n, y/y_n);
-	}
-
 
 	class PanElem extends JPanel{
 		private static final long serialVersionUID = 1L;
@@ -838,6 +822,9 @@ TreeSelectionListener{
 			v.setTape(StateGestionnary.getInstance().BufferedImageCreator(24, film));
 			v.setSize(500, 500);
 			v.setVisible(true);
+		}
+		if(e.getSource() == config_film){
+			new FilmConfigurationPane(view, film);
 		}
 		if(e.getSource() == rendu_film){
 			System.out.println("rendu");				
