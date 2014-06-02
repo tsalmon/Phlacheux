@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -71,9 +72,10 @@ TreeSelectionListener{
 
 	JTable tab;
 	PanElem view;
+    File filmFile;
+    Film film;
 
-	Film film;
-	Figure figure_selected = null;
+    Figure figure_selected = null;
 	
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
 	int origin_x, origin_y, current_time = 0; 
@@ -428,14 +430,14 @@ TreeSelectionListener{
 				gp.moveTo(a, b);
 				gp.lineTo(x, y);
 				gp.closePath();
-				fig_inc = gp;				
+				fig_inc = gp;
 			} else if (id_fig == 1){
 				fig_inc = draw_circle();
 			} else if(id_fig == 2){
 				fig_inc = draw_rect();
-			}  else if(id_fig == 3){				
+			}  else if(id_fig == 3){
 				fig_inc = draw_cross();
-			} else if(id_fig == 4){	
+			} else if(id_fig == 4){
 				fig_inc = draw_iso();
 			} else if(id_fig == 5){
 				fig_inc = draw_equi();
@@ -790,16 +792,56 @@ TreeSelectionListener{
 		
 		// BAR DE MENU
 		if(e.getSource() == nouveau_film){
-			System.out.println("nouveau");
+            filmFile = null;
+            data.clear();
+            repaint();
 		}
 		if(e.getSource() ==  ouvrir_film){
-			System.out.println("ouvrir");
+            JFileChooser fileopen = new JFileChooser();
+            fileopen.addChoosableFileFilter(new FileNameExtensionFilter("XML file", "xml"));
+            int ret = fileopen.showSaveDialog(null);
+
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                 filmFile = fileopen.getSelectedFile();
+            } else {
+                return;
+            }
+            Film film = Film.fromFile(filmFile.getPath());
+            StateGestionnary.getInstance().loadFilm(film);
+            view.setBackground(film.getBackgroundColor());
+            repaint();
 		}
+
 		if(e.getSource() == enregistrer_film){
+            if (filmFile == null){
+                JFileChooser fileopen = new JFileChooser();
+                fileopen.setCurrentDirectory(filmFile);
+                fileopen.addChoosableFileFilter(new FileNameExtensionFilter("XML file", "xml"));
+                int ret = fileopen.showSaveDialog(null);
+
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    filmFile = fileopen.getSelectedFile();
+                } else {
+                    return;
+                }
+            }
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight());
+            film.saveToFile(filmFile.getPath());
 		}
 		if(e.getSource() == enregistrer_sous_film){
-			System.out.println("engistrer sous");
-		}
+            JFileChooser fileopen = new JFileChooser();
+            fileopen.setCurrentDirectory(filmFile);
+            fileopen.addChoosableFileFilter(new FileNameExtensionFilter("XML file", "xml"));
+            int ret = fileopen.showSaveDialog(null);
+
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                filmFile = fileopen.getSelectedFile();
+            } else {
+                return;
+            }
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight());
+            film.saveToFile(filmFile.getPath());
+        }
 		if(e.getSource() == visionneuse_film){
 			Viewer v = new Viewer();
 			v.setTape(StateGestionnary.getInstance().BufferedImageCreator(24, film));

@@ -74,6 +74,7 @@ public class FilmConfigurationPane extends JDialog implements ChangeListener {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     view.setBackground(sky_color_button.getBackground());
+                    view.repaint();
                     film.setBackgroundColor(sky_color_button.getBackground());
                     film.setNom(name.getText());
                 }
