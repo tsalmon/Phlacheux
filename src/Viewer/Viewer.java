@@ -61,7 +61,7 @@ public class Viewer  extends JFrame{
     private JButton playPauseButton, fastForward, rewind, toFile;
     private JToggleButton repeat;
     private BufferedImage playIcon, pauseIcon, rewindIcon, fastForwardIcon, repeatIcon, toFileIcon;
-    private JSlider frameRateSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+    private JSlider frameRateSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 
 
     public void setTimeScale(int f){
@@ -222,7 +222,7 @@ public class Viewer  extends JFrame{
         refreshProgress();
 
         /* Setting framerate slider */
-        frameRateSlider.setMinorTickSpacing(200);
+        frameRateSlider.setMinorTickSpacing(25);
         frameRateSlider.setPaintTicks(true);
         frameRateSlider.setPaintLabels(true);
         frameRateSlider.setPreferredSize(new Dimension(100, 40));
