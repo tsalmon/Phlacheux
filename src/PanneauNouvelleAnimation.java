@@ -263,8 +263,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutBordureColor() {
 		ChangeBorderColor c = new ChangeBorderColor(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.btn_color.getForeground());
