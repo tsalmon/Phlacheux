@@ -72,6 +72,12 @@ public class StateGestionnary {
                 }
             };
             this.pool=MovablePool.getInstance();
+            this.animations=new HashMap<>();
+            this.animations_a_venir=new LinkedList<>();
+            this.animations_passees=new LinkedList<>();
+            this.color=new HashMap<>();
+            this.border_color=new HashMap<>();
+            this.stroke_thickness=new HashMap<>();
         }
     
 
