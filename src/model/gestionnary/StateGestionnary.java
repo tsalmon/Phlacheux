@@ -3,6 +3,7 @@ package model.gestionnary;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+
 import model.animation.Animation;
 import model.movable.*;
 
@@ -357,6 +359,13 @@ public class StateGestionnary {
                 Collections.sort(figures, this.comparator_z_order);
                 BufferedImage image=new BufferedImage(film.getWidth(), film.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
                 Graphics2D graphics = image.createGraphics();
+
+    			graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+    					RenderingHints.VALUE_ANTIALIAS_ON);
+    			graphics.setRenderingHint(RenderingHints.KEY_RENDERING,
+    					RenderingHints.VALUE_RENDER_QUALITY);
+
+                
                 graphics.setPaint (film.getBackgroundColor());
                 graphics.fillRect ( 0, 0, image.getWidth(), image.getHeight() );
                 for(ListIterator<Figure> li = figures.listIterator(); li.hasNext();){                    
