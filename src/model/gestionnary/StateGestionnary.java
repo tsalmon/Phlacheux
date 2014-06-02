@@ -72,6 +72,12 @@ public class StateGestionnary {
                 }
             };
             this.pool=MovablePool.getInstance();
+            this.animations=new HashMap<>();
+            this.animations_a_venir=new LinkedList<>();
+            this.animations_passees=new LinkedList<>();
+            this.color=new HashMap<>();
+            this.border_color=new HashMap<>();
+            this.stroke_thickness=new HashMap<>();
         }
     
 
@@ -347,6 +353,7 @@ public class StateGestionnary {
                 Graphics2D graphics = image.createGraphics();
                 graphics.setPaint (film.getBackgroundColor());
                 graphics.fillRect ( 0, 0, image.getWidth(), image.getHeight() );
+                System.out.println(t+"      "+film.getDuration());
                 for(ListIterator<Figure> li = figures.listIterator(); li.hasNext();){                    
                     Figure next = li.next();
                     graphics.setColor(next.getColor());
@@ -354,8 +361,10 @@ public class StateGestionnary {
                     graphics.setColor(next.getBorderColor());
                     graphics.setStroke(new BasicStroke(Math.round(next.getStrokeThickness())));
                     graphics.draw(next.getShape());
+                    System.out.println(figures);
                 }                                
                 result.add(image);
+                t+=1000/framerate;
             }
             return result;
         }

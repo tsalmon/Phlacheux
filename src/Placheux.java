@@ -90,9 +90,9 @@ TreeSelectionListener{
 
 		panel_west();
 		view = new PanElem(data, tree, top);
-		film = view.createFilm(nom);
 		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
-		view.setPreferredSize(new Dimension(width, height));
+		view.setPreferredSize(new Dimension(width, height));		
+		film = view.createFilm(nom, width, height);
 		panel_center(width, height);
 		panel_south(size);
 
@@ -464,8 +464,8 @@ TreeSelectionListener{
 			}
 		}
 
-        public Film createFilm(String nomFilm){
-            Film film = new Film(nomFilm, getWidth(), getHeight(), 1000, getBackgroundColor());
+        public Film createFilm(String nomFilm, int width, int height){
+            Film film = new Film(nomFilm, width, height, 1000, getBackgroundColor());
             StateGestionnary.getInstance().getAnimations();
 
 
@@ -829,8 +829,7 @@ TreeSelectionListener{
 			System.out.println("ouvrir");
 		}
 		if(e.getSource() == enregistrer_film){
-			Film f = this.view.createFilm("nom");
-            f.saveToFile("testtest");
+			Film f = this.view.createFilm();
 		}
 		if(e.getSource() == enregistrer_sous_film){
 			System.out.println("engistrer sous");
