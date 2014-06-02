@@ -758,7 +758,7 @@ TreeSelectionListener{
 	}
 	
 	public void setViewatTime(int t){
-		System.out.println("setViewatTime : " + t);
+		StateGestionnary.getInstance().goToTime(t);
 	}
 
 	public Figure getFigureSelected(int x, int y){
