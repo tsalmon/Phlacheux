@@ -80,7 +80,7 @@ TreeSelectionListener{
 	int id_fig = -1; 
 
 	Placheux(JFrame frame, String nom, int size, int width, int height){
-		film = view.createFilm();
+		film = view.createFilm(nom);
 		this.frame = frame;
 		this.setLayout(new BorderLayout());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -828,7 +828,7 @@ TreeSelectionListener{
 		}
 		if(e.getSource() == visionneuse_film){
 			Viewer v = new Viewer();
-			v.setTape(film.);
+			//v.setTape(film);
 			v.setSize(500, 500);
 			v.setVisible(true);
 		}
