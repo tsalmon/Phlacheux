@@ -273,6 +273,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
         			gp.lineTo(p.x, p.y);					
         		}
         	}
+                gp.lineTo(points.get(0).x, points.get(0).y);
         	return gp;
         }
         
