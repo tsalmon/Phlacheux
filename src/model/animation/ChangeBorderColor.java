@@ -87,20 +87,19 @@ public class ChangeBorderColor extends Animation{
             StateGestionnary sg=StateGestionnary.getInstance();
             Set<Double> times = sg.getBorderColorsTimes(m.getName());
             Color from;
-            if(times.isEmpty()){
+            double max=0;
+            for (double time : times){
+                if(time>max && time < t){max=time;}
+            }
+            if(max==0 && sg.getBorderColor(m.getName(), max)==null){
                 from=m.getInitial_borderColor();
+            }else {
+            from=sg.getBorderColor(m.getName(), max);
             }
-            else{
-                double max=0;
-                for (double time : times){
-                    if(time>max && time < t){max=time;}
-                }
-                from=sg.getBorderColor(m.getName(), max);
-            }
-            float r = (float)this.applyEasing(from.getRed(), t, this.color_to.getRed(), this.getFin()-this.getDebut());
-            float g = (float)this.applyEasing(from.getGreen(), t, this.color_to.getGreen(), this.getFin()-this.getDebut());
-            float b = (float)this.applyEasing(from.getBlue(), t, this.color_to.getBlue(), this.getFin()-this.getDebut());
-            return new Color(r,g,b);
+            float r = (float)this.applyEasing(from.getRed(), t, this.color_to.getRed()-from.getRed(), this.getFin()-this.getDebut());
+            float g = (float)this.applyEasing(from.getGreen(), t, this.color_to.getGreen()-from.getGreen(), this.getFin()-this.getDebut());
+            float b = (float)this.applyEasing(from.getBlue(), t, this.color_to.getBlue()-from.getBlue(), this.getFin()-this.getDebut());
+            return new Color(r/255,g/255,b/255);
         }
 
 

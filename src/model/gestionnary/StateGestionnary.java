@@ -270,7 +270,7 @@ public class StateGestionnary {
             return this.border_color.get(movable_name).get(t);
         }
         
-        public double getStrokeThickness(String movable_name, double t){
+        public Double getStrokeThickness(String movable_name, double t){
             return this.stroke_thickness.get(movable_name).get(t);
         }        
         
@@ -335,6 +335,7 @@ public class StateGestionnary {
         }
         
         public ArrayList<BufferedImage> BufferedImageCreator( int framerate, Film film){
+            System.out.println("test");
             double t = 0;
             ArrayList<BufferedImage> result=new ArrayList<>();
             while (t<=film.getDuration()){
@@ -363,7 +364,6 @@ public class StateGestionnary {
                 }                                
                 result.add(image);
                 t+=1000/framerate;
-                System.out.println(t);
             }
             return result;
         }

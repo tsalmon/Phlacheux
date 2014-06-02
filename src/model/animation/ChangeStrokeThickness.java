@@ -46,6 +46,7 @@ public class ChangeStrokeThickness extends Animation{
     
     //          Accesseurs
     //----------------------------
+    
     public double getThickness() {
         return this.thickness;
     }
@@ -86,17 +87,16 @@ public class ChangeStrokeThickness extends Animation{
             StateGestionnary sg=StateGestionnary.getInstance();
             Set<Double> times = sg.getStrokeThicknessesTimes(m.getName());
             double from;
-            if(times.isEmpty()){
-                from=m.getInitial_strokeThickness();
+            double max=0;
+            for (double time : times){
+                if(time>max && time < t){max=time;}
             }
-            else{
-                double max=0;
-                for (double time : times){
-                    if(time>max && time < t){max=time;}
-                }
+            if(max==0 && sg.getStrokeThickness(m.getName(), max)==null){
+                from=m.getInitial_strokeThickness();
+            }else {
                 from=sg.getStrokeThickness(m.getName(), max);
             }
-            return thickness = this.applyEasing(from, t, this.thickness, this.getFin()-this.getDebut());
+            return this.applyEasing(from, t, this.thickness-from, this.getFin()-this.getDebut());
         }
 
 
