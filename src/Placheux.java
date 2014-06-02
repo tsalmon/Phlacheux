@@ -726,7 +726,7 @@ TreeSelectionListener{
 			case 0:  return new Segment(new PointPlacheux(x, y), 
 										new PointPlacheux(x+50, y+50));
 			case 6:  return addPolygonPerso(view.draw_arrow());
-			case 7:  view.init_a_b(x+10, y+10); 
+			case 7:  //view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
 			}
             return f;
