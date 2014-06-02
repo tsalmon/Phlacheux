@@ -340,12 +340,12 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutTranslation() {
 		Translation t = new Translation(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				new PointPlacheux(this.champs_valeurs[0], this.champs_valeurs[1]),
-				new PointPlacheux(this.champs_valeurs[2], this.champs_valeurs[4]));
+				new PointPlacheux(this.champs_valeurs[2], this.champs_valeurs[3]));
 		StateGestionnary.getInstance().addAnimation(t);
 	}
 
