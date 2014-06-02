@@ -135,6 +135,9 @@ public abstract class Animation implements XMLSerializable{
         abstract public void goToTime(double t);
         
         protected double applyEasing(double s,double t,double c,double d){
+            if(t>=this.getFin()){
+                t=this.getFin();
+            }   
             switch(this.getEasing_type()){
                 case EASE_IN:
                     return this.getEasing().easeIn(c,s,t,d);

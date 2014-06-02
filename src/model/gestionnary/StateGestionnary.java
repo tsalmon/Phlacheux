@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -270,7 +271,7 @@ public class StateGestionnary {
             return this.border_color.get(movable_name).get(t);
         }
         
-        public double getStrokeThickness(String movable_name, double t){
+        public Double getStrokeThickness(String movable_name, double t){
             return this.stroke_thickness.get(movable_name).get(t);
         }        
         
@@ -301,10 +302,11 @@ public class StateGestionnary {
     //          Methodes
     //----------------------------
         
-        public void goToTime(double time){           
+        public void goToTime(double time){         
             if(time>this.current_time){
                 ListIterator<Animation> a_venir_iterator=this.animations_a_venir.listIterator();
                 double last_debut=0;
+                LinkedList<Animation> a_remove=new LinkedList<>();
                 while(a_venir_iterator.hasNext() && last_debut<time){     
                         Animation next=a_venir_iterator.next();
                         last_debut=next.getDebut();
@@ -312,26 +314,30 @@ public class StateGestionnary {
                             next.goToTime(time);
                         }
                         if(next.getFin()<=time){
-                            this.animations_a_venir.remove(next);
+                            a_remove.add(next);
                         }
                         this.addPassee(next);
                 }
+                this.animations_a_venir.removeAll(a_remove);
             }             
             if(time<this.current_time){
                 ListIterator<Animation> passees_iterator=this.animations_passees.listIterator();
-                double last_fin=0;
-                while(passees_iterator.hasNext() && last_fin>time){     
+                double last_fin=Double.MAX_VALUE;
+                LinkedList<Animation> a_remove=new LinkedList<>();
+                while(passees_iterator.hasNext() && last_fin>time){    
                         Animation next=passees_iterator.next();
                         last_fin=next.getFin();
                         if (last_fin>time){
                             next.goToTime(time);
                         }
                         if(next.getDebut()>=time){
-                            this.animations_passees.remove(next);
+                            a_remove.add(next);
                         }
                         this.addAVenir(next);
                 }
-            }            
+                this.animations_a_venir.removeAll(a_remove);
+            }       
+            this.current_time=time;
         }
         
         public ArrayList<BufferedImage> BufferedImageCreator( int framerate, Film film){

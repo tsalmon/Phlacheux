@@ -43,6 +43,13 @@ public class Viewer  extends JFrame{
         }
     };
 
+    ChangeListener frameRateEvent = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            setTimeScale(((JSlider)e.getSource()).getValue());
+        }
+    };
+
     private ArrayList<BufferedImage> tape = new ArrayList<BufferedImage>();
     private JSlider progress = new JSlider(JSlider.HORIZONTAL, 0, tape.size(), 0);
     private int timeScale = 1000;
@@ -54,6 +61,7 @@ public class Viewer  extends JFrame{
     private JButton playPauseButton, fastForward, rewind, toFile;
     private JToggleButton repeat;
     private BufferedImage playIcon, pauseIcon, rewindIcon, fastForwardIcon, repeatIcon, toFileIcon;
+    private JSlider frameRateSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 
 
     public void setTimeScale(int f){
@@ -213,30 +221,26 @@ public class Viewer  extends JFrame{
         progress.addChangeListener(progressEvent);
         refreshProgress();
 
+        /* Setting framerate slider */
+        frameRateSlider.setMinorTickSpacing(25);
+        frameRateSlider.setPaintTicks(true);
+        frameRateSlider.setPaintLabels(true);
+        frameRateSlider.setPreferredSize(new Dimension(100, 40));
+        frameRateSlider.addChangeListener(frameRateEvent);
+
+        controlPanel.add(frameRateSlider);
         controlPanel.add(rewind);
         controlPanel.add(playPauseButton);
         controlPanel.add(fastForward);
         controlPanel.add(repeat);
         controlPanel.add(toFile);
-        controlPanel.add(toXML);
+        //controlPanel.add(toXML);
         controlPanel.add(progress);
 
 
         getContentPane().add(controlPanel, BorderLayout.SOUTH);
     }
 
-//    public static void main(String[] args) {
-//        try {
-//            exportToAvi(new File("viewer-jpg.avi"), AVIOutputStream.VideoFormat.JPG, 24, 1f);
-//            exportToAvi(new File("avidemo-png.avi"), AVIOutputStream.VideoFormat.PNG, 24, 1f);
-//            exportToAvi(new File("avidemo-raw.avi"), AVIOutputStream.VideoFormat.RAW, 24, 1f);
-//            exportToAvi(new File("avidemo-rle8.avi"), AVIOutputStream.VideoFormat.RLE, 8, 1f);
-//            //exportToAvi(new File("avidemo-rle4.avi"), AVIOutputStream.VideoFormat.RLE, 4, 1f);
-//
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 
     private void exportToAvi(File file, AVIOutputStream.VideoFormat format, int depth, float quality, int timescale, int width, int height) throws IOException {
         System.out.println("Writing " + file);

@@ -39,10 +39,10 @@ public class Launcher extends JFrame implements ActionListener{
 	private JSpinner height = new JSpinner(new SpinnerNumberModel(100,100,3500,25));
 
 	public void testinitproject(){
-		name.setText("test");
+		name.setText("newFilm");
 		size.setValue(3600);
-		width.setValue(1920);
-		height.setValue(1080);
+		width.setValue(640);
+		height.setValue(480);
 	}
 	
 	public Launcher() {

@@ -198,7 +198,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         @Override
         public void changeStrokeThickness(double thickness) {
-            this.strokeThickness+=thickness;
+            this.strokeThickness=thickness;
         }
 
         @Override
@@ -214,12 +214,13 @@ abstract public class Figure extends Movable implements XMLSerializable{
 
         @Override
         public void changeColor(Color c) {
-            this.setColor(c);
+            this.color=c;
+            
         }
 
         @Override
         public void changeBorderColor(Color c) {
-            this.setBorderColor(c);
+            this.borderColor=c;
         }
 
         @Override
@@ -227,7 +228,6 @@ abstract public class Figure extends Movable implements XMLSerializable{
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
-        
         
     //         Methodes
     //----------------------------
@@ -238,6 +238,12 @@ abstract public class Figure extends Movable implements XMLSerializable{
             builder.append(" [\n");
             builder.append(super.toString());
             builder.append(", strokeThickness=").append(strokeThickness);
+            builder.append(", z_position=").append(z_position);
+            builder.append("borderColor=").append(borderColor);
+            builder.append(", color=").append(color);
+            builder.append(", initial_borderColor=").append(initial_borderColor);
+            builder.append(", initial_color=").append(initial_color);
+            builder.append(", initial_strokeThickness=").append(initial_strokeThickness);
             return builder.toString();
     }
 
@@ -246,8 +252,16 @@ abstract public class Figure extends Movable implements XMLSerializable{
             builder.append(name).append(" [\n");
             builder.append(super.toString());
             builder.append(", strokeThickness=").append(strokeThickness);
+            builder.append(", z_position=").append(z_position);
+            builder.append("borderColor=").append(borderColor);
+            builder.append(", color=").append(color);
+            builder.append(", initial_borderColor=").append(initial_borderColor);
+            builder.append(", initial_color=").append(initial_color);
+            builder.append(", initial_strokeThickness=").append(initial_strokeThickness);
             return builder.toString();
     }
+        
+        
 
         public Element toXML(){
             Element el = new Element("shape");
@@ -276,5 +290,4 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 gp.lineTo(points.get(0).x, points.get(0).y);
         	return gp;
         }
-        
 }
