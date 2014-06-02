@@ -788,8 +788,7 @@ TreeSelectionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
-		
+
 		// BAR DE MENU
 		if(e.getSource() == nouveau_film){
             filmFile = null;
@@ -826,6 +825,7 @@ TreeSelectionListener{
                 }
             }
             film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
+            film.setBackgroundColor(view.getBackground());
             film.saveToFile(filmFile.getPath());
 		}
 		if(e.getSource() == enregistrer_sous_film){
@@ -840,6 +840,7 @@ TreeSelectionListener{
                 return;
             }
             film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
+            film.setBackgroundColor(view.getBackground());
             film.saveToFile(filmFile.getPath());
         }
 		if(e.getSource() == visionneuse_film){
