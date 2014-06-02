@@ -389,7 +389,7 @@ TreeSelectionListener{
 										this.figure_selected,
 										this.data, 
 										this.current_time, 
-										100, 
+										film.getDuration(), 
 										(view.x + view.a)/2, 
 										(view.y + view.b)/2);
 		}
