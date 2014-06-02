@@ -808,14 +808,12 @@ TreeSelectionListener{
             int ret = fileopen.showSaveDialog(null);
 
             if (ret == JFileChooser.APPROVE_OPTION) {
-                 filmFile = fileopen.getSelectedFile();
-            } else {
-                return;
+                filmFile = fileopen.getSelectedFile();
+                Film film = Film.fromFile(filmFile.getPath());
+                StateGestionnary.getInstance().loadFilm(film);
+                view.setBackground(film.getBackgroundColor());
+                repaint();
             }
-            Film film = Film.fromFile(filmFile.getPath());
-            StateGestionnary.getInstance().loadFilm(film);
-            view.setBackground(film.getBackgroundColor());
-            repaint();
 		}
 
 		if(e.getSource() == enregistrer_film){
