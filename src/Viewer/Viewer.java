@@ -222,7 +222,7 @@ public class Viewer  extends JFrame{
         refreshProgress();
 
         /* Setting framerate slider */
-        frameRateSlider.setMinorTickSpacing(10);
+        frameRateSlider.setMinorTickSpacing(200);
         frameRateSlider.setPaintTicks(true);
         frameRateSlider.setPaintLabels(true);
         frameRateSlider.setPreferredSize(new Dimension(100, 40));
