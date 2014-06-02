@@ -132,7 +132,6 @@ public class Viewer  extends JFrame{
             e.printStackTrace();
         }
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setTitle("Animation Viewer");
         getContentPane().add(canvas, BorderLayout.CENTER);
