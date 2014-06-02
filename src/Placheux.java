@@ -16,6 +16,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.util.*;
 
 import MovableSettings.ShapeSettings.ShapeAdjustementPane;
+import Viewer.Viewer;
 import model.animation.Animation;
 import model.movable.*;
 import model.movable.circle.Circle;
@@ -45,6 +46,7 @@ TreeSelectionListener{
 	JMenuItem ouvrir_film = new JMenuItem("Ouvrir un film");
 	JMenuItem enregistrer_film = new JMenuItem("Enregistrer");
 	JMenuItem enregistrer_sous_film = new JMenuItem("Enregistrer Sous");
+	JMenuItem visionneuse_film = new JMenuItem("Appeller la visionneuse");
 	JMenuItem rendu_film = new JMenuItem("Faire un rendu");
 	JMenuItem quitter_film = new JMenuItem("Quitter");
 
@@ -109,6 +111,7 @@ TreeSelectionListener{
 		ouvrir_film.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
 		enregistrer_film.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
 		enregistrer_sous_film.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
+		visionneuse_film.setAccelerator(KeyStroke.getKeyStroke('V', CTRL_DOWN_MASK));
 		rendu_film.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
 		quitter_film.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));		
 	}
@@ -122,6 +125,7 @@ TreeSelectionListener{
 		ouvrir_film.addActionListener(this);
 		enregistrer_film.addActionListener(this);
 		enregistrer_sous_film.addActionListener(this);
+		visionneuse_film.addActionListener(this);
 		rendu_film.addActionListener(this);
 		quitter_film.addActionListener(this);
 	}
@@ -279,6 +283,7 @@ TreeSelectionListener{
 		fichier.add(enregistrer_film);
 		fichier.add(enregistrer_sous_film);
 		fichier.addSeparator();
+		fichier.add(visionneuse_film);
 		fichier.add(rendu_film);
 		fichier.addSeparator();
 		fichier.add(quitter_film);
@@ -818,6 +823,11 @@ TreeSelectionListener{
 		}
 		if(e.getSource() == enregistrer_sous_film){
 			System.out.println("engistrer sous");
+		}
+		if(e.getSource() == visionneuse_film){
+			Viewer v = new Viewer();
+			v.setSize(500, 500);
+			v.setVisible(true);
 		}
 		if(e.getSource() == rendu_film){
 			System.out.println("rendu");				
