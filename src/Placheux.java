@@ -825,7 +825,7 @@ TreeSelectionListener{
                     return;
                 }
             }
-            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight());
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
             film.saveToFile(filmFile.getPath());
 		}
 		if(e.getSource() == enregistrer_sous_film){
@@ -839,7 +839,7 @@ TreeSelectionListener{
             } else {
                 return;
             }
-            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight());
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
             film.saveToFile(filmFile.getPath());
         }
 		if(e.getSource() == visionneuse_film){
