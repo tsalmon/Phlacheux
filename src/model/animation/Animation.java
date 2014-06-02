@@ -65,6 +65,7 @@ public abstract class Animation implements XMLSerializable{
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
+            this.setCurrent(0);
         }
 
     //          Accesseurs
@@ -134,17 +135,20 @@ public abstract class Animation implements XMLSerializable{
         abstract public void goToTime(double t);
         
         protected double applyEasing(double s,double t,double c,double d){
+            if(t>=this.getFin()){
+                t=this.getFin();
+            }
             switch(this.getEasing_type()){
                 case EASE_IN:
-                    return this.getEasing().easeIn(s,t,c,d);
+                    return this.getEasing().easeIn(c,s,t,d);
                 case EASE_OUT:
-                    return this.getEasing().easeOut(s,t,c,d);
+                    return this.getEasing().easeOut(c,s,t,d);
                 case EASE_IN_OUT:
-                    return this.getEasing().easeInOut(s,t,c,d);
+                    return this.getEasing().easeInOut(c,s,t,d);
                 case EASE_NONE:
-                    return this.getEasing().easeNone(s,t,c,d);
+                    return this.getEasing().easeNone(c,s,t,d);
                 default:
-                    return this.getEasing().easeNone(s,t,c,d);
+                    return this.getEasing().easeNone(c,s,t,d);
             }
             
         }

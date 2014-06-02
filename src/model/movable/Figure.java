@@ -186,6 +186,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 point.translation(from, to);
             }            
             this.getGravityCenter().translation(from, to);
+            System.out.println(this.gravity_center.toString());
         }
 
         @Override
@@ -194,6 +195,7 @@ abstract public class Figure extends Movable implements XMLSerializable{
                 point.translation(x_from, y_from, x_to, y_to);
             }            
             this.getGravityCenter().translation(x_from, y_from, x_to, y_to);
+            System.out.println(this.gravity_center.toString());
         }
 
         @Override

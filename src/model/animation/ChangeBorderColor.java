@@ -80,6 +80,7 @@ public class ChangeBorderColor extends Animation{
             for(Figure f : this.movable.getAllFigures()){
                 f.changeBorderColor(this.getColorAt(t, f));
             }
+            this.setCurrent(t);
         }
         
         protected Color getColorAt(double t, Figure m){

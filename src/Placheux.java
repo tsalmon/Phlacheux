@@ -510,45 +510,45 @@ TreeSelectionListener{
 	
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.setColor(Color.BLACK);
+			Graphics2D g2d = (Graphics2D)g;
+
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY);
+
+			
+
+			Iterator it = data.getMovables().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pairs = (Map.Entry)it.next();
+				Figure f = (Figure)pairs.getValue();
+                g2d.setColor(f.getColor());
+                if(f instanceof Circle){
+					Circle c = (Circle) f;
+					g2d.fill(c.getShape());
+				} else if(f instanceof Segment){
+					Segment s = (Segment) f;
+					g2d.drawLine((int)s.getPointDepart().getX(), 
+								(int)s.getPointDepart().getY(), 
+								(int)s.getPointArrivee().getX(),
+								(int)s.getPointArrivee().getY());
+				}else {
+					g2d.fill(f.getShape());						
+				}
+				/*Shape s = f.getShape();
+				PathIterator pi = s.getPathIterator(null);
+				while(!pi.isDone()){
+					double[] c = new double[2];
+					int type = pi.currentSegment(c);
+					pi.next();
+				}*/
+			}	
+
 			if(fig_inc == null){
 				doDrawing(g);				
 			} else {
-				Graphics2D g2d = (Graphics2D)g;
-
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-						RenderingHints.VALUE_RENDER_QUALITY);
-
-				
-
-				Iterator it = data.getMovables().entrySet().iterator();
-				while (it.hasNext()) {
-					Map.Entry pairs = (Map.Entry)it.next();
-					Figure f = (Figure)pairs.getValue();
-                    g2d.setColor(f.getColor());
-                    if(f instanceof Circle){
-						Circle c = (Circle) f;
-						g2d.fill(c.getShape());
-					} else if(f instanceof Segment){
-						Segment s = (Segment) f;
-						g2d.drawLine((int)s.getPointDepart().getX(), 
-									(int)s.getPointDepart().getY(), 
-									(int)s.getPointArrivee().getX(),
-									(int)s.getPointArrivee().getY());
-					}else {
-						g2d.fill(f.getShape());						
-					}
-					/*Shape s = f.getShape();
-					PathIterator pi = s.getPathIterator(null);
-					while(!pi.isDone()){
-						double[] c = new double[2];
-						int type = pi.currentSegment(c);
-						pi.next();
-					}*/
-				}	
-				
+								
 				
 				g2d.setColor(Color.BLACK); // TODO: fill color 
 				this.doDrawing(g);
@@ -760,7 +760,10 @@ TreeSelectionListener{
 	}
 	
 	public void setViewatTime(int t){
+		create_figure = false;
+		this.fig_inc = null;
 		StateGestionnary.getInstance().goToTime(t);
+		view.repaint();
 	}
 
 	public Figure getFigureSelected(int x, int y){
@@ -774,26 +777,6 @@ TreeSelectionListener{
 			}
 		}	
 		return null;
-	}
-
-	/**
-	 * @param coord x of click
-	 * @param coord y of click 
-	 */
-	public boolean voidClick(int x, int y){
-		BufferedImage img = new BufferedImage(view.getWidth(), 
-				view.getHeight(), 
-				BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = img.createGraphics();
-		view.paint(g);
-		int[] colors = new int[3];
-		img.getRaster().getPixel(x, y, colors);
-		if(view.getBackground().getRed() == colors[0] && 
-				view.getBackground().getGreen()  == colors[1] &&
-				view.getBackground().getBlue() == colors[2]){
-			return true;
-		}
-		return false;
 	}
 
 	public boolean clickG(MouseEvent e){
@@ -842,7 +825,7 @@ TreeSelectionListener{
                     return;
                 }
             }
-            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), 100);
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
             film.saveToFile(filmFile.getPath());
 		}
 		if(e.getSource() == enregistrer_sous_film){
@@ -856,7 +839,7 @@ TreeSelectionListener{
             } else {
                 return;
             }
-            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), 100);
+            film = view.createFilm(filmFile.getName(), view.getWidth(), view.getHeight(), film.getDuration());
             film.saveToFile(filmFile.getPath());
         }
 		if(e.getSource() == visionneuse_film){
