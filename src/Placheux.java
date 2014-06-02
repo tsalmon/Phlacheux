@@ -496,7 +496,7 @@ TreeSelectionListener{
 			g2d.setStroke(new BasicStroke(3));
 			g2d.setColor(Color.RED);
 			g2d.draw(new Line2D.Float(arrowStart, arrowEnd));
-			AffineTransform at = new AffineTransform();
+			AffineTransform at = new AffineTransform(); 
 			at.translate(arrowEnd.x - (bounds.width / 2), 
 					arrowEnd.y - (bounds.height / 2));
 			at.rotate(Math.toRadians(rotation), 
@@ -523,10 +523,13 @@ TreeSelectionListener{
 			while (it.hasNext()) {
 				Map.Entry pairs = (Map.Entry)it.next();
 				Figure f = (Figure)pairs.getValue();
-                g2d.setColor(f.getColor());
-                if(f instanceof Circle){
+                                g2d.setColor(f.getColor());
+                                if(f instanceof Circle){
 					Circle c = (Circle) f;
 					g2d.fill(c.getShape());
+                                        g2d.setColor(f.getBorderColor());
+                                        g2d.setStroke(new BasicStroke(Math.round(f.getStrokeThickness())));
+                                        g2d.draw(f.getShape());
 				} else if(f instanceof Segment){
 					Segment s = (Segment) f;
 					g2d.drawLine((int)s.getPointDepart().getX(), 
@@ -534,7 +537,10 @@ TreeSelectionListener{
 								(int)s.getPointArrivee().getX(),
 								(int)s.getPointArrivee().getY());
 				}else {
-					g2d.fill(f.getShape());						
+					g2d.fill(f.getShape());		
+                                        g2d.setColor(f.getBorderColor());
+                                        g2d.setStroke(new BasicStroke(Math.round(f.getStrokeThickness())));
+                                        g2d.draw(f.getShape());				
 				}
 				/*Shape s = f.getShape();
 				PathIterator pi = s.getPathIterator(null);
