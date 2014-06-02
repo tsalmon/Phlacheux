@@ -16,6 +16,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.util.*;
 
 import MovableSettings.ShapeSettings.ShapeAdjustementPane;
+import model.animation.Animation;
 import model.movable.*;
 import model.movable.circle.Circle;
 import model.movable.line.Segment;
@@ -95,14 +96,13 @@ TreeSelectionListener{
 		init_listeners();
 
 		frame.setJMenuBar(bar);
-	}
+    }
 
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
         Film film = Film.fromFile(animeFile.getPath());
 		System.out.println("Film est bien lu!");
-	}
-
+    }
 
 	public void init_hotkey(){
 		nouveau_film.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
@@ -408,7 +408,7 @@ TreeSelectionListener{
 		private static final long serialVersionUID = 1L;
 		final Color couleurBord = Color.red;
 		final Color couleurInterieur = Color.blue;
-		final Color couleurFond = Color.black;
+		Color backgroundColor = Color.white;
 		int a, b;
 		int x, y;
 		StateGestionnary data;
@@ -419,7 +419,17 @@ TreeSelectionListener{
 			this.top = top;
 			this.data = data;
 			this.liste_figures = liste_figures;
-		}
+            setBackground(backgroundColor);
+        }
+
+        public void setBackgroundColor(Color bgColor){
+            this.backgroundColor = bgColor;
+            setBackground(bgColor);
+        }
+
+        public Color getBackgroundColor(){
+            return this.backgroundColor;
+        }
 
 		private void doDrawing(Graphics g) {
 			if(id_fig == 0){
@@ -447,6 +457,29 @@ TreeSelectionListener{
 			}
 		}
 
+        public Film createFilm(){
+            Film film = new Film(getWidth(), getHeight(), 1000, getBackgroundColor());
+            StateGestionnary.getInstance().getAnimations();
+
+            for (Map.Entry<String, Movable> entry : StateGestionnary.getInstance().getMovables().entrySet())
+            {
+                Movable m = (Movable)entry.getValue();
+                if (m instanceof MovableGroup){
+                    film.addGroup((MovableGroup)m);
+                } else
+                if (m instanceof Figure){
+                    film.addShape((Figure)m);
+                }
+            }
+
+            for (Map.Entry<String, Animation> entry : StateGestionnary.getInstance().getAnimations().entrySet())
+            {
+                Animation a = (Animation)entry.getValue();
+                film.addAnimation(a);
+            }
+
+            return film;
+        }
 		/*
 		public void draw_arrowTranslation(Graphics2D g2d){
 			double rotation = 0f;
@@ -870,6 +903,8 @@ TreeSelectionListener{
 			}
 		}		
 	}
+
+
 
 	public void componentMoved(ComponentEvent e) {}
 	public void componentResized(ComponentEvent e) {}
