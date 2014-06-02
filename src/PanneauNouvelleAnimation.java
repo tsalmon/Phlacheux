@@ -294,8 +294,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutBordureSize() {
 		ChangeStrokeThickness c = new ChangeStrokeThickness(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.champs_valeurs[0]);
@@ -306,8 +306,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutBackground() {
 		ChangeColor c = new ChangeColor(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.btn_color.getForeground());
@@ -317,8 +317,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutEchelle() {
 		Scaling s = new Scaling(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				(double)this.champs_valeurs[0]);
@@ -328,8 +328,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutRotation() {
 		Rotation r = new Rotation(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.champs_valeurs[2],
@@ -425,6 +425,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 			if(!this.convertTextFieldToText()) return;
 
 			ajoutAnimation(this.anim_select.getSelectedIndex());
+			System.out.println(StateGestionnary.getInstance().getAnimations());
 			this.setVisible(false);
 		}
 		if(e.getSource() == this.cancel_btn){
