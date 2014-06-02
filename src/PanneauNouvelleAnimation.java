@@ -327,8 +327,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.figure.getGravityCenter(),
 				new PointPlacheux(
-					this.figure.getGravityCenter().getX()-this.champs_valeurs[2], 
-					this.figure.getGravityCenter().getY() - this.champs_valeurs[3]));
+					this.figure.getGravityCenter().getX()-this.champs_valeurs[0], 
+					this.figure.getGravityCenter().getY() - this.champs_valeurs[1]));
 		StateGestionnary.getInstance().addAnimation(t);
 	}
 
