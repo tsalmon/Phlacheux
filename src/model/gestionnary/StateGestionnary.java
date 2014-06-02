@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import model.animation.Animation;
@@ -181,6 +182,33 @@ public class StateGestionnary {
             }
             
             return result;            
+        }
+        
+        public LinkedList<LinkedList<Animation>> distributeAnimations(List<Animation> animations){
+            LinkedList<LinkedList<Animation>> result=new LinkedList<>();            
+            for(Animation a : animations){
+                boolean placed = false;                
+                for(ListIterator<LinkedList<Animation>> it = result.listIterator();it.hasNext();){
+                    LinkedList<Animation> next = it.next();
+                    boolean can_be_placed=true;
+                    for(ListIterator<Animation> it2 = next.listIterator();it2.hasNext();){
+                        Animation next_a = it2.next();
+                        if ((next_a.getDebut()<=a.getDebut()&& next_a.getFin()>a.getDebut()) || (next_a.getFin()>=a.getFin()&& next_a.getDebut()<a.getFin())){
+                            can_be_placed=false;
+                        }
+                    }
+                    if(can_be_placed){
+                        next.add(a);
+                        placed=true;
+                        break;
+                    }
+                }
+                if(placed==false){
+                    result.add(new LinkedList<Animation>());
+                    result.getLast().add(a);
+                }
+            }
+            return result;
         }
         
         public void addColor(String movable_name, Color color, double t){
