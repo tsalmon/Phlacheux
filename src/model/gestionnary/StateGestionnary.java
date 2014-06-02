@@ -337,8 +337,9 @@ public class StateGestionnary {
         public ArrayList<BufferedImage> BufferedImageCreator( int framerate, Film film){
             double t = 0;
             ArrayList<BufferedImage> result=new ArrayList<>();
+            
             while (t<=film.getDuration()){
-                this.goToTime(t);
+            	this.goToTime(t);
                 HashMap<String, Movable> movables= this.getMovables();
                 ArrayList<Figure> figures = new ArrayList<>();
                 for(Movable m : movables.values()){
