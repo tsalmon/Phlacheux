@@ -93,7 +93,7 @@ TreeSelectionListener{
 		view = new PanElem(data, tree, top);
 		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
 		view.setPreferredSize(new Dimension(width, height));		
-		film = view.createFilm(nom, width, height);
+		film = view.createFilm(nom, width, height, size);
 		panel_center(width, height);
 		panel_south(size);
 
@@ -448,8 +448,8 @@ TreeSelectionListener{
 			}
 		}
 
-        public Film createFilm(String nomFilm, int width, int height){
-            Film film = new Film(nomFilm, width, height, 1000, getBackgroundColor());
+        public Film createFilm(String nomFilm, int width, int height, int size){
+            Film film = new Film(nomFilm, width, height, size, getBackgroundColor());
             StateGestionnary.getInstance().getAnimations();
 
 
