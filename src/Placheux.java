@@ -382,7 +382,8 @@ TreeSelectionListener{
 		} else if(choix.equals("Do it yourself")) { //b spline
 
 		} else if(choix.equals("Voir les animations")){
-			System.out.println("VOIR");
+			new PanneauVoirAnimations(
+					StateGestionnary.getInstance().distributeAnimations(data.getAnimationsForMovable(this.figure_selected.getName())));
 		} else if(choix.equals("Propriétées")){
             new ShapeAdjustementPane(this.figure_selected, this);
 			//System.out.println("PROPERTIES");
