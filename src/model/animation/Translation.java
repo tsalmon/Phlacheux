@@ -91,8 +91,7 @@ public class Translation extends Animation{
         public void goToTime(double t){
             double dx_to_apply=this.getDXAt(t)-this.getDXAt(this.getCurrent());
             double dy_to_apply=this.getDYAt(t)-this.getDYAt(this.getCurrent());
-            PointPlacheux depart_translation=this.getMovable().getGravityCenter();
-            this.getMovable().translation(depart_translation,new PointPlacheux(dx_to_apply, dy_to_apply));
+            this.getMovable().translation(this.getPointDepart(),this.getPointArrivee());
         }
         
         protected double getDXAt(double t){

@@ -158,27 +158,17 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	}
 
 	public void panel_translation(){
-		init_textfield(4);
-		this.panel_animation.setLayout(new GridLayout(2, 2));
-
-		JPanel trans_x = new JPanel();
-		trans_x.add(new JLabel("position initiale x"));
-		trans_x.add(champs[0]);
-		this.panel_animation.add(trans_x);
-
-		JPanel trans_y = new JPanel();
-		trans_y.add(new JLabel("position initiale y"));
-		trans_y.add(champs[1]);
-		this.panel_animation.add(trans_y);
+		init_textfield(2);
+		this.panel_animation.setLayout(new GridLayout(1, 2));
 
 		JPanel trans_a = new JPanel();
-		trans_a.add(new JLabel("position finale x"));
-		trans_a.add(champs[2]);
+		trans_a.add(new JLabel("vecteur x"));
+		trans_a.add(champs[0]);
 		this.panel_animation.add(trans_a);
 
 		JPanel trans_b = new JPanel();
-		trans_b.add(new JLabel("position finale y"));
-		trans_b.add(champs[3]);
+		trans_b.add(new JLabel("vecteur y"));
+		trans_b.add(champs[1]);
 		this.panel_animation.add(trans_b);
 	}
 
@@ -207,7 +197,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 		init_textfield(1);
 
 		JPanel panel_size = new JPanel();
-		panel_size.add(new JLabel("Taille de fin"));
+		panel_size.add(new JLabel("aggrandissement"));
 		panel_size.add(champs[0]);
 
 		this.panel_animation.add(panel_size);
@@ -223,7 +213,6 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	}
 
 	public void panel_bordureColor(){
-		init_textfield(1);
 		btn_color.setText("Couleur de bordure");
 
 		JPanel panel_size = new JPanel();
@@ -272,14 +261,6 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	}
 
 	private void ajoutBordureColor() {
-	/*String name, 
-	 * Movable movable, 
-	 * double debut, 
-	 * double fin, 
-	 * Easing easing, 
-	 * EasingType easing_type,  
-	 * Color color) {
-	 */
 		ChangeBorderColor c = new ChangeBorderColor(this.nom_animation.getText(),
 				this.figure,
 				(double)this.debutAnimation.getValue(),
@@ -294,8 +275,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutBordureSize() {
 		ChangeStrokeThickness c = new ChangeStrokeThickness(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.champs_valeurs[0]);
@@ -306,8 +287,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutBackground() {
 		ChangeColor c = new ChangeColor(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.btn_color.getForeground());
@@ -317,8 +298,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutEchelle() {
 		Scaling s = new Scaling(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				(double)this.champs_valeurs[0]);
@@ -328,8 +309,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	private void ajoutRotation() {
 		Rotation r = new Rotation(this.nom_animation.getText(),
 				this.figure,
-				(double)this.debutAnimation.getValue(),
-				(double)this.finAnimation.getValue(),
+				(int)this.debutAnimation.getValue(),
+				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
 				this.champs_valeurs[2],
@@ -344,8 +325,10 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 				(int)this.finAnimation.getValue(),
 				fonctionEasing(this.easing_select.getSelectedIndex()),
 				fonctionEasingType(this.easing_type_select.getSelectedIndex()),						
-				new PointPlacheux(this.champs_valeurs[0], this.champs_valeurs[1]),
-				new PointPlacheux(this.champs_valeurs[2], this.champs_valeurs[3]));
+				this.figure.getGravityCenter(),
+				new PointPlacheux(
+					this.figure.getGravityCenter().getX()-this.champs_valeurs[0], 
+					this.figure.getGravityCenter().getY() - this.champs_valeurs[1]));
 		StateGestionnary.getInstance().addAnimation(t);
 	}
 
@@ -375,6 +358,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 	}
 
 	private boolean convertTextFieldToText(){
+		if(this.champs == null) return true;
 		this.champs_valeurs = new int[this.champs.length];
 		try{
 			for(int i = 0; i < champs_valeurs.length; i++){
@@ -408,6 +392,8 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.anim_select){
+			this.champs = null;
+			this.champs_valeurs = null;
 			this.panel_animation.removeAll();
 			init_panel_anime(this.anim_select.getSelectedIndex());
 			this.pack();
@@ -425,6 +411,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 			if(!this.convertTextFieldToText()) return;
 
 			ajoutAnimation(this.anim_select.getSelectedIndex());
+			System.out.println(StateGestionnary.getInstance().getAnimations());
 			this.setVisible(false);
 		}
 		if(e.getSource() == this.cancel_btn){

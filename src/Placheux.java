@@ -95,7 +95,7 @@ TreeSelectionListener{
 		view = new PanElem(data, tree, top);
 		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
 		view.setPreferredSize(new Dimension(width, height));		
-		film = view.createFilm(nom, width, height);
+		film = view.createFilm(nom, width, height, size);
 		panel_center(width, height);
 		panel_south(size);
 
@@ -391,7 +391,7 @@ TreeSelectionListener{
 										this.figure_selected,
 										this.data, 
 										this.current_time, 
-										100, 
+										film.getDuration(), 
 										(view.x + view.a)/2, 
 										(view.y + view.b)/2);
 		}
@@ -450,10 +450,10 @@ TreeSelectionListener{
 			}
 		}
 
-        public Film createFilm(String nomFilm, int width, int height){
-            Film film = new Film(nomFilm, width, height, 100, view.getBackgroundColor());
-
+        public Film createFilm(String nomFilm, int width, int height, int size){
+            Film film = new Film(nomFilm, width, height, size, getBackgroundColor());
             StateGestionnary.getInstance().getAnimations();
+
 
             HashMap<String,Movable> movables = StateGestionnary.getInstance().getMovables();
             if (movables!=null){
@@ -497,22 +497,22 @@ TreeSelectionListener{
 			g2d.setColor(Color.RED);
 			g2d.draw(new Line2D.Float(arrowStart, arrowEnd));
 			AffineTransform at = new AffineTransform();
-			at.translate(arrowEnd.x - (bounds.width / 2),
+			at.translate(arrowEnd.x - (bounds.width / 2), 
 					arrowEnd.y - (bounds.height / 2));
-			at.rotate(Math.toRadians(rotation),
-					bounds.width / 2,
+			at.rotate(Math.toRadians(rotation), 
+					bounds.width / 2, 
 					bounds.height / 2);
 			Shape shape = new Path2D.Float(pointyThing, at);
 			g2d.fill(shape);
-			g2d.draw(shape);
+			g2d.draw(shape);			
 		}
 		*/
-
+	
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.setColor(Color.BLACK);
 			if(fig_inc == null){
-				doDrawing(g);
+				doDrawing(g);				
 			} else {
 				Graphics2D g2d = (Graphics2D)g;
 
@@ -521,7 +521,7 @@ TreeSelectionListener{
 				g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
 						RenderingHints.VALUE_RENDER_QUALITY);
 
-
+				
 
 				Iterator it = data.getMovables().entrySet().iterator();
 				while (it.hasNext()) {
@@ -533,12 +533,12 @@ TreeSelectionListener{
 						g2d.fill(c.getShape());
 					} else if(f instanceof Segment){
 						Segment s = (Segment) f;
-						g2d.drawLine((int)s.getPointDepart().getX(),
-									(int)s.getPointDepart().getY(),
+						g2d.drawLine((int)s.getPointDepart().getX(), 
+									(int)s.getPointDepart().getY(), 
 									(int)s.getPointArrivee().getX(),
 									(int)s.getPointArrivee().getY());
 					}else {
-						g2d.fill(f.getShape());
+						g2d.fill(f.getShape());						
 					}
 					/*Shape s = f.getShape();
 					PathIterator pi = s.getPathIterator(null);
@@ -547,13 +547,13 @@ TreeSelectionListener{
 						int type = pi.currentSegment(c);
 						pi.next();
 					}*/
-				}
-
-
-				g2d.setColor(Color.BLACK); // TODO: fill color
+				}	
+				
+				
+				g2d.setColor(Color.BLACK); // TODO: fill color 
 				this.doDrawing(g);
-				g2d.fill(fig_inc);
-				g2d.setColor(Color.blue); // TODO: border color & size
+				g2d.fill(fig_inc);  
+				g2d.setColor(Color.blue); // TODO: border color & size 
 				g2d.setStroke(new BasicStroke(3));
 				g2d.draw(fig_inc);
 
@@ -562,7 +562,7 @@ TreeSelectionListener{
 					this.draw_arrowTranslation(g2d);
 				}
 				*/
-
+				
 				g2d.dispose();
 			}
 		}
@@ -596,11 +596,11 @@ TreeSelectionListener{
 			p.lineTo(a			, (3*y + b)/4);
 			p.lineTo((3*a + x)/4, (3*y + b)/4);
 			p.lineTo((3*a + x)/4, y);
-			p.lineTo((3*x + a)/4, y);
+			p.lineTo((3*x + a)/4, y); 
 			p.lineTo((3*x + a)/4, (3*y + b)/4);
 			p.lineTo(x			, (3*y + b)/4);
 			p.lineTo(x			, (3*b + y)/4);
-			p.lineTo((3*x + a)/4, (3*b + y)/4);
+			p.lineTo((3*x + a)/4, (3*b + y)/4); 
 			p.closePath();
 			return p;
 		}
@@ -615,7 +615,7 @@ TreeSelectionListener{
 			return p;
 		}
 
-		public Shape draw_iso(){
+		public Shape draw_iso(){	
 			GeneralPath p = new GeneralPath();
 
 			p.moveTo((x+a)/2, b);
@@ -633,13 +633,13 @@ TreeSelectionListener{
 			for (int i = 0; i < 10; i++) {
 				double an = angle * i;
 
-				double x = a +
+				double x = a + 
 						((Math.cos(an) * (radius + radius * (1 * (i%2)))));
-				double y = b +
+				double y = b + 
 						((Math.sin(an) * (radius + radius * (1 * (i%2)))));
 				if (i == 0) {
 					p.moveTo(x, y);
-				} else {
+				} else {	
 					p.lineTo(x, y);
 				}
 			}
@@ -683,10 +683,10 @@ TreeSelectionListener{
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
 		}
-
+		
 		public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
 			ArrayList<PointPlacheux> liste = new ArrayList<PointPlacheux>();
-
+			
 			PathIterator pi = s.getPathIterator(null);
 
 			while (pi.isDone() == false) {
@@ -695,40 +695,40 @@ TreeSelectionListener{
 			  if(type < 2 ) liste.add(new PointPlacheux(c[0],c[1]));
 			  pi.next();
 			}
-
+			
 			return liste;
 		}
-
+		
 		public Figure addTriangleEqui(){
 			Shape s = view.draw_equi();
-			ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);
+			ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);		
 			return new EquilateralTriangle(points.get(2), points.get(1));
 		}
-
+		
 		public Figure addPolygonPerso(Shape s){
-			ArrayList<model.movable.PointPlacheux> points =
+			ArrayList<model.movable.PointPlacheux> points = 
 					conversionShapeToArrayList(s);
 			return new PolygonPerso(points);
 		}
-
-
+		
+		
 		public Figure nouvelleFigure(int id_fig, int x, int y){
 			System.out.println("("+ a + ", " + b + ");("+ x + ", " + y + ")" );
 			Figure f = null;
 			switch(id_fig){
 			//case 0: return new Square(50, new model.movable.Point(x, y));
-			case 2:
-				return new Rectangle(Math.abs(x-a),
-									Math.abs(y-b),
+			case 2: 				
+				return new Rectangle(Math.abs(x-a), 
+									Math.abs(y-b), 
 									new PointPlacheux((x > a) ? a : x ,
 													(y > b) ? b : y ));
 			case 1: return new Circle(new PointPlacheux(x, y), 50);
 			case 3: return addPolygonPerso(view.draw_cross());
 			case 5:  return addTriangleEqui();
-			case 0:  return new Segment(new PointPlacheux(x, y),
+			case 0:  return new Segment(new PointPlacheux(x, y), 
 										new PointPlacheux(x+50, y+50));
 			case 6:  return addPolygonPerso(view.draw_arrow());
-			case 7:  view.init_a_b(x+10, y+10);
+			case 7:  //view.init_a_b(x+10, y+10); 
 								return addPolygonPerso(view.draw_star());
 			}
             return f;
@@ -760,7 +760,7 @@ TreeSelectionListener{
 	}
 	
 	public void setViewatTime(int t){
-		System.out.println("setViewatTime : " + t);
+		StateGestionnary.getInstance().goToTime(t);
 	}
 
 	public Figure getFigureSelected(int x, int y){
