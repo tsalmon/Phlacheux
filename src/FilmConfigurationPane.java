@@ -55,6 +55,7 @@ public class FilmConfigurationPane extends JDialog implements ChangeListener {
             this.add(name);
             this.add(duree);
             this.add(sky_color_button);
+            this.add(validate);
             pack();
             setVisible(true);
             
