@@ -51,8 +51,10 @@ public class FilmConfigurationPane extends JDialog implements ChangeListener {
             sky_color_button.setBorderPainted(false);
             sky_color_button.setBackground(view.getBackground());
             sky_color_button.addActionListener(sky_сolor_chooser_listener);
-            
-            
+            this.name.setText(film.getNom());
+            this.add(name);
+            this.add(duree);
+            this.add(sky_color_button);
             pack();
             setVisible(true);
             
@@ -73,6 +75,7 @@ public class FilmConfigurationPane extends JDialog implements ChangeListener {
                 public void actionPerformed(ActionEvent actionEvent) {
                     view.setBackground(sky_color_button.getBackground());
                     film.setBackgroundColor(sky_color_button.getBackground());
+                    film.setNom(name.getText());
                 }
                 
             });
