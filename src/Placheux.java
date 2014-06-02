@@ -799,6 +799,7 @@ TreeSelectionListener{
 		if(e.getSource() == nouveau_film){
             filmFile = null;
             data.clear();
+            view.setBackgroundColor(Color.white);
             repaint();
 		}
 		if(e.getSource() ==  ouvrir_film){

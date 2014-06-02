@@ -234,7 +234,7 @@ public class Viewer  extends JFrame{
         controlPanel.add(fastForward);
         controlPanel.add(repeat);
         controlPanel.add(toFile);
-        controlPanel.add(toXML);
+        //controlPanel.add(toXML);
         controlPanel.add(progress);
 
 
