@@ -37,6 +37,8 @@ public class Film {
         this.backgroundColor = backgroundColor;
     }
 
+
+
     public Film(Document xml) throws Exception {
         Element film = xml.getRootElement();
         if (!film.getName().equals("film")){
@@ -84,6 +86,18 @@ public class Film {
             addAnimation((Animation) a);
         }
 
+    }
+
+    public ArrayList<MovableGroup> getGroups(){
+        return this.groups;
+    }
+
+    public ArrayList<Figure> getShapes(){
+        return this.shapes;
+    }
+
+    public ArrayList<Animation> getAnimations(){
+        return this.animations;
     }
 
     public static Film fromFile(String path) {

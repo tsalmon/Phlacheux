@@ -369,5 +369,37 @@ public class StateGestionnary {
             }
             return result;
         }
+
+        public void clear(){
+            pool.clear();
+            if (animations!=null){
+                animations.clear();
+            }
+            if (animations_a_venir != null){
+                animations_a_venir.clear();
+            }
+            if (animations_passees != null){
+                animations_passees.clear();
+            }
+        }
+
+        public void loadFilm(Film film){
+            this.clear();
+
+            Iterator it = film.getShapes().iterator();
+            while (it.hasNext()){
+                addMovable((Movable)it.next());
+            }
+
+            it = film.getGroups().iterator();
+            while (it.hasNext()){
+                addMovable((Movable)it.next());
+            }
+
+            it = film.getAnimations().iterator();
+            while (it.hasNext()){
+                addAnimation((Animation)it.next());
+            }
+        }
         
 }

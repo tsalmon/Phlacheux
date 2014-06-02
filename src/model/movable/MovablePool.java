@@ -41,6 +41,10 @@ public class MovablePool {
         return potentialKey;
     }
 
+    public void clear(){
+        movablePool.clear();
+    }
+
     public HashMap<String, Movable> getMovables() {
         return new HashMap<String, Movable>(this.movablePool);
     }
