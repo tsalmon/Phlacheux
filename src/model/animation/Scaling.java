@@ -59,6 +59,7 @@ public class Scaling extends Animation{
     public void goToTime(double t){
         double scale_to_apply=(this.getScaleAt(t)/this.getScaleAt(this.getCurrent()));
         this.getMovable().scaling(scale_to_apply);
+            this.setCurrent(t);
     }
 
     protected double getScaleAt(double t){

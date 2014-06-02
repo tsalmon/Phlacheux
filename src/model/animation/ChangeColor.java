@@ -80,6 +80,7 @@ public class ChangeColor extends Animation{
             for(Figure f : this.movable.getAllFigures()){
                 f.changeColor(this.getColorAt(t, f));
             }
+            this.setCurrent(t);
         }
         
         protected Color getColorAt(double t, Figure m){

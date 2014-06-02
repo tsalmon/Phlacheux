@@ -79,6 +79,7 @@ public class ChangeStrokeThickness extends Animation{
             for(Figure f : this.movable.getAllFigures()){
                 f.changeStrokeThickness(this.getThicknessAt(t, f));
             }
+            this.setCurrent(t);
         }
         
         protected double getThicknessAt(double t, Figure m){

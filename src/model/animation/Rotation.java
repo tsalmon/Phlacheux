@@ -86,6 +86,7 @@ public class Rotation extends Animation{
         public void goToTime(double t){
             double angle_to_apply=this.getAngleAt(t)-this.getAngleAt(this.getCurrent());
             this.getMovable().rotation(angle_to_apply, this.getCenter());
+            this.setCurrent(t);
         }
         
         protected double getAngleAt(double t){
