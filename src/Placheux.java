@@ -668,7 +668,7 @@ TreeSelectionListener{
 		public Figure addTriangleEqui(){
 			Shape s = view.draw_equi();
 			ArrayList<PointPlacheux> points = conversionShapeToArrayList(s);		
-			return new EquilateralTriangle(points.get(1), points.get(2));
+			return new EquilateralTriangle(points.get(2), points.get(1));
 		}
 		
 		public Figure addPolygonPerso(Shape s){
