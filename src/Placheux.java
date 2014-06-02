@@ -478,7 +478,6 @@ TreeSelectionListener{
                     film.addShape((Figure)m);
                 }
             }
-
             for (Map.Entry<String, Animation> entry : StateGestionnary.getInstance().getAnimations().entrySet())
             {
                 Animation a = (Animation)entry.getValue();
