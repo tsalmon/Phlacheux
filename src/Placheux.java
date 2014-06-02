@@ -80,7 +80,6 @@ TreeSelectionListener{
 	int id_fig = -1; 
 
 	Placheux(JFrame frame, String nom, int size, int width, int height){
-		film = view.createFilm(nom);
 		this.frame = frame;
 		this.setLayout(new BorderLayout());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -91,6 +90,7 @@ TreeSelectionListener{
 
 		panel_west();
 		view = new PanElem(data, tree, top);
+		film = view.createFilm(nom);
 		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
 		view.setPreferredSize(new Dimension(width, height));
 		panel_center(width, height);
@@ -468,21 +468,29 @@ TreeSelectionListener{
             Film film = new Film(nomFilm, getWidth(), getHeight(), 1000, getBackgroundColor());
             StateGestionnary.getInstance().getAnimations();
 
-            for (Map.Entry<String, Movable> entry : StateGestionnary.getInstance().getMovables().entrySet())
-            {
-                Movable m = (Movable)entry.getValue();
-                if (m instanceof MovableGroup){
-                    film.addGroup((MovableGroup)m);
-                } else
-                if (m instanceof Figure){
-                    film.addShape((Figure)m);
+
+            HashMap<String,Movable> movables = StateGestionnary.getInstance().getMovables();
+            if (movables!=null){
+                for (Map.Entry<String, Movable> entry : movables.entrySet())
+                {
+                    Movable m = (Movable)entry.getValue();
+                    if (m instanceof MovableGroup){
+                        film.addGroup((MovableGroup)m);
+                    } else
+                    if (m instanceof Figure){
+                        film.addShape((Figure)m);
+                    }
                 }
             }
 
-            for (Map.Entry<String, Animation> entry : StateGestionnary.getInstance().getAnimations().entrySet())
-            {
-                Animation a = (Animation)entry.getValue();
-                film.addAnimation(a);
+
+            HashMap<String, Animation> animations = StateGestionnary.getInstance().getAnimations();
+            if (animations!=null){
+                for (Map.Entry<String, Animation> entry : animations.entrySet())
+                {
+                    Animation a = (Animation)entry.getValue();
+                    film.addAnimation(a);
+                }
             }
 
             return film;
@@ -821,14 +829,13 @@ TreeSelectionListener{
 			System.out.println("ouvrir");
 		}
 		if(e.getSource() == enregistrer_film){
-			System.out.println("enregistrer");
 		}
 		if(e.getSource() == enregistrer_sous_film){
 			System.out.println("engistrer sous");
 		}
 		if(e.getSource() == visionneuse_film){
 			Viewer v = new Viewer();
-			//v.setTape(film);
+			v.setTape(StateGestionnary.getInstance().BufferedImageCreator(24, film));
 			v.setSize(500, 500);
 			v.setVisible(true);
 		}
