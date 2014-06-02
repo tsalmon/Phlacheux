@@ -814,7 +814,7 @@ TreeSelectionListener{
 			System.out.println("ouvrir");
 		}
 		if(e.getSource() == enregistrer_film){
-			System.out.println("enregistrer");
+			Film f = this.view.createFilm();
 		}
 		if(e.getSource() == enregistrer_sous_film){
 			System.out.println("engistrer sous");
