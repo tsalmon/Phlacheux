@@ -105,7 +105,7 @@ TreeSelectionListener{
 	public Placheux(JFrame frame, File animeFile) {
 		this.frame = frame;
         Film film = Film.fromFile(animeFile.getPath());
-		System.out.println("Film est bien lu!");
+        StateGestionnary.getInstance().loadFilm(film);
     }
 
 	public void init_hotkey(){
@@ -829,7 +829,8 @@ TreeSelectionListener{
 			System.out.println("ouvrir");
 		}
 		if(e.getSource() == enregistrer_film){
-			Film f = this.view.createFilm();
+			Film f = this.view.createFilm("nom");
+            f.saveToFile("testtest");
 		}
 		if(e.getSource() == enregistrer_sous_film){
 			System.out.println("engistrer sous");
