@@ -20,7 +20,8 @@ public class Film {
     int width = 640;
     int height = 480;
     int duration = 1000;
-
+    String nom = "lefilm";
+    
     ArrayList<MovableGroup> groups = new ArrayList<MovableGroup>();
     ArrayList<Figure> shapes = new ArrayList<Figure>();
     ArrayList<Animation> animations = new ArrayList<Animation>();
@@ -28,8 +29,9 @@ public class Film {
 
     public Film(){}
 
-    public Film(int width, int height, int duration, Color backgroundColor){
-        this.width = width;
+    public Film(String nom, int width, int height, int duration, Color backgroundColor){
+    	this.nom = nom;
+    	this.width = width;
         this.height = height;
         this.duration = duration;
         this.backgroundColor = backgroundColor;

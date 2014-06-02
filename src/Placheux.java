@@ -70,7 +70,8 @@ TreeSelectionListener{
 
 	JTable tab;
 	PanElem view;
-	
+
+	Film film;
 	Figure figure_selected = null;
 	
 	LinkedList<Figure> liste_fig = new LinkedList<Figure>();
@@ -78,7 +79,8 @@ TreeSelectionListener{
 	Shape fig_inc = new GeneralPath();
 	int id_fig = -1; 
 
-	Placheux(JFrame frame, String nom, int size, int width, int height){       
+	Placheux(JFrame frame, String nom, int size, int width, int height){
+		film = view.createFilm();
 		this.frame = frame;
 		this.setLayout(new BorderLayout());
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -462,8 +464,8 @@ TreeSelectionListener{
 			}
 		}
 
-        public Film createFilm(){
-            Film film = new Film(getWidth(), getHeight(), 1000, getBackgroundColor());
+        public Film createFilm(String nomFilm){
+            Film film = new Film(nomFilm, getWidth(), getHeight(), 1000, getBackgroundColor());
             StateGestionnary.getInstance().getAnimations();
 
             for (Map.Entry<String, Movable> entry : StateGestionnary.getInstance().getMovables().entrySet())
@@ -826,6 +828,7 @@ TreeSelectionListener{
 		}
 		if(e.getSource() == visionneuse_film){
 			Viewer v = new Viewer();
+			v.setTape(film.);
 			v.setSize(500, 500);
 			v.setVisible(true);
 		}
