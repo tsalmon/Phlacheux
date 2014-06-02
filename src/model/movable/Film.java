@@ -147,6 +147,14 @@ public class Film {
         this.duration = duration;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     
 
     public Document getXML(){
