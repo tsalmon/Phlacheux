@@ -63,7 +63,7 @@ public class PanneauVoirAnimations extends JDialog implements ActionListener{
 	public PanneauVoirAnimations(
 			LinkedList<LinkedList<Animation>> distributeAnimations) {
 
-		System.out.println("enter");
+		//System.out.println("enter");
 		
 		for(int i = 0; i < distributeAnimations.size(); i++){
 			for(int j = 0; j < distributeAnimations.get(i).size(); j++){

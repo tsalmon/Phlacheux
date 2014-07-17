@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ import javax.swing.event.MouseInputAdapter;
 
 
 public class NewElem extends JDialog implements ActionListener {
-	Placheux ecran;
+	JFrame ecran;
 	int id_fig = -1;
 	JButton valider = new JButton("Valider");
 	JButton annuler = new JButton("Annuler");
@@ -48,7 +49,7 @@ public class NewElem extends JDialog implements ActionListener {
 	private JButton[] btn_fig = new JButton[10];
 	private JButton btn_fil;
 
-	public NewElem(Placheux ecran) {
+	public NewElem(JFrame ecran) {
 		//define
 		this.fill_color = Color.BLACK;
 		this.border_color = Color.BLACK;
@@ -393,6 +394,24 @@ public class NewElem extends JDialog implements ActionListener {
 		}
 	}
 
+	public static void main(String [] args){
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(500, 400);
+		JButton btn = new JButton("Ok");
+		btn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Click");
+			}
+			
+		});
+		frame.add(btn);
+		frame.pack();
+		frame.setVisible(true);
+		new NewElem(frame);
+	}
 }
 
 /*

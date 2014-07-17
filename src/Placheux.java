@@ -92,7 +92,7 @@ TreeSelectionListener{
 		init_bouton_dessin();
 
 		panel_west();
-		view = new PanElem(data, tree, top);
+		view = new PanElem(data, tree, top, this);
 		view.setTransferHandler(new ImgTransferHandler(view)); //DnD
 		view.setPreferredSize(new Dimension(width, height));		
 		film = view.createFilm(nom, width, height, size);
@@ -301,7 +301,7 @@ TreeSelectionListener{
 
 	public void init_menu_createFigure()
 	{
-		System.out.println("MenuFigure");
+		//System.out.println("MenuFigure");
 		menu.addPopupMenuListener(pListener);
 
 		JMenuItem rectItem = new JMenuItem("Rectangle");
@@ -331,7 +331,7 @@ TreeSelectionListener{
 
 	public void init_menu_propertyFigure()
 	{
-		System.out.println("MenuAnime");
+		//System.out.println("MenuAnime");
 		menu.addPopupMenuListener(pListener);
 
 		JMenuItem faireAnimationFigure = new JMenuItem("Ajouter une animation");
@@ -408,12 +408,14 @@ TreeSelectionListener{
 		StateGestionnary data;
 		JTree liste_figures;
 		DefaultMutableTreeNode top;
-
-		public PanElem(StateGestionnary data, JTree liste_figures, DefaultMutableTreeNode top) {
+		Placheux sup;
+		
+		public PanElem(StateGestionnary data, JTree liste_figures, DefaultMutableTreeNode top, Placheux sup) {
 			this.top = top;
 			this.data = data;
 			this.liste_figures = liste_figures;
-            setBackground(backgroundColor);
+			this.sup = sup;
+			setBackground(backgroundColor);
         }
 
         public void setBackgroundColor(Color bgColor){
@@ -683,12 +685,18 @@ TreeSelectionListener{
 		}
 
 		public void createNodes() {
-			this.top.removeAllChildren();
+			System.out.println("create node");
+	
 			Iterator it = data.getMovables().entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry pairs = (Map.Entry)it.next();
 				this.top.add(new DefaultMutableTreeNode(pairs.getKey()));
 			}
+			sup.tree = new JTree(top);
+			sup.tree.getSelectionModel().setSelectionMode
+	                (TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
+			sup.tree.addTreeSelectionListener(sup);
 		}
 		
 		public ArrayList<PointPlacheux> conversionShapeToArrayList(Shape s){
@@ -720,7 +728,7 @@ TreeSelectionListener{
 		
 		
 		public Figure nouvelleFigure(int id_fig, int x, int y){
-			System.out.println("("+ a + ", " + b + ");("+ x + ", " + y + ")" );
+			//System.out.println("("+ a + ", " + b + ");("+ x + ", " + y + ")" );
 			Figure f = null;
 			switch(id_fig){
 			//case 0: return new Square(50, new model.movable.Point(x, y));
@@ -756,7 +764,7 @@ TreeSelectionListener{
 	public void addToModel(){
 		PathIterator pi = fig_inc.getPathIterator(null);
 		ArrayList<PointPlacheux> points = new ArrayList<PointPlacheux>();
-		System.out.println(id_fig);
+		//System.out.println(id_fig);
 		data.addMovable(view.nouvelleFigure(id_fig, view.x, view.y));
 		/*while(!pi.isDone()){
 			double[] c = new double[2];
@@ -859,31 +867,31 @@ TreeSelectionListener{
 			new FilmConfigurationPane(view, film);
 		}
 		if(e.getSource() == rendu_film){
-			System.out.println("rendu");				
+			//System.out.println("rendu");				
 		}
 		if(e.getSource() == quitter_film){
-			System.out.println("quitter");
+			//System.out.println("quitter");
 			System.exit(0);
 		}
 	}
 	public void mousePressed(MouseEvent e) {
-		System.out.print("mousePressed: ");
+		//System.out.print("mousePressed: ");
 		if(e.getSource() == tab){
-			System.out.println("tab");			
+			//System.out.println("tab");			
 		}
 		if(e.getSource() == view && clickG(e)){ 
 			if(translation_mode){
-				System.out.println("translation");
+				//System.out.println("translation");
 				arrowStart = e.getPoint();
 			} else if(create_figure){
-				System.out.println("view");
+				//System.out.println("view");
 				view.init_a_b(e.getX(), e.getY());
 			}
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		System.out.print("mouseReleased: ");
+		//System.out.print("mouseReleased: ");
 		if(menu_launched) // If right after right click: exit menu
 		{
 			menu.removeAll();
@@ -892,16 +900,14 @@ TreeSelectionListener{
 			//return;
 		}
 		if(e.getSource() == tab){
-			System.out.println("tab");			
+			//System.out.println("tab");			
 			int tabx = tab.getSelectedColumn();
-			System.out.println("Column : " + tab.getSelectedColumn());
+			//System.out.println("Column : " + tab.getSelectedColumn());
 			this.setViewatTime(tabx);
 		}
 		if(e.getSource() == view){
-			System.out.println("view");
+			//System.out.println("view");
 			if(clickD(e)){
-				
-
 				this.figure_selected = getFigureSelected(e.getX(), e.getY());
 				if(figure_selected == null){ // click on void screen
 					init_menu_createFigure();
@@ -914,7 +920,7 @@ TreeSelectionListener{
 				if(create_figure){
 					view.x = e.getX();
 					view.y = e.getY();
-					System.out.println(fig_inc);
+					//System.out.println(fig_inc);
 					addToModel();
 					view.createNodes();
 					//data.addMovable(nouvelleFigure());
@@ -931,19 +937,17 @@ TreeSelectionListener{
 		//System.out.print("mouseDragged: ");
 		if(e.getSource() == view && clickG(e)){
 			if(create_figure){
-				System.out.println("create figure");
+				//System.out.println("create figure");
 				view.x = e.getX();
 				view.y = e.getY();
 				view.repaint();
 			} else if(translation_mode){
-				System.out.println("dragged: translation");
+				//System.out.println("dragged: translation");
 				arrowEnd = e.getPoint();
 				repaint();
 			}
 		}		
 	}
-
-
 
 	public void componentMoved(ComponentEvent e) {}
 	public void componentResized(ComponentEvent e) {}

@@ -409,7 +409,7 @@ public class PanneauNouvelleAnimation extends JDialog implements ActionListener{
 			if(!this.convertTextFieldToText()) return;
 
 			ajoutAnimation(this.anim_select.getSelectedIndex());
-			System.out.println(StateGestionnary.getInstance().getAnimations());
+			//System.out.println(StateGestionnary.getInstance().getAnimations());
 			this.setVisible(false);
 		}
 		if(e.getSource() == this.cancel_btn){
